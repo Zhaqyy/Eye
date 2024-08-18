@@ -8,7 +8,7 @@ export function Eye(props) {
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Scene">
-        <group name="Eye" position={[0,-1, 0]} scale={0.003}>
+        <group name="Eye" position={[0,0, 0]} scale={0.003}>
           <skinnedMesh
             name="body"
             geometry={nodes.body.geometry}

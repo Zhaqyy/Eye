@@ -1,14 +1,17 @@
 import { Environment, MeshReflectorMaterial, useTexture } from "@react-three/drei";
+import * as THREE from 'three'
 import { Eye } from "./Eye";
+import { useFrame } from "@react-three/fiber";
+import { useState } from "react";
 
 const Scene = () => {
   return (
     <>
       <Eye />
-      <ambientLight />
-      <Environment preset='night' environmentIntensity={1.5} />
-      {/* <Ground /> */}
-      {/* <Rig from={-Math.PI / 2} to={Math.PI / 2.66} /> */}
+      <ambientLight intensity={2} />
+      {/* <Environment preset='night' environmentIntensity={1.5} /> */}
+      <Ground />
+      {/* <Rig /> */}
     </>
   );
 };
@@ -17,40 +20,35 @@ export default Scene;
 function Ground() {
   const [floor, normal] = useTexture(["/Texture/si-col.webp", "/Texture/si-norm.webp"]);
   return (
-    // <MeshReflectorMaterial
-    //   blur={[400, 100]}
-    //   resolution={512}
-    //   args={[10, 10]}
-    //   mirror={0.5}
-    //   mixBlur={6}
-    //   mixStrength={1.5}
-    //   rotation={[-Math.PI / 2, 0, Math.PI / 2]}
-    // >
-    //   {/* {(Material, props) => (
-    //     <Material color='#a0a0a0' metalness={0.4} roughnessMap={floor} normalMap={normal} normalScale={[2, 2]} {...props} />
-    //   )} */}
-    // </MeshReflectorMaterial>
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0,0,0]}>
-        <planeGeometry args={[5, 5]} />
-        <MeshReflectorMaterial
-          blur={[300, 100]}
-          resolution={2048}
-          mixBlur={1}
-          mixStrength={80}
-          roughness={1}
-          depthScale={1.2}
-          minDepthThreshold={0.4}
-          maxDepthThreshold={1.4}
-          color="#050505"
-          metalness={0.5}
-        />
-      </mesh>
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+      <planeGeometry args={[10, 10]} />
+      <MeshReflectorMaterial
+        blur={[400, 100]}
+        resolution={512}
+        mixBlur={2}
+        mixStrength={1.5}
+        mirror={1}
+        roughness={4}
+        roughnessMap={floor}
+        depthScale={1.2}
+        minDepthThreshold={0.4}
+        maxDepthThreshold={1.4}
+        // color="#050505"
+        metalness={0}
+        reflectorOffset={-0.2}
+        normalMap={normal}
+        normalScale={[3, 3]}
+        fog
+      />
+    </mesh>
   );
 }
 function Rig() {
-    useFrame((state) => {
-      state.camera.position.lerp({ x: 0, y: -state.pointer.y / 4, z: state.pointer.x / 2 }, 0.1)
-      state.camera.lookAt(-1, 0, 0)
+
+    const [vec] = useState(() => new THREE.Vector3())
+     useFrame((state) => {
+      state.camera.position.lerp(vec.set(state.pointer.x * 2, 2 + state.pointer.y * 2, 5), 0.01)
+      state.camera.lookAt(0, 0, 0)
     })
-  }
   
+}
