@@ -7,21 +7,23 @@ export const Eye = forwardRef((props, ref) => {
   return (
     <group ref={ref} {...props} dispose={null}>
       <group name="Scene">
-        <group name="Eye" position={[0,0, 0]} scale={0.003}>
-          <skinnedMesh
-            name="body"
-            geometry={nodes.body.geometry}
-            material={materials.ML1010_A_MATa}
-            skeleton={nodes.body.skeleton}
-          />
-          <skinnedMesh
-            name="eyeball"
-            geometry={nodes.eyeball.geometry}
-            material={materials.ML1010_A_MATb_MI}
-            skeleton={nodes.eyeball.skeleton}
-          />
+        <group name="Eye" scale={0.003}>
           <primitive object={nodes['1027']} />
         </group>
+        <skinnedMesh
+          name="body"
+          geometry={nodes.body.geometry}
+          material={materials.skin}
+          skeleton={nodes.body.skeleton}
+          scale={0.003}
+        />
+        <skinnedMesh
+          name="eyeball"
+          geometry={nodes.eyeball.geometry}
+          material={materials.eyeball}
+          skeleton={nodes.eyeball.skeleton}
+          scale={0.003}
+        />
       </group>
     </group>
   )

@@ -11,9 +11,9 @@ const Scene = () => {
   const positions = useMemo(
     () => [
       new THREE.Vector3(1, 4, -2),
-      new THREE.Vector3(2, 4, 3),
+      new THREE.Vector3(2, 4, -3),
       new THREE.Vector3(3, 4, -1),
-      new THREE.Vector3(-1, 4, 2),
+      new THREE.Vector3(-1, 4, -2),
       new THREE.Vector3(-2, 4, 1),
       new THREE.Vector3(-3, 4, -3),
     ],
@@ -22,7 +22,7 @@ const Scene = () => {
 
   return (
     <>
-      <Eye ref={eye} />
+      <Eye ref={eye} position={[0,1,0]} />
       {positions.map((pos, idx) => (
         <Tether key={idx} start={eye} end={pos} />
       ))}
