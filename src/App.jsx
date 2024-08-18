@@ -1,21 +1,8 @@
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Box, Environment, OrbitControls } from "@react-three/drei";
-import { Eye } from "./Eye";
+import { OrbitControls } from "@react-three/drei";
+import Scene from "./Scene";
 
-const Scene = () => {
-
-  return (
-    <>
-      <Eye/>
-      <ambientLight />
-      <Environment
-            preset='city'
-            environmentIntensity={0.5}
-          />
-    </>
-  );
-};
 
 const App = () => {
   return (
