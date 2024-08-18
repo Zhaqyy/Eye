@@ -1,12 +1,11 @@
-import React, { useRef } from 'react'
+import React, { forwardRef, useRef } from 'react'
 import { useGLTF, useAnimations } from '@react-three/drei'
 
-export function Eye(props) {
-  const group = useRef()
+export const Eye = forwardRef((props, ref) => {
   const { nodes, materials, animations } = useGLTF('/Model/Eye.glb')
-  const { actions } = useAnimations(animations, group)
+  const { actions } = useAnimations(animations, ref)
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={ref} {...props} dispose={null}>
       <group name="Scene">
         <group name="Eye" position={[0,0, 0]} scale={0.003}>
           <skinnedMesh
@@ -26,6 +25,6 @@ export function Eye(props) {
       </group>
     </group>
   )
-}
+})
 
 useGLTF.preload('/Model/Eye.glb')
