@@ -1,8 +1,11 @@
-import { Environment, MeshReflectorMaterial, QuadraticBezierLine, useTexture } from "@react-three/drei";
+import { Environment, MeshReflectorMaterial, OrbitControls, QuadraticBezierLine, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { Eye } from "./Eye";
-import { useFrame } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { useMemo, useRef, useState } from "react";
+import Disc from "./NoiseFlow";
+import Simulation from "./FlowOver";
+import { Perf } from "r3f-perf";
 
 const Scene = () => {
   const eye = useRef();
@@ -22,16 +25,27 @@ const Scene = () => {
 
   return (
     <>
-      <Eye ref={eye} position={[0,1,0]} />
+      <Canvas camera={{ fov: 70, position: [0, 1, 5] }}>
+        <Perf position='top-left' />
+        <color attach='background' args={["#050505"]} />
+        <fog attach='fog' args={["#050505", 5, 10]} />
+        {/* <Simulation width={1024} height={1024} /> */}
+        {/* <FBOParticles/> */}
+        {/* <FlowOverlay/> */}
+        {/* <Eye ref={eye} position={[0,1,0]} />
       {positions.map((pos, idx) => (
         <Tether key={idx} start={eye} end={pos} />
-      ))}
-      {/* <Tether start={eye} end={ghost} /> */}
-      {/* <InstancedTether start={eye} positions={positions} /> */}
-      <ambientLight intensity={2} />
-      {/* <Environment preset='night' environmentIntensity={1.5} /> */}
-      <Ground />
-      {/* <Rig /> */}
+      ))} */}
+        {/* <Tether start={eye} end={ghost} /> */}
+        {/* <InstancedTether start={eye} positions={positions} /> */}
+        <ambientLight intensity={2} />
+        {/* <Disc/> */}
+        {/* <Simulation width={1024} height={1024} /> */}
+        {/* <Environment preset='night' environmentIntensity={1.5} /> */}
+        {/* <Ground /> */}
+        {/* <Rig /> */}
+        <OrbitControls />
+      </Canvas>
     </>
   );
 };
@@ -71,7 +85,7 @@ function Rig() {
   });
 }
 function Tether({ start, end, v1 = new THREE.Vector3(), v2 = new THREE.Vector3() }) {
-//   const [arm, normal, col, dis] = useTexture(["/Texture/arm.webp", "/Texture/n.webp", "/Texture/c.webp", "/Texture/d.webp"]);
+  //   const [arm, normal, col, dis] = useTexture(["/Texture/arm.webp", "/Texture/n.webp", "/Texture/c.webp", "/Texture/d.webp"]);
   const ref = useRef();
   useFrame(
     () =>
@@ -82,7 +96,7 @@ function Tether({ start, end, v1 = new THREE.Vector3(), v2 = new THREE.Vector3()
       ),
     []
   );
-  return <QuadraticBezierLine ref={ref} lineWidth={15} color={'#7c2b26'}/>;
+  return <QuadraticBezierLine ref={ref} lineWidth={15} color={"#7c2b26"} />;
 }
 
 function InstancedTether({ start, positions }) {
