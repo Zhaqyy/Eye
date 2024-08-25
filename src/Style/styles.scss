@@ -1,3 +1,32 @@
+/* kufam-regular */
+@font-face {
+  font-display: swap;
+  font-family: "Kufam";
+  font-style: normal;
+  // font-weight: 400;
+  src: url("./Font/kufam.woff2") format("woff2");
+}
+//   @font-face {
+//     font-family: 'Kufam';
+//     src:
+//       url('./Font/kufam.woff2')
+//       format(‘woff2 supports variations’),
+//       url('./Font/kufamVar.woff2')
+//       format('woff2-variations');
+//     // font-stretch: 25% 150%;
+//     // font-style: oblique 0deg 10deg;
+//     font-weight: 100 900;
+//     font-display: swap;
+//   }
+/* krona-one-regular */
+// @font-face {
+//     font-display: swap;
+//     font-family: 'Krona One';
+//     font-style: normal;
+//     font-weight: 400;
+//     src: url('./Font/krona.woff2') format('woff2');
+//   }
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -33,7 +62,9 @@ body {
   position: fixed;
   overflow: hidden;
   overscroll-behavior-y: none;
-  font-family: helvetica neue, helvetica, arial, sans-serif;
+  font-family: "kufam", helvetica neue, helvetica, arial, sans-serif;
+  font-weight: 400;
+  //   font-synthesis: none;
   color: white;
   -webkit-font-smoothing: antialiased;
 }
@@ -47,10 +78,14 @@ a {
 h1 {
   font-size: clamp(1rem, 5.333vw + 0.333rem, 1.5rem);
   text-transform: uppercase;
+  //   font-family: "krona One", helvetica neue, helvetica, arial, sans-serif;
+  font-weight: 600;
 }
 h2 {
   font-size: clamp(1rem, 5.333vw + 0.333rem, 1.25rem);
   text-transform: uppercase;
+  //   font-family: "krona One", helvetica neue, helvetica, arial, sans-serif;
+  font-weight: 600;
 }
 
 .hero {
@@ -73,9 +108,19 @@ h2 {
       align-content: center;
       text-transform: capitalize;
 
-      // a{
+      a {
+        opacity: 0.7;
+        transition: all 0.5s ease;
 
-      // }
+        &.active,
+        &:hover {
+          opacity: 1;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+      }
     }
 
     .detail {
@@ -96,6 +141,15 @@ h2 {
         }
         li {
           margin-block: 0.25rem;
+          a {
+            opacity: 0.7;
+            transition: all 0.5s ease;
+
+            &.active,
+            &:hover {
+              opacity: 1;
+            }
+          }
         }
       }
     }
@@ -125,6 +179,20 @@ h2 {
       flex-wrap: wrap;
       gap: 20px;
       text-transform: uppercase;
+
+      a {
+        opacity: 0.7;
+        transition: all 0.5s ease;
+
+        &.active,
+        &:hover {
+          opacity: 1;
+        }
+
+        &:hover {
+          opacity: 1;
+        }
+      }
     }
   }
 }

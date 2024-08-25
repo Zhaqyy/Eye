@@ -1,3 +1,11 @@
+/* kufam-regular */
+@font-face {
+  font-display: swap;
+  font-family: "Kufam";
+  font-style: normal;
+  src: url("./Font/kufam.woff2") format("woff2");
+}
+/* krona-one-regular */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -31,7 +39,8 @@ body {
   position: fixed;
   overflow: hidden;
   overscroll-behavior-y: none;
-  font-family: helvetica neue, helvetica, arial, sans-serif;
+  font-family: "kufam", helvetica neue, helvetica, arial, sans-serif;
+  font-weight: 400;
   color: white;
   -webkit-font-smoothing: antialiased;
 }
@@ -48,11 +57,13 @@ a {
 h1 {
   font-size: clamp(1rem, 5.333vw + 0.333rem, 1.5rem);
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 h2 {
   font-size: clamp(1rem, 5.333vw + 0.333rem, 1.25rem);
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .hero {
@@ -75,6 +86,16 @@ h2 {
   align-content: center;
   text-transform: capitalize;
 }
+.hero .main-hero .nav a {
+  opacity: 0.7;
+  transition: all 0.5s ease;
+}
+.hero .main-hero .nav a.active, .hero .main-hero .nav a:hover {
+  opacity: 1;
+}
+.hero .main-hero .nav a:hover {
+  opacity: 1;
+}
 .hero .main-hero .detail {
   min-width: 300px;
   width: auto;
@@ -93,6 +114,13 @@ h2 {
 }
 .hero .main-hero .detail .project li {
   margin-block: 0.25rem;
+}
+.hero .main-hero .detail .project li a {
+  opacity: 0.7;
+  transition: all 0.5s ease;
+}
+.hero .main-hero .detail .project li a.active, .hero .main-hero .detail .project li a:hover {
+  opacity: 1;
 }
 .hero .hero-footer {
   width: 100%;
@@ -117,4 +145,14 @@ h2 {
   flex-wrap: wrap;
   gap: 20px;
   text-transform: uppercase;
+}
+.hero .hero-footer .contact a {
+  opacity: 0.7;
+  transition: all 0.5s ease;
+}
+.hero .hero-footer .contact a.active, .hero .hero-footer .contact a:hover {
+  opacity: 1;
+}
+.hero .hero-footer .contact a:hover {
+  opacity: 1;
 }/*# sourceMappingURL=styles.css.map */
