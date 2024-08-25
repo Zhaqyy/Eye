@@ -21,6 +21,10 @@ body,
 
 #root {
   overflow: auto;
+  padding: 0 5vw;
+  background-image: url(/scene.webp);
+  background-position: center;
+  background-size: cover;
 }
 
 body {
@@ -28,6 +32,89 @@ body {
   overflow: hidden;
   overscroll-behavior-y: none;
   font-family: helvetica neue, helvetica, arial, sans-serif;
-  color: black;
+  color: white;
   -webkit-font-smoothing: antialiased;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: clamp(1rem, 5.333vw + 0.333rem, 1.5rem);
+  text-transform: uppercase;
+}
+
+h2 {
+  font-size: clamp(1rem, 5.333vw + 0.333rem, 1.25rem);
+  text-transform: uppercase;
+}
+
+.hero {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hero .main-hero {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.hero .main-hero .nav {
+  min-width: 150px;
+  list-style: none;
+  align-content: center;
+  text-transform: capitalize;
+}
+.hero .main-hero .detail {
+  min-width: 300px;
+  width: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.hero .main-hero .detail .project {
+  text-transform: capitalize;
+  font-size: 1.25rem;
+}
+.hero .main-hero .detail .project h3 {
+  text-transform: uppercase;
+  font-size: 1.5rem;
+}
+.hero .main-hero .detail .project li {
+  margin-block: 0.25rem;
+}
+.hero .hero-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-block: 2vh;
+  font-size: 0.75rem;
+}
+.hero .hero-footer .sound {
+  width: 30px;
+  height: 30px;
+  align-content: center;
+  text-align: -webkit-center;
+  border: 1px gray outset;
+  border-radius: 100px;
+}
+.hero .hero-footer .contact {
+  min-width: 300px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  text-transform: uppercase;
 }/*# sourceMappingURL=styles.css.map */
