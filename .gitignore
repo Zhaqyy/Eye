@@ -18,6 +18,10 @@ package-lock.json
 *.pem
 /.cert/
 
+# style
+# *.scss
+*.css.map
+
 # debug
 npm-debug.log*
 yarn-debug.log*

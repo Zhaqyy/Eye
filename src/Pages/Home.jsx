@@ -1,19 +1,22 @@
 import React from "react";
+import Word from "../Component/SplitWord";
+import "../Style/Home.css";
 
 function Home() {
+  
   return (
     <section className='hero'>
       <div className='main-hero'>
         <nav className='nav'>
           <ul>
             <li className='nav-item'>
-              <a href='#'>Overview</a>
+              <Word word={'Overview'}/>
             </li>
             <li className='nav-item'>
-              <a href='#'>About</a>
+              <Word word={'About'}/>
             </li>
             <li className='nav-item'>
-              <a href='#'>Lab</a>
+              <Word word={'Lab'}/>
             </li>
           </ul>
         </nav>
