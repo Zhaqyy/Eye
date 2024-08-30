@@ -6,6 +6,7 @@ import { useMemo, useRef, useState } from "react";
 import Disc from "./NoiseFlow";
 import Simulation from "./FlowOver";
 import { Perf } from "r3f-perf";
+import Carousel from "./Carousel/Carousel";
 
 const Scene = () => {
   const eye = useRef();
@@ -25,10 +26,12 @@ const Scene = () => {
 
   return (
     <>
-      <Canvas camera={{ fov: 70, position: [0, 1, 5] }}>
+      <Canvas 
+      camera={{ fov: 70, position: [0, 0, 5] }}
+      >
         <Perf position='top-left' />
-        <color attach='background' args={["#050505"]} />
-        <fog attach='fog' args={["#050505", 5, 10]} />
+        {/* <color attach='background' args={["#050505"]} /> */}
+        {/* <fog attach='fog' args={["#050505", 5, 10]} /> */}
         {/* <Simulation width={1024} height={1024} /> */}
         {/* <FBOParticles/> */}
         {/* <FlowOverlay/> */}
@@ -38,13 +41,14 @@ const Scene = () => {
       ))} */}
         {/* <Tether start={eye} end={ghost} /> */}
         {/* <InstancedTether start={eye} positions={positions} /> */}
-        <ambientLight intensity={2} />
+        {/* <ambientLight intensity={2} /> */}
         {/* <Disc/> */}
         {/* <Simulation width={1024} height={1024} /> */}
         {/* <Environment preset='night' environmentIntensity={1.5} /> */}
         {/* <Ground /> */}
         {/* <Rig /> */}
-        <OrbitControls />
+        <Carousel />
+        {/* <OrbitControls /> */}
       </Canvas>
     </>
   );
