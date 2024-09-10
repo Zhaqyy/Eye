@@ -6,6 +6,7 @@ import PostProcessing from './PostProcessing'
 import CarouselItem from './CarouselItem'
 // import { lerp, getPiramidalIndex } from '../utils'
 import images from './data/images'
+import { projectData } from '../../Component/ProjectData'
 
 /*------------------------------
 Plane Settings
@@ -170,7 +171,7 @@ const Carousel = () => {
   const renderSlider = () => {
     return (
       <group ref={setRoot}>
-        {images.map((item, i) => (
+        {projectData.map((item, i) => (
           <CarouselItem
             width={planeSettings.width}
             height={planeSettings.height}
@@ -181,6 +182,17 @@ const Carousel = () => {
             index={i}
           />
         ))}
+        {/* {images.map((item, i) => (
+          <CarouselItem
+            width={planeSettings.width}
+            height={planeSettings.height}
+            setActivePlane={setActivePlane}
+            activePlane={activePlane}
+            key={item.image}
+            item={item}
+            index={i}
+          />
+        ))} */}
       </group>
     )
   }

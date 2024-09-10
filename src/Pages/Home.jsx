@@ -1,26 +1,25 @@
 import React from "react";
 import Word from "../Component/SplitWord";
 import "../Style/Home.css";
+import { projectData } from "../Component/ProjectData";
 
 function Home() {
-  
   return (
     <section className='hero'>
       <div className='main-hero'>
         <nav className='nav'>
           <ul>
             <li className='nav-item'>
-              <Word word={'Overview'}/>
+              <Word word={"Overview"} />
             </li>
             <li className='nav-item'>
-              <Word word={'About'}/>
+              <Word word={"About"} />
             </li>
             <li className='nav-item'>
-              <Word word={'Lab'}/>
+              <Word word={"Lab"} />
             </li>
           </ul>
         </nav>
-        {/* <div className=''></div> */}
         <div className='detail'>
           <div className='name'>
             <h1>Shuaib Abdulrazaq</h1>
@@ -29,10 +28,13 @@ function Home() {
           <div className='project'>
             <h3>Project List</h3>
             <ul>
-              <li>
-                <a href='#'>Cobuyr</a>
-              </li>
-              <li>
+              {projectData.map((item, index) => (
+                <li key={index}>
+                  <a href={item.url='#'}>{item.title}</a>
+                </li>
+              ))}
+
+              {/* <li>
                 <a href='#'>Maleo</a>
               </li>
               <li>
@@ -40,7 +42,7 @@ function Home() {
               </li>
               <li>
                 <a href='#'>Portfolio</a>
-              </li>
+              </li> */}
             </ul>
           </div>
           <h5>Available for Work/Freelance</h5>
