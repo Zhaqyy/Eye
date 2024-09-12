@@ -34,15 +34,6 @@ function Home() {
                 </li>
               ))}
 
-              {/* <li>
-                <a href='#'>Maleo</a>
-              </li>
-              <li>
-                <a href='#'>Grumbs</a>
-              </li>
-              <li>
-                <a href='#'>Portfolio</a>
-              </li> */}
             </ul>
           </div>
           <h5>Available for Work/Freelance</h5>

@@ -2,8 +2,7 @@ import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
-// import gsap from "gsap";
-import useGPGPU from "./Gpgpu"; // Assuming this is where the hook is defined
+import useGPGPU from "./Gpgpu"; 
 
 const Plane = ({ texture, width, height, active, ...props }) => {
   const $mesh = useRef();
@@ -28,21 +27,6 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     params: gpgpuParams,
   });
 
-  // useEffect(() => {
-  //   if ($mesh.current.material) {
-  //     $mesh.current.material.uniforms.uZoomScale.value.x = viewport.width / width;
-  //     $mesh.current.material.uniforms.uZoomScale.value.y = viewport.height / height;
-
-  //     gsap.to($mesh.current.material.uniforms.uProgress, {
-  //       value: active ? 1 : 0,
-  //     });
-
-  //     gsap.to($mesh.current.material.uniforms.uRes.value, {
-  //       x: active ? viewport.width : width,
-  //       y: active ? viewport.height : height,
-  //     });
-  //   }
-  // }, [viewport, active]);
 
   const shaderArgs = useMemo(
     () => ({
