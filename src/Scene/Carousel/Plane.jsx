@@ -2,12 +2,14 @@ import * as THREE from "three";
 import { useEffect, useMemo, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
-import useGPGPU from "./Gpgpu"; 
+import useGPGPU from "./Gpgpu";
 
 const Plane = ({ texture, width, height, active, ...props }) => {
   const $mesh = useRef();
   const { viewport, gl: renderer } = useThree();
   const tex = useTexture(texture);
+  const mouseIdleTime = useRef(0); // Track idle time
+  const isMouseMoving = useRef(false); // Flag for mouse activity
 
   // GPGPU params
   const gpgpuParams = useMemo(
@@ -27,7 +29,6 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     params: gpgpuParams,
   });
 
-
   const shaderArgs = useMemo(
     () => ({
       uniforms: {
@@ -37,10 +38,12 @@ const Plane = ({ texture, width, height, active, ...props }) => {
         uGrid: { value: new THREE.Vector4() },
         uTime: { value: 0 },
         uEdgeSplitStrength: { value: 0.1 },
+        uEdgeSplitLerp: { value: 1 }, // lerp uniform
       },
       vertexShader: /* glsl */ `
       uniform float uTime;
-      uniform float uEdgeSplitStrength; // Control how much the edges should split
+      uniform float uEdgeSplitStrength; // how much the edges should split
+      uniform float uEdgeSplitLerp; // Lerp value for transition effect
       uniform vec2 uContainerResolution;
       
       varying vec2 vUv; // Pass UVs to fragment shader
@@ -54,17 +57,21 @@ const Plane = ({ texture, width, height, active, ...props }) => {
           vUv = uv;
       
           vec3 pos = position; // Original vertex position
-          float edgeThreshold = 0.01; // Define how close to the edge the effect should occur
-      
+          // float edgeThreshold = 0.01; 
+
+          // Lerp the strength when mouse is idle
+          float edgeThreshold = mix(0.01, 0.5, uEdgeSplitLerp); // Define how close to the edge the effect should occur
+
           // Determine if the vertex is near the edge
-          bool nearEdge = uv.x < edgeThreshold || uv.x > 1.0 - edgeThreshold || 
+          bool nearEdge = uv.x < edgeThreshold || uv.x > 1.0 - edgeThreshold ||
                           uv.y < edgeThreshold || uv.y > 1.0 - edgeThreshold;
-      
+
           if (nearEdge) {
-              float randValue = random(uv * uContainerResolution * (uTime * 0.001));
-              pos.x -= (randValue - 0.5) * uEdgeSplitStrength; // Randomly displace X
-              pos.y -= (randValue - 0.5) * uEdgeSplitStrength; // Randomly displace Y
+            float randValue = random(uv * uContainerResolution * (uTime * 0.001));
+            pos.x -= (randValue - 0.5) * mix(0.1, 0.5, uEdgeSplitLerp);
+            pos.y -= (randValue - 0.5) * mix(0.1, 0.5, uEdgeSplitLerp);
           }
+
           // Calculate distance from the center of the plane (0.5, 0.5)
           float distFromCenter = distance(uv, vec2(0.5, 0.5));
       
@@ -84,6 +91,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
       uniform vec2 uContainerResolution;
       uniform float uDisplacement;
       uniform vec2 uImageResolution;
+      uniform float uEdgeSplitLerp;
       
       vec2 coverUvs(vec2 imageRes, vec2 containerRes) {
           float imageAspectX = imageRes.x / imageRes.y;
@@ -149,22 +157,30 @@ const Plane = ({ texture, width, height, active, ...props }) => {
           
           // Noise-based displacement effect
           shapeEffect += noiseDisplacement(vUv);
+
+          // Separate calculation for displacement strength based on interaction and transition
+          float mouseDisplacementStrength = length(displacement.rg); // For chromatic aberration
+          mouseDisplacementStrength = clamp(mouseDisplacementStrength, 0.0, 1.25);
       
+          float transitionDisplacementStrength = clamp(mix(0.0, 3.0, uEdgeSplitLerp), 0.0, 3.0); // For transition
+      
+          // Blend mouse and transition displacements using uEdgeSplitLerp as weight
+          float finalDisplacementStrength = mix(mouseDisplacementStrength, transitionDisplacementStrength, uEdgeSplitLerp);
+      
+          // Recalculate UVs with shapeEffect interaction
           vec2 finalUvs = newUvs - displacement.rg * 0.01 * sin(shapeEffect);
       
-          vec4 finalImage = texture2D(uTexture, finalUvs);
-      
-          // Determine displacement strength for chromatic aberration
-          float displacementStrength = length(displacement.rg);
-          displacementStrength = clamp(displacementStrength, 0.0, 1.0);
-      
-          // Apply chromatic aberration to glitched edges
-          vec4 chromaticAberrationImage = applyChromaticAberration(finalUvs, displacementStrength);
+          // Apply chromatic aberration to glitched edges based on the recalculated UVs
+          vec4 chromaticAberrationImage = applyChromaticAberration(finalUvs, finalDisplacementStrength);
       
           // Mix the original image with chromatic aberration effect based on displacement strength
-          finalImage = mix(finalImage, chromaticAberrationImage, displacementStrength);
+          vec4 finalImage = mix(image, chromaticAberrationImage, finalDisplacementStrength);
       
           gl_FragColor = finalImage;
+
+    //  cool effect
+    //  finalImage -= mix(finalImage, chromaticAberrationImage, finalDisplacementStrength);
+
       }
       
 
@@ -173,10 +189,19 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     [tex]
   );
 
-  useFrame(({clock}) => {
+  useFrame(({ clock }) => {
     compute();
     $mesh.current.material.uniforms.uGrid.value = getTexture();
     $mesh.current.material.uniforms.uTime.value = clock.getElapsedTime();
+
+    if (!isMouseMoving.current) {
+      // Smoothly interpolate back to default state over time
+      shaderArgs.uniforms.uEdgeSplitLerp.value = THREE.MathUtils.lerp(
+        shaderArgs.uniforms.uEdgeSplitLerp.value,
+        0,
+        0.05 // Lerp speed
+      );
+    }
   });
 
   // Handle mouse move over the plane to update the GPGPU texture
@@ -186,6 +211,10 @@ const Plane = ({ texture, width, height, active, ...props }) => {
       updateMouse(uv); // Update GPGPU state with the mouse position
     }
   };
+
+  // const handlePointerStop = () => {
+  //   isMouseMoving.current = false; // On mouse stop, trigger lerp back
+  // };
 
   return (
     <mesh ref={$mesh} {...props} onPointerMove={handlePointerMove} >

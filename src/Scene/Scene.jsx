@@ -6,8 +6,8 @@ import { useMemo, useRef, useState } from "react";
 import Disc from "./NoiseFlow";
 import Simulation from "./FlowOver";
 import { Perf } from "r3f-perf";
-// import Carousel from "./Carousel/Carousel";
-import CarouselWrap from "./Carousel/Carousel";
+import Carousel from "./Carousel/Carousel";
+import CarouselWrap from "./Carousel/CarouselOld";
 
 
 
@@ -133,7 +133,8 @@ const Scene = () => {
       {/* <DepressedPlane /> */}
         {/* <Ground /> */}
         {/* <Rig /> */}
-        <CarouselWrap />
+        {/* <CarouselWrap /> */}
+        <Carousel />
         {/* <OrbitControls /> */}
       </Canvas>
     </>
