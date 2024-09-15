@@ -119,12 +119,19 @@ h2 {
 }
 .hero .main-hero .detail .project li {
   margin-block: 0.25rem;
+  pointer-events: all;
 }
-.hero .main-hero .detail .project li a {
+.hero .main-hero .detail .project li.active p, .hero .main-hero .detail .project li p:hover {
+  opacity: 1;
+  color: brown;
+}
+.hero .main-hero .detail .project li a, .hero .main-hero .detail .project li p {
   opacity: 0.7;
   transition: all 0.5s ease;
+  width: -moz-fit-content;
+  width: fit-content;
 }
-.hero .main-hero .detail .project li a.active, .hero .main-hero .detail .project li a:hover {
+.hero .main-hero .detail .project li a.active, .hero .main-hero .detail .project li a:hover, .hero .main-hero .detail .project li p.active, .hero .main-hero .detail .project li p:hover {
   opacity: 1;
 }
 .hero .hero-footer {

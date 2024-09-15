@@ -4,7 +4,6 @@ import { usePrevious } from "react-use";
 import gsap from "gsap";
 import PostProcessing from "./PostProcessing";
 import CarouselItem from "./CarouselItem";
-import Carousel from "react-multi-carousel";
 // import { lerp, getPiramidalIndex } from '../utils'
 import images from "./data/images";
 import { projectData } from "../../Component/ProjectData";

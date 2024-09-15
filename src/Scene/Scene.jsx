@@ -93,7 +93,7 @@ function DepressedPlane() {
 }
 
 
-const Scene = () => {
+const Scene = ({ activeIndex, setActiveIndex }) => {
   const eye = useRef();
 
   // Define 6 different positions
@@ -134,7 +134,7 @@ const Scene = () => {
         {/* <Ground /> */}
         {/* <Rig /> */}
         {/* <CarouselWrap /> */}
-        <Carousel />
+        <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
         {/* <OrbitControls /> */}
       </Canvas>
     </>

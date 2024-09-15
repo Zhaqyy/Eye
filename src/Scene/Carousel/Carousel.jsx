@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 // import gsap from "gsap";
+import { useNavigate } from 'react-router-dom';
 import PostProcessing from "./PostProcessing";
 import { projectData } from "../../Component/ProjectData";
 import Plane from "./Plane";
@@ -22,16 +23,25 @@ export const lerp = (v0, v1, t) => v0 * (1 - t) + v1 * t;
 /*------------------------------
 Carousel
 ------------------------------*/
-const Carousel = () => {
-  const [activeIndex, setActiveIndex] = useState(0); // Active image index
+const Carousel = ({ activeIndex, setActiveIndex }) => {
+//   const [activeIndex, setActiveIndex] = useState(0); // Active image index
   const [isTransitioning, setIsTransitioning] = useState(false); // Prevent multiple transitions
   const slideCount = useMemo(() => projectData.length, []); // Number of slides
   const { viewport } = useThree();
   const isDragging = useRef(false); // Track if dragging
   const startX = useRef(0); // Track drag start position
-
   // Add a delay between transitions (e.g., 0.5s after the transition)
-  const delayBetweenTransitions = 500;
+  const delayBetweenTransitions = 750;
+
+  
+  /*--------------------
+  Handle click navigation
+  --------------------*/
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate(`/Work/${projectData[activeIndex].id}`);
+  };
 
   /*--------------------
     Handle Wheel Event
@@ -127,6 +137,7 @@ const Carousel = () => {
           texture={projectData[activeIndex].image} // Pass active texture
           width={planeSettings.width}
           height={planeSettings.height}
+          onClick={handleNavigation} // Handle plane click
         />
       </group>
     );

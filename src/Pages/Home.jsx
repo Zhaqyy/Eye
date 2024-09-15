@@ -3,7 +3,7 @@ import Word from "../Component/SplitWord";
 import "../Style/Home.css";
 import { projectData } from "../Component/ProjectData";
 
-function Home() {
+function Home({ activeIndex, setActiveIndex }) {
   return (
     <section className='hero'>
       <div className='main-hero'>
@@ -29,11 +29,18 @@ function Home() {
             <h3>Project List</h3>
             <ul>
               {projectData.map((item, index) => (
-                <li key={index}>
-                  <a href={item.url='#'}>{item.title}</a>
+                <li key={index} className={index === activeIndex ? "active" : ""}>
+                  {/* <a href={item.url='#'}>{item.title}</a> */}
+                  <p
+                    onClick={e => {
+                      e.preventDefault();
+                      setActiveIndex(index); // Update activeIndex on click
+                    }}
+                  >
+                    {item.title}
+                  </p>
                 </li>
               ))}
-
             </ul>
           </div>
           <h5>Available for Work/Freelance</h5>
