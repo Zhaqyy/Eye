@@ -9,7 +9,7 @@
 }
 
 .work {
-  min-width: 80vw;
+  min-width: 600px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -60,9 +60,13 @@
   flex-direction: row;
   align-items: center;
   gap: 5vw;
+  overflow: visible;
 }
 .gallery .image-slider img {
   max-height: 60%;
   width: 100%;
   border-radius: 20px;
+}
+.gallery .image-slider img:last-of-type {
+  margin-right: 10vw;
 }/*# sourceMappingURL=Work.css.map */

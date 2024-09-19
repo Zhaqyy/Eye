@@ -47,22 +47,26 @@ body,
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  overflow: hidden;
+  // overflow: hidden;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
 }
 
 #root {
   // overflow: auto;
-  overflow: hidden;
-  overflow-x: scroll;
+  //   overflow: hidden;
+  // overflow-x: scroll;
   // background-image: url(/scene.webp);
   background-position: center;
   background-size: cover;
 }
 
 body {
-  position: fixed;
-  overflow: hidden;
-  overscroll-behavior-y: none;
+  // position: fixed;
+  // overflow: hidden;
+  // overscroll-behavior-y: none;
   font-family: "kufam", helvetica neue, helvetica, arial, sans-serif;
   font-weight: 400;
   //   font-synthesis: none;
@@ -119,7 +123,7 @@ h2 {
       a {
         opacity: 0.7;
         transition: all 0.5s ease;
-        pointer-events: all; 
+        pointer-events: all;
 
         &.active,
         &:hover {
@@ -151,18 +155,19 @@ h2 {
         // ul{}
         li {
           margin-block: 0.25rem;
-          
 
-          &.active p, p:hover{
+          &.active p,
+          p:hover {
             opacity: 1;
             color: brown;
           }
 
-          a,p {
+          a,
+          p {
             opacity: 0.7;
             transition: all 0.5s ease;
             width: fit-content;
-            pointer-events: all; 
+            pointer-events: all;
 
             &.active,
             &:hover {
