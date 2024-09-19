@@ -30,7 +30,6 @@ function Home({ activeIndex, setActiveIndex }) {
             <ul>
               {projectData.map((item, index) => (
                 <li key={index} className={index === activeIndex ? "active" : ""}>
-                  {/* <a href={item.url='#'}>{item.title}</a> */}
                   <p
                     onClick={e => {
                       e.preventDefault();

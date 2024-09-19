@@ -51,7 +51,9 @@ body,
 }
 
 #root {
-  overflow: auto;
+  // overflow: auto;
+  overflow: hidden;
+  overflow-x: scroll;
   // background-image: url(/scene.webp);
   background-position: center;
   background-size: cover;
@@ -117,6 +119,7 @@ h2 {
       a {
         opacity: 0.7;
         transition: all 0.5s ease;
+        pointer-events: all; 
 
         &.active,
         &:hover {
@@ -148,7 +151,7 @@ h2 {
         // ul{}
         li {
           margin-block: 0.25rem;
-          pointer-events: all; 
+          
 
           &.active p, p:hover{
             opacity: 1;
@@ -159,6 +162,7 @@ h2 {
             opacity: 0.7;
             transition: all 0.5s ease;
             width: fit-content;
+            pointer-events: all; 
 
             &.active,
             &:hover {

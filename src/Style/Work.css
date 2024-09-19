@@ -1,0 +1,68 @@
+.work-wrap {
+  min-width: 100%;
+  height: 100%;
+  padding: 0 5vw;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: center;
+  overflow: visible;
+}
+
+.work {
+  min-width: 80vw;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5vh;
+}
+.work .title h6 {
+  text-transform: uppercase;
+}
+.work .detail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  justify-items: center;
+  min-height: 200px;
+}
+.work .detail .desc,
+.work .detail .service {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2.5vh;
+}
+.work .detail .service .stack ul {
+  display: inline;
+  list-style: none;
+  padding: 0px;
+  font-size: 0.8rem;
+}
+.work .detail .service .stack ul li {
+  display: inline;
+  text-transform: capitalize;
+}
+.work .detail .service .stack ul li::after {
+  content: ", ";
+}
+.work .detail .service .stack ul li:last-child::after {
+  content: "";
+}
+
+.gallery {
+  height: 100%;
+  min-width: 100vw;
+}
+.gallery .image-slider {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5vw;
+}
+.gallery .image-slider img {
+  max-height: 60%;
+  width: 100%;
+  border-radius: 20px;
+}/*# sourceMappingURL=Work.css.map */
