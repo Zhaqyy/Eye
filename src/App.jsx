@@ -30,8 +30,8 @@ const App = () => {
         ref={lenisRef}
         autoRaf={false}
         options={{ 
-          orientation: "horizontal",
-           gestureOrientataion: "both",
+          // orientation: "horizontal",
+          //  gestureOrientataion: "both",
             duration: 1.6, 
             syncTouch: true 
           }}

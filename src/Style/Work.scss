@@ -1,5 +1,6 @@
 .work-wrap {
-  min-width: fit-content;
+  // min-width: fit-content;
+  width: 100vw;
   height: 100%;
   padding: 0 5vw;
   //   display: flex;
@@ -11,7 +12,7 @@
 }
 .work {
   //   width: 80%;
-//   min-width: 80vw;
+  //   min-width: 80vw;
   // min-width: 600px;
   max-width: 600px;
   height: 100%;
@@ -65,29 +66,105 @@
   }
 }
 
-.gallery {
-  height: 100%;
-  min-width: 100vw;
+// .gallery {
+//   height: 100%;
+//   // min-width: 100vw;
+//   width: 100vw;
 
-  .image-slider {
+//   .image-slider {
+//     height: 100%;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     gap: 5vw;
+//     overflow: visible;
+//     // .image-wrapper {
+//       //   display: inline-block;
+//       //   margin-right: 10px;
+//       img {
+//         max-height: 60%;
+//         width: 60vw;
+//         border-radius: 20px;
+
+//         &:last-of-type{
+//             margin-right: 10vw;
+//         }
+//       }
+//     // }
+//   }
+// }
+
+.gallery-container {
+  display: flex;
+  flex-direction: column;
+  // height: 100vh;
+  height: fit-content;
+  // width: 60vw;
+  position: relative;
+  overflow: hidden;
+  gap: 5vh;
+  // scroll-snap-type: y mandatory;
+}
+
+.image-slide {
+  // height: 100vh; /* Full height */
+  width: 60vw; /* Full width */
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  border-radius: 24px;
+  object-fit: cover; /* Ensures the image fills the container */
+  transition: transform 1s ease-out;
+  // scroll-snap-align: center;
+}
+
+.next-image {
+  height: 100px; /* Next image shows a small portion */
+  width: 100vw;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  object-fit: cover;
+  opacity: 0.6; /* Slightly faded to indicate it's behind */
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.next {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: whitesmoke;
+  color: black;
+  height: 150px;
+  padding: 1rem 1.5rem;
+  margin-block: 5vh;
+  border-radius: 24px;
+
+  .dragBounds{
+    height: 50px;
+    width: 50%;
+    padding-inline: 0.25rem;
+    background-color: rgb(175, 175, 175);
+    border-radius: 24px;
+    align-content: center;
+
+    .drag{
+      height: 40px;
+      width: 65px;
+      background-color: whitesmoke;
+      border-radius: 24px;
+    }
+  }
+
+  .nextProjImg{
     height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5vw;
-    overflow: visible;
-    // .image-wrapper {
-      //   display: inline-block;
-      //   margin-right: 10px;
-      img {
-        max-height: 60%;
-        width: 60vw;
-        border-radius: 20px;
-
-        &:last-of-type{
-            margin-right: 10vw;
-        }
-      }
-    // }
+    border-radius: 12px;
   }
 }
