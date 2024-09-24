@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { projectData } from "../Component/ProjectData";
 import "../Style/Work.css";
@@ -28,110 +28,136 @@ const Work = () => {
   const nextProjectIndex = id % projectData.length || 0; // Circular logic for next project
   const nextProject = projectData[nextProjectIndex];
 
-  useGSAP(() => {
-    const slides = imageRefs.current;
+  // Reset draggable position when routing to a new page
+  const resetDragPosition = () => {
+    gsap.set(drag.current, { x: 0, scale: 1 });
+  };
 
-    // Pinning the `.work` section
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top top",
-      end: "bottom bottom",
-      pin: workRef.current, // Pin the .work section
-      pinSpacing: false, // Disable spacing when pinned
-    });
+  const resetScrollPosition = () => {
+    window.scrollTo(0, 0); // Scroll back to the top on routing
+  };
 
-    //  Scroll snapping and flip animation for each image
-    slides.forEach((slide, index) => {
-      // Create the scrolling animation with flip effect
-      gsap.fromTo(
-        slide,
-        {
-          // scale: 1,      // Start from normal scale
-          // rotateX: 0,    // No initial rotation
-          // y: 0,          // No initial Y movement
-          // z: 0,          // No initial Z movement
-          // opacity: 1,    // Fully visible
-          filter: "grayscale(0%)", // No grayscale
-        },
-        {
-          // scale: 0.8,    // Scale down as it scrolls out
-          // rotateX: 90,   // Flip on the X-axis as it scrolls out
-          // y: -100,       // Move up slightly
-          // z: -200,       // Move away (depth)
-          // opacity: 0,    // Fade out
-          filter: "grayscale(100%)", // Turn grayscale as it fades
-          ease: "power1.inOut",
-
-          scrollTrigger: {
-            trigger: slide,
-            start: "top top",
-            end: "bottom top",
-            toggleActions: "restart pause reverse pause",
-            scrub: true, // Scrubbing effect for smooth animation with scroll
-            // snap: 1 / slides.length, // Snaps to each image
-            markers: true, // For debugging purposes
-          },
-        }
-      );
-    });
-
-    // Creating a scroll effect
-    gsap.to(containerRef.current, {
-      yPercent: -100,
-      ease: "none",
-      scrollTrigger: {
+  useGSAP(
+    () => {
+      // Pinning the `.work` section
+      let st = ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top top",
-        end: "bottom top",
-        pin: true,
-        scrub: true,
-        // snap: 1 / (slides.length + 1), // Snaps to each image
-        markers: true, // For debugging purposes
-      },
-    });
+        end: "bottom bottom",
+        pin: workRef.current, // Pin the .work section
+        pinSpacing: false, // Disable spacing when pinned
+      });
 
-    const dragtoroute = Draggable.create(drag.current, {
-      type: "x", // Only allow horizontal dragging
-      bounds: dragBounds.current,
-      edgeResistance: 1,
-      lockAxis: true,
-      // inertia: true,
-      snap: {
-        x: endX => {
-          if (this.hitTest(hit.current, '50%')) {
-            // Snap to the hit element's X position
-            return gsap.getProperty(hit.current, 'x');
+      const slides = imageRefs.current;
+
+      //  Scroll snapping and flip animation for each image
+      slides.forEach((slide, index) => {
+        // Create the scrolling animation with flip effect
+        gsap.fromTo(
+          slide,
+          {
+            // scale: 1,      // Start from normal scale
+            // rotateX: 0,    // No initial rotation
+            // y: 0,          // No initial Y movement
+            // z: 0,          // No initial Z movement
+            // opacity: 1,    // Fully visible
+            filter: "grayscale(0%)", // No grayscale
+          },
+          {
+            // scale: 0.8,    // Scale down as it scrolls out
+            // rotateX: 90,   // Flip on the X-axis as it scrolls out
+            // y: -100,       // Move up slightly
+            // z: -200,       // Move away (depth)
+            // opacity: 0,    // Fade out
+            filter: "grayscale(100%)", // Turn grayscale as it fades
+            ease: "power1.inOut",
+
+            scrollTrigger: {
+              trigger: slide,
+              start: "top top",
+              end: "bottom top",
+              toggleActions: "restart pause reverse pause",
+              scrub: true, // Scrubbing effect for smooth animation with scroll
+              // snap: 1 / slides.length, // Snaps to each image
+              // markers: true, // For debugging purposes
+            },
           }
-          return endX; // Otherwise, snap back to original position
+        );
+      });
+
+      // // Creating a scroll effect
+      gsap.to(containerRef.current, {
+        yPercent: -100,
+        ease: "none",
+        scrollTrigger: {
+          id: `gallery`,
+          trigger: containerRef.current,
+          start: "top top",
+          end: "bottom top",
+          toggleActions: "restart pause reverse pause",
+          // pin: true,
+          scrub: true,
+          // snap: 1 / (slides.length + 1), // Snaps to each image
+          // markers: true, // For debugging purposes
         },
-      },
-      onDragEnd: function () {
-        if (this.hitTest(hit.current, '50%')) {
-          // Trigger routing if hit test is successful
-          navigate(`/work/${nextProject.id}`);
-          ScrollTrigger.refresh(); // Recalculate scroll positions
-        } else {
-          // Restore to original position on release if not snapped
-          gsap.to(drag.current, {
-            duration: 0.4,
-            x: 0,
-            y: 0,
-            scale: 1,
-            ease: 'elastic.out(.45)',
-          });
-        }
-      },
-      onPress: () => {
-        gsap.to(drag.current, { duration: 0.1, scale: 0.95 });
-      },
+      });
 
-    });
+      const dragtoroute = Draggable.create(drag.current, {
+        type: "x", // Only allow horizontal dragging
+        bounds: dragBounds.current,
+        edgeResistance: 1,
+        lockAxis: true,
+        // inertia: true,
+        snap: {
+          x: endX => {
+            if (this.hitTest(hit.current, "50%")) {
+              // Snap to the hit element's X position
+              return gsap.getProperty(hit.current, "x");
+            }
+            return endX; // Otherwise, snap back to original position
+          },
+        },
+        onDragEnd: function () {
+          if (this.hitTest(hit.current, "50%")) {
+            // Trigger routing if hit test is successful
+            navigate(`/work/${nextProject.id}`);
+            resetDragPosition();
+            resetScrollPosition();
+            // const gall = ScrollTrigger.getById("gallery");
+            // if (gall) {
+            //   gall.refresh();
+            //   gall.kill({ reset: true });
+            // } // Recalculate scroll positions
+          } else {
+            // Restore to original position on release if not snapped
+            gsap.to(drag.current, {
+              duration: 0.4,
+              x: 0,
+              y: 0,
+              scale: 1,
+              ease: "elastic.out(.45)",
+            });
+          }
+        },
+        onPress: () => {
+          gsap.to(drag.current, { duration: 0.1, scale: 0.95 });
+        },
+      });
 
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill()); // Cleanup ScrollTrigger
-      dragtoroute[0].kill(); // Kill the Draggable instance
-    };
-  }, [nextProject, navigate]);
+      return () => {
+        st.kill();
+        resetDragPosition();
+        resetScrollPosition();
+        dragtoroute[0].kill(); // Kill the Draggable instance
+        // const gall = ScrollTrigger.getById("gallery");
+        // if (gall) {
+        //   gall.refresh();
+        //   gall.kill({ reset: true });
+        // }
+      };
+    },
+    { dependencies: [nextProject, navigate], revertOnUpdate: true }
+  );
 
   if (!data) {
     return <h1>Work not found</h1>; // Handle case when any work is not found
@@ -181,7 +207,7 @@ const Work = () => {
         ))}
 
         <div className='next'>
-          <div>
+          <div className='pTitle'>
             <p>Next Project</p>
             <h2>{nextProject?.title}</h2>
           </div>
@@ -197,3 +223,117 @@ const Work = () => {
 };
 
 export default Work;
+// useGSAP(() => {
+// // Pinning the `.work` section
+// let st = ScrollTrigger.create({
+//   trigger: containerRef.current,
+//   start: "top top",
+//   end: "bottom bottom",
+//   pin: workRef.current, // Pin the .work section
+//   pinSpacing: false, // Disable spacing when pinned
+// });
+
+// const slides = imageRefs.current;
+
+// //  Scroll snapping and flip animation for each image
+// slides.forEach((slide, index) => {
+//   // Create the scrolling animation with flip effect
+//   gsap.fromTo(
+//     slide,
+//     {
+//       // scale: 1,      // Start from normal scale
+//       // rotateX: 0,    // No initial rotation
+//       // y: 0,          // No initial Y movement
+//       // z: 0,          // No initial Z movement
+//       // opacity: 1,    // Fully visible
+//       filter: "grayscale(0%)", // No grayscale
+//     },
+//     {
+//       // scale: 0.8,    // Scale down as it scrolls out
+//       // rotateX: 90,   // Flip on the X-axis as it scrolls out
+//       // y: -100,       // Move up slightly
+//       // z: -200,       // Move away (depth)
+//       // opacity: 0,    // Fade out
+//       filter: "grayscale(100%)", // Turn grayscale as it fades
+//       ease: "power1.inOut",
+
+//       scrollTrigger: {
+//         trigger: slide,
+//         start: "top top",
+//         end: "bottom top",
+//         toggleActions: "restart pause reverse pause",
+//         scrub: true, // Scrubbing effect for smooth animation with scroll
+//         // snap: 1 / slides.length, // Snaps to each image
+//         // markers: true, // For debugging purposes
+//       },
+//     }
+//   );
+// });
+
+// // Creating a scroll effect
+// gsap.to(containerRef.current, {
+//   yPercent: -100,
+//   ease: "none",
+//   scrollTrigger: {
+//     id: `gallery`,
+//     trigger: containerRef.current,
+//     start: "top top",
+//     end: "bottom top",
+//     toggleActions: "restart pause reverse pause",
+//     pin: true,
+//     scrub: true,
+//     // snap: 1 / (slides.length + 1), // Snaps to each image
+//     // markers: true, // For debugging purposes
+//   },
+// });
+
+// const dragtoroute = Draggable.create(drag.current, {
+//   type: "x", // Only allow horizontal dragging
+//   bounds: dragBounds.current,
+//   edgeResistance: 1,
+//   lockAxis: true,
+//   // inertia: true,
+//   snap: {
+//     x: endX => {
+//       if (this.hitTest(hit.current, "50%")) {
+//         // Snap to the hit element's X position
+//         return gsap.getProperty(hit.current, "x");
+//       }
+//       return endX; // Otherwise, snap back to original position
+//     },
+//   },
+//   onDragEnd: function () {
+//     if (this.hitTest(hit.current, "50%")) {
+//       // Trigger routing if hit test is successful
+//       navigate(`/work/${nextProject.id}`);
+//       const gall = ScrollTrigger.getById("gallery");
+//       if (gall) {
+//         gall.refresh();
+//         gall.kill({ reset: true });
+//       } // Recalculate scroll positions
+//     } else {
+//       // Restore to original position on release if not snapped
+//       gsap.to(drag.current, {
+//         duration: 0.4,
+//         x: 0,
+//         y: 0,
+//         scale: 1,
+//         ease: "elastic.out(.45)",
+//       });
+//     }
+//   },
+//   onPress: () => {
+//     gsap.to(drag.current, { duration: 0.1, scale: 0.95 });
+//   },
+// });
+
+// return () => {
+//   st.kill();
+//   const gall = ScrollTrigger.getById("gallery");
+//   if (gall) {
+//     gall.refresh();
+//     gall.kill({ reset: true });
+//   }
+//   dragtoroute[0].kill(); // Kill the Draggable instance
+// };
+// }, [nextProject, navigate])
