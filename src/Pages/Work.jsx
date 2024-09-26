@@ -218,6 +218,7 @@ const Work = () => {
           <img src={nextProject?.image} className='nextProjImg' alt={`project ${nextProject?.title}`} />
         </div>
       </section>
+      {/* <VerticalGallery images={data?.gallery}/> */}
     </div>
   );
 };
@@ -337,3 +338,66 @@ export default Work;
 //   dragtoroute[0].kill(); // Kill the Draggable instance
 // };
 // }, [nextProject, navigate])
+
+
+export const VerticalGallery = ({ images }) => {
+  const containerRef = useRef(null);
+  const cardsRef = useRef([]);
+
+  useEffect(() => {
+    const totalCards = images.length;
+    
+    // Define GSAP ScrollTrigger for snapping and animation
+    ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: 'top top',
+      end: () => `+=${containerRef.current.offsetHeight}`, // adjust end dynamically
+      snap: {
+        snapTo: 1 / (totalCards - 1), // Snap to each card
+        duration: 0.5,
+        ease: 'power1.inOut',
+      },
+      onUpdate: self => updateCards(self.progress),
+    });
+
+    // Function to dynamically adjust card height based on scroll
+    const updateCards = (progress) => {
+      const currentIndex = Math.round(progress * (totalCards - 1));
+      
+      // Animate the center card (current one) and the adjacent ones
+      cardsRef.current.forEach((card, i) => {
+        const distance = Math.abs(currentIndex - i); // Distance from the center
+        
+        if (distance === 0) {
+          // Center card
+          gsap.to(card, { height: '60vh', duration: 0.5 });
+        } else if (distance === 1) {
+          // Adjacent cards (before and after)
+          gsap.to(card, { height: '10vh', duration: 0.5 });
+        } else {
+          // Other cards (invisible)
+          gsap.to(card, { height: '0vh', duration: 0.5 });
+        }
+      });
+    };
+
+  }, [images]);
+
+  return (
+    <div className="gallery-container" ref={containerRef}>
+      {/* {data?.gallery?.map((image, index) => (
+          <img src={image} key={index} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
+        ))} */}
+      {images.map((image, index) => (
+        <div 
+          key={index} 
+          className="gallery-card" 
+          ref={el => (cardsRef.current[index] = el)}
+        >
+          <img src={image} alt={`Gallery Image ${index}`} />
+        </div>
+      ))}
+    </div>
+  );
+};
+

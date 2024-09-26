@@ -24,7 +24,7 @@ const Word = ({ word, url = "#" }) => {
   
   // Create a timeline for complex animation
   const tl = gsap.timeline({ paused: true });
-  useEffect(() => {
+  useGSAP(() => {
     let q = gsap.utils.selector(el);
     let letters = q('.split');
     const numLetters = letters.length;

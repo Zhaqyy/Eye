@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useRef } from "react";
 import Word from "../Component/SplitWord";
 import "../Style/Home.css";
 import { projectData } from "../Component/ProjectData";
+import Breadcrumbs from "../Component/Breadcrumbs";
 
 function Home({ activeIndex, setActiveIndex }) {
+  const containerRef = useRef(null);
+
   return (
     <section className='hero'>
       <div className='main-hero'>
@@ -45,8 +48,9 @@ function Home({ activeIndex, setActiveIndex }) {
           <h5>Available for Work/Freelance</h5>
         </div>
       </div>
-      <div className='hero-footer'>
-        <span className='sound'>S</span>
+      <div className='hero-footer' ref={containerRef}>
+        <div className='sound'><span>S</span></div>
+        <Breadcrumbs activeIndex={activeIndex} setActiveIndex={setActiveIndex} ref={containerRef}/>
         <ul className='contact'>
           <li>
             <a href='#'>LinkedIn</a>
