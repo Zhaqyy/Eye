@@ -3,7 +3,7 @@ import { projectData } from "../Component/ProjectData";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
-const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex },containerRef) => {
+const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex }, containerRef) => {
   // Memoize the first letters to avoid recomputation on every render
   const firstLetters = useMemo(() => {
     return projectData.map(item => item.title[0]);
@@ -25,58 +25,57 @@ const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex },containerRef) =>
   const maxRotate = 90;
   const perspective = 25;
   const plane = useRef(null);
-//   const containerRef = useRef(null);
+  //   const containerRef = useRef(null);
 
-//     const manageMouseMove = e => {
-//       const x = e.clientX / window.innerWidth;
-//       const y = e.clientY / window.innerHeight;
-//       const perspective = 25
-//       const rotateX = maxRotate * x - maxRotate / 2;
-//       const rotateY = (maxRotate * y - maxRotate / 2) * -1;
-//       if (firstLetterRef.current) {
-//         firstLetterRef.current.style.transform = `rotateX(${rotateY}deg) rotateY(${rotateX}deg)`;
-//       }
-//     };
+  //     const manageMouseMove = e => {
+  //       const x = e.clientX / window.innerWidth;
+  //       const y = e.clientY / window.innerHeight;
+  //       const perspective = 25
+  //       const rotateX = maxRotate * x - maxRotate / 2;
+  //       const rotateY = (maxRotate * y - maxRotate / 2) * -1;
+  //       if (firstLetterRef.current) {
+  //         firstLetterRef.current.style.transform = `rotateX(${rotateY}deg) rotateY(${rotateX}deg)`;
+  //       }
+  //     };
 
-//   const { contextSafe } = useGSAP({ scope: containerRef });
-// console.log(containerRef.current);
-//   // Mouse move handler (wrapped in contextSafe to manage cleanup)
-//   const handleMouseMove = contextSafe(e => {
-//     const x = e.clientX / window.innerWidth;
-//     const y = e.clientY / window.innerHeight;
-//     const rotateX = maxRotate * x - maxRotate ;
-//     const rotateY = (maxRotate * y - maxRotate / 2) * -1;
+  const { contextSafe } = useGSAP();
 
-//     // Animate the rotation and perspective
-//     gsap.to(firstLetterRef.current, {
-//       rotateX: rotateY,
-//       rotateY: rotateX,
-//       perspective: `${perspective}vw`,
-//       ease: "power3.out",
-//       duration: 0.4,
-//     });
-//   });
-
-//   // Mouse leave handler to reset the animation smoothly
-//   const handleMouseLeave = contextSafe(() => {
-//     gsap.to(firstLetterRef.current, {
-//       rotateX: 0,
-//       rotateY: 0,
-//     //   perspective: 'none',
-//       ease: "bounce.out",
-//       duration: 0.8,
-//     });
-//   });
+  const handleRoll = contextSafe(() => {
+    // Generate random rotations for X, Y, and Z axes
+    const randomRotationX = (Math.random() - 0.5) * 720; // Range: -360 to 360 degrees
+    const randomRotationY = (Math.random() - 0.5) * 720; // Range: -360 to 360 degrees
+    const randomRotationZ = (Math.random() - 0.5) * 720; // Range: -360 to 360 degrees
+  
+    // Animate the random 3D rotation with GSAP
+    gsap.to(firstLetterRef.current, {
+      rotateX: randomRotationX,
+      rotateY: randomRotationY,
+      rotateZ: randomRotationZ,
+      ease: "power3.out",
+      duration: 0.5, // Duration of the rotation
+      onComplete: () => {
+        // Reset the rotation to 0 for all axes
+        gsap.to(firstLetterRef.current, {
+          rotateX: 0,
+          rotateY: 0,
+          rotateZ: 0,
+          ease: "elastic.out(.95)",
+          duration: 1.0, // Duration of the reset animation
+        });
+      }
+    });
+  });
+  // Event handler setup
+  const roll = contextSafe(index => {
+    if (index === activeIndex) {
+      handleRoll();
+    }
+  });
 
   return (
-    <ul
-     
-      className='bCrumb'
-        // onMouseMove={manageMouseMove}
-    //   onMouseLeave={handleMouseLeave}
-    >
+    <ul className='bCrumb'>
       {projectData.map((item, index) => (
-        <li key={index} className={index === activeIndex ? "active" : ""}>
+        <li key={index} onMouseEnter={() => roll(index)} className={index === activeIndex ? "active" : ""}>
           {index === activeIndex && <p ref={firstLetterRef}>{firstLetters[activeIndex]}</p>}
         </li>
       ))}
