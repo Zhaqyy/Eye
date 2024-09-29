@@ -8,6 +8,7 @@ import Home from "./Pages/Home";
 import Scene from "./Scene/Scene";
 import Work from "./Pages/Work";
 import gsap from "gsap";
+import Griddy from "./Scene/Grid";
 
 const App = () => {
   const lenisRef = useRef();
@@ -38,7 +39,7 @@ const App = () => {
       >
         <Routes>
           <Route index exact path='/' element={<Main />} />
-          <Route path='/Work/:id' element={<Work />} />
+          {/* <Route path='/Work/:id' element={<Work />} /> */}
         </Routes>
       </ReactLenis>
     </>
@@ -52,8 +53,9 @@ const Main = () => {
 
   return (
     <>
-      <Scene activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-      <Home activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+    <Griddy/>
+      {/* <Scene activeIndex={activeIndex} setActiveIndex={setActiveIndex} /> */}
+      {/* <Home activeIndex={activeIndex} setActiveIndex={setActiveIndex} /> */}
     </>
   );
 };

@@ -14,6 +14,7 @@ import CarouselWrap from "./Carousel/CarouselOld";
 // import * as THREE from 'three';
 import { extend } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
+import Grid from "./Grid";
 // import { useRef } from 'react';
 // import { useControls } from 'leva';
 
@@ -134,8 +135,11 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <Ground /> */}
         {/* <Rig /> */}
         {/* <CarouselWrap /> */}
-        <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-        {/* <OrbitControls /> */}
+        {/* <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} /> */}
+        <OrbitControls />
+
+        {/* About Page */}
+        <Grid/>
       </Canvas>
     </>
   );
