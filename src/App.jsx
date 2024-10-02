@@ -9,6 +9,7 @@ import Scene from "./Scene/Scene";
 import Work from "./Pages/Work";
 import gsap from "gsap";
 import Griddy from "./Scene/Grid";
+import Try from "./Scene/try";
 
 const App = () => {
   const lenisRef = useRef();
@@ -54,6 +55,7 @@ const Main = () => {
   return (
     <>
     <Griddy/>
+    {/* <Try/> */}
       {/* <Scene activeIndex={activeIndex} setActiveIndex={setActiveIndex} /> */}
       {/* <Home activeIndex={activeIndex} setActiveIndex={setActiveIndex} /> */}
     </>
