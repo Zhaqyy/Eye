@@ -694,7 +694,7 @@ useEffect(() => {
           // shadow='#94cbff'
         />
       </instancedMesh>
-      <pointLight ref={pointLightRef} intensity={50} />
+      <pointLight ref={pointLightRef} intensity={500} />
     </group>
   );
 }
@@ -725,7 +725,7 @@ const Griddy = () => {
 
   return (
     <Canvas camera={{ position: [0, 0, 10], fov: 90 }}>
-      <Perf position='top-left' />
+      <Perf position='top-right' />
       {/* <Environment preset='city' environmentIntensity={2.5} /> */}
       <Environment resolution={32} 
       // background
