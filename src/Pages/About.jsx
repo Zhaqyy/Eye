@@ -1,6 +1,7 @@
 import React from "react";
 import "../Style/About.css";
 import Griddy from "../Scene/Grid";
+import CursorLottie from "../Component/CursorLottie";
 // import Griddy from "./Scene/Grid";
 
 const About = () => {
@@ -29,7 +30,7 @@ const About = () => {
         </div>
       </div>
       <div>
-        
+        <CursorLottie/>
       </div>
     </section>
     <section className="abtCanvas">
