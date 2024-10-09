@@ -15,10 +15,34 @@
 .abtInfo {
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: space-between;
   gap: 2rem;
   .abtHeader {
+    // display: flex;
+    width: -webkit-fill-available;
+
+    p {
+      width: clamp(45ch, 50%, 75ch);
+    }
+  }
+  .abtTitle {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    width: min-content;
+    column-gap: 2rem;
+
+    h1 {
+      width: min-content;
+      font-size: clamp(4rem, 5.333vw + 0.333rem, 4.5rem);
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+    h5 {
+      max-width: min-content;
+      text-transform: uppercase;
+    }
   }
   .detail {
     display: grid;
@@ -26,6 +50,41 @@
     justify-items: center;
     gap: 1rem;
   }
+  .infoSlider {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .slide {
+      width: 100px;
+      height: 300px;
+      border: 1px solid gray;
+      border-radius: 50px;
+      background-color: #0d0d0d;
+      display: flex;
+      flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+
+      &.active {
+        width: 300px;
+      }
+      .content {
+        color: white;
+        margin-top: 1rem;
+        text-align: center;
+        display: none; /* Hidden initially */
+      }
+    
+      &.active .content {
+        display: block; /* Show content only for active slide */
+      }
+    }
+    }
+  
 }
 
 .abtCanvas {

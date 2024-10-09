@@ -67,7 +67,7 @@ const CursorLottie = () => {
   }, [isMoving]);
 
   return (
-    <div ref={ref} style={{ height: 150, width: 150, position: "absolute", left: 0, top: 0 }}>
+    <div ref={ref} style={{ height: 150, width: 150, position: "absolute", left: 0, top: 0, pointerEvents: 'none' }}>
       <Lottie lottieRef={lottieRef} animationData={duck} />
     </div>
   );

@@ -10,6 +10,7 @@ import Work from "./Pages/Work";
 import gsap from "gsap";
 import Griddy from "./Scene/Grid";
 import About from "./Pages/About";
+import CursorLottie from "./Component/CursorLottie";
 
 const App = () => {
   const lenisRef = useRef();
@@ -38,6 +39,8 @@ const App = () => {
             syncTouch: true 
           }}
       >
+        <CursorLottie/>
+
         <Routes>
           <Route index exact path='/' element={<Main />} />
           <Route path='/Work/:id' element={<Work />} />
