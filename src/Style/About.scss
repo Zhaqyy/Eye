@@ -53,24 +53,46 @@
   .infoSlider {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 1rem;
 
     .slide {
-      width: 100px;
+      // width: 70px;
       height: 300px;
       border: 1px solid gray;
       border-radius: 50px;
       background-color: #0d0d0d;
       display: flex;
       flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: transform 0.5s ease;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.5s ease;
+      will-change: contents;
 
-      &.active {
-        width: 300px;
+      // &.active {
+      //   width: 300px;
+      //   .title {
+      //     writing-mode: horizontal-tb; /* Reset to normal for active slides */
+      //     text-orientation: initial;
+      //     letter-spacing: 0;
+      //   }
+
+      //   .content {
+      //     opacity: 1;
+      //     display: block;
+      //   }
+      // }
+      .title {
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        text-transform: uppercase;
+        letter-spacing: -5px;
+        // writing-mode: horizontal-tb; /* Reset to normal for active slides */
+        //   text-orientation: initial;
+        //   letter-spacing: 0;
       }
       .content {
         color: white;
@@ -78,13 +100,8 @@
         text-align: center;
         display: none; /* Hidden initially */
       }
-    
-      &.active .content {
-        display: block; /* Show content only for active slide */
-      }
     }
-    }
-  
+  }
 }
 
 .abtCanvas {

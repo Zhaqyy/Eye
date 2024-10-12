@@ -53,11 +53,10 @@
 .abtInfo .infoSlider {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1rem;
 }
 .abtInfo .infoSlider .slide {
-  width: 100px;
   height: 300px;
   border: 1px solid gray;
   border-radius: 50px;
@@ -66,20 +65,23 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
+  overflow: hidden;
   cursor: pointer;
   transition: transform 0.5s ease;
+  will-change: contents;
 }
-.abtInfo .infoSlider .slide.active {
-  width: 300px;
+.abtInfo .infoSlider .slide .title {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  text-transform: uppercase;
+  letter-spacing: -5px;
 }
 .abtInfo .infoSlider .slide .content {
   color: white;
   margin-top: 1rem;
   text-align: center;
   display: none; /* Hidden initially */
-}
-.abtInfo .infoSlider .slide.active .content {
-  display: block; /* Show content only for active slide */
 }
 
 .abtCanvas {
