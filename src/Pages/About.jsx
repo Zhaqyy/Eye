@@ -46,15 +46,14 @@ const About = () => {
     ease: "sine.inOut",
   });
 
-  const activeIndex = useRef(0); 
+  const activeIndex = useRef(0);
   const previousIndex = useRef(0); // To track the previous active slide index
 
-const animateSlides = (index) => {
-  slides.current.forEach((slide, i) => {
-    if (i === index) {
-      // Active slide animation
-      gsap.timeline()
-        .to(slide.querySelector(".title"), {
+  const animateSlides = index => {
+    slides.current.forEach((slide, i) => {
+      if (i === index) {
+        // Active slide animation
+        gsap.timeline().to(slide.querySelector(".title"), {
           opacity: 0,
           x: -25,
           duration: 0.25,
@@ -94,91 +93,112 @@ const animateSlides = (index) => {
             });
           },
         });
-    } else if (i === previousIndex.current) {
-      // Animate only the previous slide (instead of all other slides)
-      gsap.timeline()
-        .to(slide.querySelector(".content"), {
-          opacity: 0,
-          display: "none", // Hide the content for the previous slide
-          duration: 0.25,
-        })
-        .set(slide.querySelector(".title"), {
-          opacity: 0,
-          duration: 0.25,
-        })
-        .to(slide.querySelector(".title"), {
-          opacity: 0,
-          duration: 0.25,
-          onComplete: () => {
-            gsap.set(slide.querySelector(".title"), {
-              writingMode: "vertical-rl",
-              textOrientation: "upright",
-              letterSpacing: -5,
-            });
-            gsap.fromTo(
-              slide.querySelector(".title"),
-              {
-                opacity: 0,
-                x: 25,
-              },
-              {
-                opacity: 1,
-                x: 0,
-                duration: 0.25,
-              }
-            );
-          },
-        })
-        .to(slide, {
-          width: 70,
-          duration: 0.95,
-          ease: "elastic.out(0.5, 0.45)",
-          // onComplete: () => {
-            
-          // },
-        })
-       
+      } else if (i === previousIndex.current) {
+        // Animate only the previous slide (instead of all other slides)
+        gsap
+          .timeline()
+          .to(slide.querySelector(".content"), {
+            opacity: 0,
+            display: "none", // Hide the content for the previous slide
+            duration: 0.25,
+          })
+          .set(slide.querySelector(".title"), {
+            opacity: 0,
+            duration: 0.25,
+          })
+          .to(slide.querySelector(".title"), {
+            opacity: 0,
+            duration: 0.25,
+            onComplete: () => {
+              gsap.set(slide.querySelector(".title"), {
+                writingMode: "vertical-rl",
+                textOrientation: "upright",
+                letterSpacing: -5,
+              });
+              gsap.fromTo(
+                slide.querySelector(".title"),
+                {
+                  opacity: 0,
+                  x: 25,
+                },
+                {
+                  opacity: 1,
+                  x: 0,
+                  duration: 0.25,
+                }
+              );
+            },
+          })
+          .to(slide, {
+            width: 70,
+            duration: 0.95,
+            ease: "elastic.out(0.5, 0.45)",
+          });
+      }
+    });
+
+    previousIndex.current = index; // Update previous index
+  };
+  const resetSlides = () => {
+    slides.current.forEach((slide) => {
+      gsap.set(slide, { width: 70 }); // Reset all slides to their default size
+      gsap.set(slide.querySelector(".content"), { opacity: 0, display: "none" }); // Hide all content
+      gsap.set(slide.querySelector(".title"), { opacity: 1, x: 0 }); // Reset title position and visibility
+    });
+  };
+  
+  // useGSAP(
+  //   () => {
+  //     // Reset the activeIndex to 0 on any re-render or mount
+  //     activeIndex.current = 0;
+  //     previousIndex.current = null; // Clear previous index
+
+  //     // Animate to the first slide (or reset the slider state)
+  //     animateSlides(activeIndex.current);
+  //   },
+  //   { scope: infoSlider, revertOnUpdate: true }
+  // );
+
+  useEffect(() => {
+    resetSlides();
+    // Reset the activeIndex to 0 on any re-render or mount
+  activeIndex.current = 0;
+  previousIndex.current = null; // Clear previous index
+
+  // Animate to the first slide (or reset the slider state)
+    animateSlides(activeIndex.current);
+  }, []);
+
+  // Throttle scroll event
+  const { contextSafe } = useGSAP({ scope: infoSlider });
+
+  const scrollTimeout = useRef(null);
+
+  const handleWheel = contextSafe(e => {
+    if (scrollTimeout.current) return; // Ignore event if throttle is active
+
+    scrollTimeout.current = setTimeout(() => {
+      scrollTimeout.current = null; // Reset throttle after 1s
+    }, 1000);
+
+    previousIndex.current = activeIndex.current; // Track the previous active slide
+
+    if (e.deltaY > 0) {
+      activeIndex.current = (activeIndex.current + 1) % data.length;
+    } else {
+      activeIndex.current = (activeIndex.current - 1 + data.length) % data.length;
     }
+
+    animateSlides(activeIndex.current);
   });
 
-  previousIndex.current = index; // Update previous index
-};
-
-useEffect(() => {
-  animateSlides(activeIndex.current); 
-}, []);
-
-// Throttle scroll event
-const { contextSafe } = useGSAP({ scope: infoSlider });
-
-const scrollTimeout = useRef(null);
-
-const handleWheel = contextSafe(e => {
-  if (scrollTimeout.current) return; // Ignore event if throttle is active
-
-  scrollTimeout.current = setTimeout(() => {
-    scrollTimeout.current = null; // Reset throttle after 1s
-  }, 1000);
-
-  previousIndex.current = activeIndex.current; // Track the previous active slide
-
-  if (e.deltaY > 0) {
-    activeIndex.current = (activeIndex.current + 1) % data.length;
-  } else {
-    activeIndex.current = (activeIndex.current - 1 + data.length) % data.length;
-  }
-
-  animateSlides(activeIndex.current);
-});
-
-const handleClick = contextSafe(index => {
-  if (index !== activeIndex.current) {
-    previousIndex.current = activeIndex.current; // Track previous index
-    activeIndex.current = index; // Update active index
-    animateSlides(activeIndex.current); // Trigger animation
-  }
-});
-
+  const handleClick = contextSafe(index => {
+    if (index !== activeIndex.current) {
+      previousIndex.current = activeIndex.current; // Track previous index
+      activeIndex.current = index; // Update active index
+      animateSlides(activeIndex.current); // Trigger animation
+    }
+  });
 
   return (
     <div className='abt'>
@@ -194,19 +214,19 @@ const handleClick = contextSafe(index => {
             ea suscipit autem voluptatum tempore, incidunt et veritatis eius dolor sit minima.
           </p>
         </div>
-      
+
         <div className='infoSlider'>
-        {data.map((item, index) => (
-    <div
-      className='slide' 
-      ref={el => addSlideRef(el, index)}
-      onClick={() => handleClick(index)} // Update to handle click
-      key={index}
-    >
-      <h3 className='title'>{item.title}</h3>
-      <div className='content'>{item.content}</div> 
-    </div>
-  ))}
+          {data.map((item, index) => (
+            <div
+              className='slide'
+              ref={el => addSlideRef(el, index)}
+              onClick={() => handleClick(index)} // Update to handle click
+              key={index}
+            >
+              <h3 className='title'>{item.title}</h3>
+              <div className='content'>{item.content}</div>
+            </div>
+          ))}
         </div>
       </section>
       <section className='abtCanvas'>
