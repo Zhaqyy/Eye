@@ -4,7 +4,7 @@
   padding: 5vh 5vw;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  justify-items: center;
+  justify-items: stretch;
   align-items: stretch;
   gap: 5vw;
   overflow: visible;
@@ -71,6 +71,18 @@
   transition: transform 0.5s ease;
   will-change: contents;
 }
+.abtInfo .infoSlider .slide.active {
+  width: 300px;
+}
+.abtInfo .infoSlider .slide.active .title {
+  writing-mode: horizontal-tb;
+  text-orientation: initial;
+  letter-spacing: 0;
+}
+.abtInfo .infoSlider .slide.active .content {
+  opacity: 1;
+  display: block;
+}
 .abtInfo .infoSlider .slide .title {
   writing-mode: vertical-rl;
   text-orientation: upright;
@@ -81,7 +93,8 @@
   color: white;
   margin-top: 1rem;
   text-align: center;
-  display: none; /* Hidden initially */
+  opacity: 0;
+  display: none;
 }
 
 .abtCanvas {
