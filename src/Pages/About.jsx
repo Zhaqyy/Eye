@@ -31,7 +31,14 @@ const data = [
   },
   {
     title: "Contact",
-    content: <p>Contact us via email at contact@example.com or follow us on social media.</p>,
+    content: (
+      <ul>
+        <li>LinkedIn</li>
+        <li>Twitter</li>
+        <li>Codepen</li>
+        <li>GitHub</li>
+      </ul>
+    ),
   },
 ];
 
@@ -141,32 +148,20 @@ const About = () => {
     previousIndex.current = index; // Update previous index
   };
   const resetSlides = () => {
-    slides.current.forEach((slide) => {
+    slides.current.forEach(slide => {
       gsap.set(slide, { width: 70 }); // Reset all slides to their default size
       gsap.set(slide.querySelector(".content"), { opacity: 0, display: "none" }); // Hide all content
       gsap.set(slide.querySelector(".title"), { opacity: 1, x: 0 }); // Reset title position and visibility
     });
   };
-  
-  // useGSAP(
-  //   () => {
-  //     // Reset the activeIndex to 0 on any re-render or mount
-  //     activeIndex.current = 0;
-  //     previousIndex.current = null; // Clear previous index
-
-  //     // Animate to the first slide (or reset the slider state)
-  //     animateSlides(activeIndex.current);
-  //   },
-  //   { scope: infoSlider, revertOnUpdate: true }
-  // );
 
   useEffect(() => {
     resetSlides();
     // Reset the activeIndex to 0 on any re-render or mount
-  activeIndex.current = 0;
-  previousIndex.current = null; // Clear previous index
+    activeIndex.current = 0;
+    previousIndex.current = null; // Clear previous index
 
-  // Animate to the first slide (or reset the slider state)
+    // Animate to the first slide (or reset the slider state)
     animateSlides(activeIndex.current);
   }, []);
 
@@ -230,26 +225,160 @@ const About = () => {
           ))}
         </div>
       </section>
-      <section className='abtCanvas'>
-        <div className="canv">
-        <Pool />
-        {/* <Griddy /> */}
-        </div>
-        <div className="contCard">
-          <h1>HI</h1>
-          <div className="contList">
-            <ul>
-              <li>LinkedIn</li>
-              <li>Twitter</li>
-              <li>Codepen</li>
-              <li>GitHub</li>
-            </ul>
-            <h2>CONTACT</h2>
-          </div>
-        </div>
-      </section>
+      <AbtCanvas />
     </div>
   );
 };
 
 export default About;
+
+const scenesData = [
+  {
+    name: "Pool",
+    description: "A relaxing pool scene",
+    component: Pool, // This refers to your <Pool /> component
+    type: "Experiences",
+  },
+  {
+    name: "Griddy",
+    description: "A grid-based design scene",
+    component: Griddy, // This refers to your <Griddy /> component
+    type: "3D Animations",
+  },
+];
+
+const AbtCanvas = () => {
+  const abtCanvas = useRef();
+
+  const [activeSceneIndex, setActiveSceneIndex] = useState(0);
+  const activeScene = scenesData[activeSceneIndex];
+
+  gsap.defaults({
+    ease: "sine.inOut",
+  });
+
+  const LWord = ["Craft", "Build", "Design", "Shape", "Compose", "Engineer", "Innovate", "Conjure", "Construct", "Develop"];
+  const RWord = [
+    "Adaptive",
+    "Interactive",
+    "Fluid",
+    "Dynamic",
+    "Unique",
+    "Engaging",
+    "Seamless",
+    "Mind-Blowing",
+    "Weird",
+    "Intricate",
+  ];
+
+  // Randomize word selection
+  const [lWord, setLWord] = useState(LWord[0]);
+  const [rWord, setRWord] = useState(RWord[0]);
+
+  const randomizeWords = () => {
+    setLWord(LWord[Math.floor(Math.random() * LWord.length)]);
+    setRWord(RWord[Math.floor(Math.random() * RWord.length)]);
+  };
+
+  // Throttle scroll event
+  const { contextSafe } = useGSAP({ scope: abtCanvas });
+  const scrollTimeout = useRef(null);
+
+  const handleWheel = contextSafe(e => {
+    if (scrollTimeout.current) return; // Ignore event if throttle is active
+
+    scrollTimeout.current = setTimeout(() => {
+      scrollTimeout.current = null; // Reset throttle after 1s
+    }, 600);
+
+    randomizeWords();
+
+    // Fade up/down animations depending on scroll direction
+    const direction = e.deltaY > 0 ? 1 : -1;
+
+    gsap.fromTo(
+      ".Lword",
+      {
+        y: direction * 10,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.25,
+      }
+    );
+
+    gsap.fromTo(
+      ".Rword",
+      {
+        y: -direction * 10,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.25,
+      }
+    );
+
+    // Blurring the "type" part
+    gsap.fromTo(
+      ".type-word",
+      {
+        filter: "blur(2px)",
+        opacity: 0,
+      },
+      {
+        filter: "blur(0px)",
+        opacity: 1,
+        duration: 0.5,
+      }
+    );
+
+    if (e.deltaY > 0) {
+      setActiveSceneIndex(prevIndex => (prevIndex + 1) % scenesData.length); // Next scene
+    } else {
+      setActiveSceneIndex(prevIndex => (prevIndex === 0 ? scenesData.length - 1 : prevIndex - 1)); // Previous scene
+    }
+  });
+
+  useEffect(() => {
+    gsap.fromTo(
+      ".canv",
+      { opacity: 0 }, // Fade in new scene
+      { opacity: 1, duration: 0.5 }
+    );
+  }, [activeSceneIndex]);
+
+  return (
+    <section className='abtCanvas' ref={abtCanvas} onWheel={handleWheel}>
+      <span className='type'>
+        <p>
+          I{" "}
+          <strong className='Lword'>{lWord}</strong>{" "}
+          <em className='Rword'>{rWord}</em>{" "}
+          <span className='type-word'>{activeScene.type}</span>
+        </p>
+      </span>
+      <div className='canv'>{React.createElement(activeScene.component)}</div>
+      <div className='sceneInfo'>
+        <div className='sceneInfoTitle'>
+          <div>
+            <strong>
+              <h6>Title</h6>
+            </strong>
+            <h3>{activeScene.name}</h3>
+          </div>
+          <div>
+            <strong>
+              <h6>Type</h6>
+            </strong>
+            <h4>{activeScene.type}</h4>
+          </div>
+        </div>
+        <p>{activeScene.description}</p>
+      </div>
+    </section>
+  );
+};

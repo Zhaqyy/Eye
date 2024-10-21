@@ -748,7 +748,7 @@ const Griddy = () => {
       <ambientLight intensity={1.5} />
 
       <DynamicGrid />
-      <OrbitControls />
+      {/* <OrbitControls /> */}
     </Canvas>
   );
 };
