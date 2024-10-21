@@ -22,7 +22,9 @@ body,
   margin: 0;
   padding: 0;
   --accent: #141414;
+  --dot: #3c3c3c;
   --bg: #0d0d0d;
+  --border: rgba(128, 128, 128, 0.25);
   --bRadius: 24px;
   background-color: var(--bg);
   -webkit-touch-callout: none;
@@ -40,6 +42,12 @@ body::-webkit-scrollbar,
 #root {
   background-position: center;
   background-size: cover;
+  background-image: radial-gradient(circle, var(--dot) 1px, var(--dot) 1px, transparent 1px, transparent 100%);
+  background-repeat: repeat;
+  background-position: center;
+  background-size: 25px 25px;
+  -webkit-mask-image: radial-gradient(70% 100%, #151520 70%, transparent 90%);
+          mask-image: radial-gradient(70% 100%, #151520 70%, transparent 90%);
 }
 
 body {

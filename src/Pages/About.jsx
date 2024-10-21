@@ -235,13 +235,13 @@ export default About;
 const scenesData = [
   {
     name: "Pool",
-    description: "A relaxing pool scene",
+    description: "Dive into the depths of serenity with 'Pool'. This scene is an oasis of calm where shimmering waters meet reflective skies. It’s designed to show how fluidity and tranquility can transform digital spaces into something truly immersive. If you’re looking for a place to float in your thoughts, this is it!",
     component: Pool, // This refers to your <Pool /> component
     type: "Experiences",
   },
   {
     name: "Griddy",
-    description: "A grid-based design scene",
+    description: "Welcome to the grid, where sharp lines and bold edges create a world of control and precision. 'Griddy' is a showcase of structure and clarity, balancing creativity with order. It’s the perfect way to demonstrate how organized chaos can form something beautifully intricate.",
     component: Griddy, // This refers to your <Griddy /> component
     type: "3D Animations",
   },
@@ -299,7 +299,7 @@ const AbtCanvas = () => {
     gsap.fromTo(
       ".Lword",
       {
-        y: direction * 10,
+        y: direction * 5,
         opacity: 0,
       },
       {
@@ -312,7 +312,7 @@ const AbtCanvas = () => {
     gsap.fromTo(
       ".Rword",
       {
-        y: -direction * 10,
+        y: -direction * 5,
         opacity: 0,
       },
       {
@@ -335,6 +335,16 @@ const AbtCanvas = () => {
         duration: 0.5,
       }
     );
+
+    // transition effect for scene info
+
+    gsap.fromTo(
+      ".sceneInfo",
+      { opacity: 0 }, 
+      { opacity: 1, duration: 0.5 }
+    );
+    
+    
 
     if (e.deltaY > 0) {
       setActiveSceneIndex(prevIndex => (prevIndex + 1) % scenesData.length); // Next scene
