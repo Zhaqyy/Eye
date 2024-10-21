@@ -21,7 +21,10 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #272727;
+  --accent: #141414;
+  --bg: #0d0d0d;
+  --bRadius: 24px;
+  background-color: var(--bg);
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;

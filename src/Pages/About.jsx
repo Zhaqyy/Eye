@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import "../Style/About.css";
 import Griddy from "../Scene/Grid";
 import { useGSAP } from "@gsap/react";
+import Pool from "../Scene/Pool";
 
 const data = [
   {
@@ -230,7 +231,22 @@ const About = () => {
         </div>
       </section>
       <section className='abtCanvas'>
-        <Griddy />
+        <div className="canv">
+        <Pool />
+        {/* <Griddy /> */}
+        </div>
+        <div className="contCard">
+          <h1>HI</h1>
+          <div className="contList">
+            <ul>
+              <li>LinkedIn</li>
+              <li>Twitter</li>
+              <li>Codepen</li>
+              <li>GitHub</li>
+            </ul>
+            <h2>CONTACT</h2>
+          </div>
+        </div>
       </section>
     </div>
   );

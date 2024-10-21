@@ -59,8 +59,8 @@
 .abtInfo .infoSlider .slide {
   height: 300px;
   border: 1px solid gray;
-  border-radius: 50px;
-  background-color: #0d0d0d;
+  border-radius: calc(var(--bRadius) * 2);
+  background-color: var(--accent);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -99,5 +99,31 @@
 
 .abtCanvas {
   width: 100%;
-  max-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.abtCanvas .canv {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--bRadius);
+  padding: 1rem;
+  border: 1px solid gray;
+}
+.abtCanvas .contCard {
+  width: 100%;
+  max-height: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.abtCanvas .contCard h1 {
+  font-size: 6rem;
+  width: 50%;
+}
+.abtCanvas .contCard .contList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }/*# sourceMappingURL=About.css.map */

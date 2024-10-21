@@ -139,7 +139,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         <OrbitControls />
 
         {/* About Page */}
-        <Grid/>
+        {/* <Grid/> */}
       </Canvas>
     </>
   );

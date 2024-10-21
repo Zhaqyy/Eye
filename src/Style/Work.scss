@@ -115,7 +115,7 @@
   // position: absolute;
   // top: 0;
   // left: 0;
-  border-radius: 24px;
+  border-radius: var(--bRadius);
   object-fit: cover;
   transition: transform 1s ease-out;
   // scroll-snap-align: center;
@@ -131,7 +131,7 @@
   height: 150px;
   padding: 1rem 1.5rem;
   margin-block: 5vh;
-  border-radius: 24px;
+  border-radius: var(--bRadius);
 
   .pTitle{
     width: 150px;
@@ -146,14 +146,14 @@
     justify-content: space-between;
     padding-inline: 0.25rem;
     background-color: rgb(175, 175, 175);
-    border-radius: 24px;
+    border-radius: var(--bRadius);
     // border: red 1px solid;
 
     .drag {
       height: 40px;
       width: 65px;
       background-color: whitesmoke;
-      border-radius: 24px;
+      border-radius: var(--bRadius);
       // border: red 1px solid;
     }
     .hit {
@@ -164,7 +164,7 @@
 
   .nextProjImg {
     height: 100%;
-    border-radius: 12px;
+    border-radius: calc(var(--bRadius) / 2);
   }
 }
 
