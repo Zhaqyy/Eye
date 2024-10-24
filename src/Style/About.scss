@@ -11,6 +11,12 @@
   //   justify-content: center;
   gap: 5vw;
   overflow: visible;
+  
+  background-image: radial-gradient(circle, var(--dot) 1px, var(--dot) 1px, transparent 1px, transparent 100%);
+  background-repeat: repeat;
+  background-position: center;
+  background-size: 25px 25px;
+  mask-image: radial-gradient(70% 100%, #151520 70%, transparent 90%);
 }
 .abtInfo {
   display: flex;

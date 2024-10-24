@@ -56,19 +56,19 @@ const Work = () => {
         gsap.fromTo(
           slide,
           {
-            // scale: 1,      // Start from normal scale
+            scale: 1, // Start from normal scale
             // rotateX: 0,    // No initial rotation
             // y: 0,          // No initial Y movement
             // z: 0,          // No initial Z movement
-            // opacity: 1,    // Fully visible
+            opacity: 1, // Fully visible
             filter: "grayscale(0%)", // No grayscale
           },
           {
-            // scale: 0.8,    // Scale down as it scrolls out
+            scale: 0.95, // Scale down as it scrolls out
             // rotateX: 90,   // Flip on the X-axis as it scrolls out
             // y: -100,       // Move up slightly
             // z: -200,       // Move away (depth)
-            // opacity: 0,    // Fade out
+            opacity: 0, // Fade out
             filter: "grayscale(100%)", // Turn grayscale as it fades
             ease: "power1.inOut",
 
@@ -87,6 +87,8 @@ const Work = () => {
 
       // // Creating a scroll effect
       gsap.to(containerRef.current, {
+        //for horizontal
+        // xPercent: -100,
         yPercent: -100,
         ease: "none",
         scrollTrigger: {
@@ -175,7 +177,6 @@ const Work = () => {
         <div className='detail'>
           <div className='desc'>
             <p>{data?.detail}</p>
-            <a href='#'>Live View</a>
           </div>
           <div className='service' ref={serviceRef}>
             <div>
@@ -196,6 +197,10 @@ const Work = () => {
                 ))}
               </ul>
             </div>
+          </div>
+          <div className="liveBtn">
+            <span>⤏</span>
+            <a href={data?.url}>Live View</a>
           </div>
         </div>
       </section>
@@ -273,7 +278,7 @@ export default Work;
 
 // // Creating a scroll effect
 // gsap.to(containerRef.current, {
-//   yPercent: -100,
+//   x: -100,
 //   ease: "none",
 //   scrollTrigger: {
 //     id: `gallery`,
@@ -339,65 +344,58 @@ export default Work;
 // };
 // }, [nextProject, navigate])
 
-
 export const VerticalGallery = ({ images }) => {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
   useEffect(() => {
     const totalCards = images.length;
-    
+
     // Define GSAP ScrollTrigger for snapping and animation
     ScrollTrigger.create({
       trigger: containerRef.current,
-      start: 'top top',
+      start: "top top",
       end: () => `+=${containerRef.current.offsetHeight}`, // adjust end dynamically
       snap: {
         snapTo: 1 / (totalCards - 1), // Snap to each card
         duration: 0.5,
-        ease: 'power1.inOut',
+        ease: "power1.inOut",
       },
       onUpdate: self => updateCards(self.progress),
     });
 
     // Function to dynamically adjust card height based on scroll
-    const updateCards = (progress) => {
+    const updateCards = progress => {
       const currentIndex = Math.round(progress * (totalCards - 1));
-      
+
       // Animate the center card (current one) and the adjacent ones
       cardsRef.current.forEach((card, i) => {
         const distance = Math.abs(currentIndex - i); // Distance from the center
-        
+
         if (distance === 0) {
           // Center card
-          gsap.to(card, { height: '60vh', duration: 0.5 });
+          gsap.to(card, { height: "60vh", duration: 0.5 });
         } else if (distance === 1) {
           // Adjacent cards (before and after)
-          gsap.to(card, { height: '10vh', duration: 0.5 });
+          gsap.to(card, { height: "10vh", duration: 0.5 });
         } else {
           // Other cards (invisible)
-          gsap.to(card, { height: '0vh', duration: 0.5 });
+          gsap.to(card, { height: "0vh", duration: 0.5 });
         }
       });
     };
-
   }, [images]);
 
   return (
-    <div className="gallery-container" ref={containerRef}>
+    <div className='gallery-container' ref={containerRef}>
       {/* {data?.gallery?.map((image, index) => (
           <img src={image} key={index} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
         ))} */}
       {images.map((image, index) => (
-        <div 
-          key={index} 
-          className="gallery-card" 
-          ref={el => (cardsRef.current[index] = el)}
-        >
+        <div key={index} className='gallery-card' ref={el => (cardsRef.current[index] = el)}>
           <img src={image} alt={`Gallery Image ${index}`} />
         </div>
       ))}
     </div>
   );
 };
-

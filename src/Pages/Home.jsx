@@ -13,10 +13,10 @@ function Home({ activeIndex, setActiveIndex }) {
         <nav className='nav'>
           <ul>
             <li className='nav-item'>
-              <Word word={"Overview"} />
+              <Word word={"Overview"} url="/" />
             </li>
             <li className='nav-item'>
-              <Word word={"About"} />
+              <Word word={"About"} url="/About" />
             </li>
             <li className='nav-item'>
               <Word word={"Lab"} />

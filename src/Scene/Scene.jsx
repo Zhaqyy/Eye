@@ -136,7 +136,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <Rig /> */}
         {/* <CarouselWrap /> */}
         <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-        <OrbitControls />
+        {/* <OrbitControls /> */}
 
         {/* About Page */}
         {/* <Grid/> */}

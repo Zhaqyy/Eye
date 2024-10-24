@@ -4,7 +4,7 @@
   padding: 0 5vw;
   display: inline-flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   gap: 5vw;
   overflow: visible;
 }
@@ -25,12 +25,13 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   justify-items: center;
   min-height: 200px;
+  gap: 1.5rem;
 }
 .work .detail .desc,
 .work .detail .service {
   max-width: 300px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   gap: 2.5vh;
@@ -51,14 +52,45 @@
 .work .detail .service .stack ul li:last-child::after {
   content: "";
 }
+.work .detail .liveBtn {
+  width: 100%;
+  filter: contrast(10);
+}
+.work .detail .liveBtn span {
+  width: 40px;
+  height: 40px;
+  padding: 0.5rem;
+  display: inline-block;
+  text-align: center;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  background-color: white;
+  color: black;
+  transform-origin: right;
+  transition: all 0.5s ease-in-out;
+}
+.work .detail .liveBtn span:hover::before {
+  transform: rotateY(180deg);
+  width: 100px;
+}
+.work .detail .liveBtn a {
+  padding: 0.5rem 1rem;
+  position: relative;
+  border: 2px solid var(--border);
+  border-radius: var(--bRadius);
+  transition: all 0.5s ease-in-out;
+}
 
 .gallery {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   min-height: 100vh;
   position: relative;
-  padding-block: 10vh;
   gap: 5vh;
+}
+.gallery .image-slide:first-of-type {
+  margin-top: 10vh;
 }
 
 .image-slide {
