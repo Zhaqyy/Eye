@@ -1,4 +1,4 @@
-import { Environment, MeshReflectorMaterial, OrbitControls, QuadraticBezierLine, useTexture } from "@react-three/drei";
+import { Environment, Lightformer, MeshReflectorMaterial, OrbitControls, QuadraticBezierLine, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import { Eye } from "./BgScene/Eye";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -9,22 +9,21 @@ import { Perf } from "r3f-perf";
 import Carousel from "./Carousel/Carousel";
 import CarouselWrap from "./Carousel/CarouselOld";
 
-
-
 // import * as THREE from 'three';
-import { extend } from '@react-three/fiber';
-import { shaderMaterial } from '@react-three/drei';
+import { extend } from "@react-three/fiber";
+import { shaderMaterial } from "@react-three/drei";
 import Grid from "./Grid";
 import Grass from "./BgScene/Grass";
+import SwayingGrass from "./BgScene/g";
 // import { useRef } from 'react';
 // import { useControls } from 'leva';
 
 // Extend BasicMaterial with a custom vertex shader
 const BasicVertexMaterial = shaderMaterial(
   {
-    uRadius: 1.0,         // Radius of the depression
-    uDepth: 1.0,          // Depth of the depression
-    uIrregularity: 0.2,   // Irregularity for natural bumpiness
+    uRadius: 1.0, // Radius of the depression
+    uDepth: 1.0, // Depth of the depression
+    uIrregularity: 0.2, // Irregularity for natural bumpiness
   },
   // Vertex Shader
   `
@@ -81,19 +80,13 @@ extend({ BasicVertexMaterial });
 function DepressedPlane() {
   const meshRef = useRef();
 
-
   return (
     <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
       <planeGeometry args={[10, 10, 100, 100]} /> {/* Higher segments for smoother deformation */}
-      <basicVertexMaterial
-        uDepth={0.5}
-        uRadius={0.5}
-        uIrregularity={0.1}
-      />
+      <basicVertexMaterial uDepth={0.5} uRadius={0.5} uIrregularity={0.1} />
     </mesh>
   );
 }
-
 
 const Scene = ({ activeIndex, setActiveIndex }) => {
   const eye = useRef();
@@ -113,27 +106,35 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 
   return (
     <>
-      <Canvas 
-      camera={{ fov: 70, position: [0, 0, 5], far:150 }}
-      >
+      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }}>
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
         <fog attach='fog' args={["#050505", 5, 10]} />
+
+        <Environment resolution={32} background>
+          <group rotation={[-Math.PI / 4, -0.3, 0]}>
+            <Lightformer intensity={1} rotation-x={Math.PI / 2} position={[0, 1, -5]} scale={[10, 10, 1]} />
+            <Lightformer intensity={1} rotation-y={Math.PI} position={[-5, -1, -1]} scale={[20, 2, 1]} />
+            <Lightformer intensity={1} rotation-y={-Math.PI / 2} position={[5, 1, 0]} scale={[20, 2, 1]} />
+            <Lightformer type='ring' intensity={2} rotation-y={Math.PI / 2} position={[-0.1, -1, -5]} scale={20} />
+          </group>
+        </Environment>
+        <SwayingGrass />
         {/* <Simulation width={1024} height={1024} /> */}
         {/* <FBOParticles/> */}
         {/* <FlowOverlay/> */}
         {/* <Eye ref={eye} position={[0,1,0]} /> */}
-      {/* {positions.map((pos, idx) => (
+        {/* {positions.map((pos, idx) => (
         <Tether key={idx} start={eye} end={pos} />
       ))} */}
         {/* <Tether start={eye} end={ghost} /> */}
         {/* <InstancedTether start={eye} positions={positions} /> */}
-        <ambientLight intensity={20} />
+        {/* <ambientLight intensity={20} /> */}
         {/* <Disc/> */}
         {/* <Simulation width={1024} height={1024} /> */}
-        <Environment preset='night' environmentIntensity={1.5} />
-        <Grass/>
-      {/* <DepressedPlane /> */}
+        {/* <Environment preset='night' environmentIntensity={1.5} /> */}
+        {/* <Grass/> */}
+        {/* <DepressedPlane /> */}
         {/* <Ground /> */}
         {/* <Rig /> */}
         {/* <CarouselWrap /> */}

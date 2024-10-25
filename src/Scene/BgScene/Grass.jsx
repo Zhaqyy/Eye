@@ -18,7 +18,7 @@ export default function Grass({ options = { bW: 0.1, bH: 1, joints: 5 }, width =
   // Dynamically calculate width based on viewport dimensions with extra buffer space
   const dynamicWidth = viewport.width * 1.25;
   const dynamicBW = options.bW * (viewport.width / 12); // Scale bW relative to the viewport width
-  const dynamicBH = options.bH * (viewport.height / 12); // Scale bH relative to the viewport height
+  const dynamicBH = options.bH * (viewport.height / 15); // Scale bH relative to the viewport height
 
   const attributeData = useMemo(() => getAttributeData(instances, dynamicWidth), [instances, dynamicWidth]);
   // Generate base geometry for grass blades with dynamic dimensions
