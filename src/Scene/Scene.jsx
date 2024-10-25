@@ -1,10 +1,10 @@
 import { Environment, MeshReflectorMaterial, OrbitControls, QuadraticBezierLine, useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { Eye } from "./Eye";
+import { Eye } from "./BgScene/Eye";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useMemo, useRef, useState } from "react";
-import Disc from "./NoiseFlow";
-import Simulation from "./FlowOver";
+import Disc from "./Helper/NoiseFlow";
+import Simulation from "./Helper/FlowOver";
 import { Perf } from "r3f-perf";
 import Carousel from "./Carousel/Carousel";
 import CarouselWrap from "./Carousel/CarouselOld";
@@ -15,6 +15,7 @@ import CarouselWrap from "./Carousel/CarouselOld";
 import { extend } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 import Grid from "./Grid";
+import Grass from "./BgScene/Grass";
 // import { useRef } from 'react';
 // import { useControls } from 'leva';
 
@@ -113,7 +114,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
   return (
     <>
       <Canvas 
-      camera={{ fov: 70, position: [0, 0, 5], far:15 }}
+      camera={{ fov: 70, position: [0, 0, 5], far:150 }}
       >
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
@@ -127,16 +128,17 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
       ))} */}
         {/* <Tether start={eye} end={ghost} /> */}
         {/* <InstancedTether start={eye} positions={positions} /> */}
-        <ambientLight intensity={2} />
+        <ambientLight intensity={20} />
         {/* <Disc/> */}
         {/* <Simulation width={1024} height={1024} /> */}
         <Environment preset='night' environmentIntensity={1.5} />
+        <Grass/>
       {/* <DepressedPlane /> */}
         {/* <Ground /> */}
         {/* <Rig /> */}
         {/* <CarouselWrap /> */}
-        <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-        {/* <OrbitControls /> */}
+        {/* <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} /> */}
+        <OrbitControls />
 
         {/* About Page */}
         {/* <Grid/> */}
