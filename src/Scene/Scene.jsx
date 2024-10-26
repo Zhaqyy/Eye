@@ -13,80 +13,11 @@ import CarouselWrap from "./Carousel/CarouselOld";
 import { extend } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
 import Grid from "./Grid";
-import Grass from "./BgScene/Grass";
-import SwayingGrass from "./BgScene/g";
+import { BgModel } from "./BgScene/BgModel";
+import Grass from "./BgScene/GrassFloor";
 // import { useRef } from 'react';
 // import { useControls } from 'leva';
 
-// Extend BasicMaterial with a custom vertex shader
-const BasicVertexMaterial = shaderMaterial(
-  {
-    uRadius: 1.0, // Radius of the depression
-    uDepth: 1.0, // Depth of the depression
-    uIrregularity: 0.2, // Irregularity for natural bumpiness
-  },
-  // Vertex Shader
-  `
-    uniform float uRadius;
-    uniform float uDepth;
-    uniform float uIrregularity;
-
-    varying vec2 vUv;
-
-    // Simple 2D noise for irregularity
-    float random(vec2 st) {
-      return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
-    }
-
-    void main() {
-      vUv = uv;
-
-      vec3 pos = position;
-
-      // Calculate distance from center of the plane (0.5, 0.5 in UV space)
-      float dist = distance(uv, vec2(0.5, 0.5));
-
-      // Smooth depression effect
-      float depression = smoothstep(uRadius, 0.0, dist) * uDepth;
-
-      // Add random irregularity near the center for natural elevation
-      float irregularity = random(uv) * uIrregularity * (1.0 - dist);
-
-      // Apply depression and irregularity to the z-coordinate
-      pos.z -= depression;
-      pos.z += irregularity;
-
-      // Standard transformation
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-    }
-  `,
-  // Fragment Shader
-  `
-    varying vec2 vUv;
-
-    void main() {
-      // gl_FragColor = vec4(0.5); // Keep basic material appearance
-      float x = gl_FragCoord.x / 500.0;
-      vec3 color = vec3(x);
-    
-      gl_FragColor = vec4(color,1.0);
-    }
-  `
-);
-
-// Register the extended material with R3F
-extend({ BasicVertexMaterial });
-
-function DepressedPlane() {
-  const meshRef = useRef();
-
-  return (
-    <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-      <planeGeometry args={[10, 10, 100, 100]} /> {/* Higher segments for smoother deformation */}
-      <basicVertexMaterial uDepth={0.5} uRadius={0.5} uIrregularity={0.1} />
-    </mesh>
-  );
-}
 
 const Scene = ({ activeIndex, setActiveIndex }) => {
   const eye = useRef();
@@ -109,9 +40,11 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
       <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }}>
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
-        <fog attach='fog' args={["#050505", 5, 10]} />
+        {/* <fog attach='fog' args={["#050505", 5, 10]} /> */}
 
-        <Environment resolution={32} background>
+        <Environment resolution={32} 
+        // background
+        >
           <group rotation={[-Math.PI / 4, -0.3, 0]}>
             <Lightformer intensity={1} rotation-x={Math.PI / 2} position={[0, 1, -5]} scale={[10, 10, 1]} />
             <Lightformer intensity={1} rotation-y={Math.PI} position={[-5, -1, -1]} scale={[20, 2, 1]} />
@@ -119,7 +52,8 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
             <Lightformer type='ring' intensity={2} rotation-y={Math.PI / 2} position={[-0.1, -1, -5]} scale={20} />
           </group>
         </Environment>
-        <SwayingGrass />
+
+        {/* <BgModel/> */}
         {/* <Simulation width={1024} height={1024} /> */}
         {/* <FBOParticles/> */}
         {/* <FlowOverlay/> */}
@@ -133,9 +67,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <Disc/> */}
         {/* <Simulation width={1024} height={1024} /> */}
         {/* <Environment preset='night' environmentIntensity={1.5} /> */}
-        {/* <Grass/> */}
-        {/* <DepressedPlane /> */}
-        {/* <Ground /> */}
+        <Grass/>
         {/* <Rig /> */}
         {/* <CarouselWrap /> */}
         {/* <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} /> */}
@@ -149,32 +81,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 };
 export default Scene;
 
-function Ground() {
-  const [floor, normal] = useTexture(["/Texture/si-col.webp", "/Texture/si-norm.webp"]);
-  return (
-    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-      <planeGeometry args={[10, 10]} />
-      <MeshReflectorMaterial
-        blur={[400, 100]}
-        resolution={512}
-        mixBlur={2}
-        mixStrength={1.5}
-        mirror={1}
-        roughness={4}
-        roughnessMap={floor}
-        depthScale={1.2}
-        minDepthThreshold={0.4}
-        maxDepthThreshold={1.4}
-        // color="#050505"
-        metalness={0}
-        reflectorOffset={-0.2}
-        normalMap={normal}
-        normalScale={[3, 3]}
-        fog
-      />
-    </mesh>
-  );
-}
+
 function Rig() {
   const [vec] = useState(() => new THREE.Vector3());
   useFrame(state => {
