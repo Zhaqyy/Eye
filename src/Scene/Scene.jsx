@@ -37,7 +37,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 
   return (
     <>
-      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }}>
+      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }} gl={{ localClippingEnabled: true }} >
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
         {/* <fog attach='fog' args={["#050505", 5, 10]} /> */}

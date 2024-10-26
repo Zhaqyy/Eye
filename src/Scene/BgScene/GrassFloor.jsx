@@ -88,7 +88,7 @@ const Grass = () => {
       u_sway: { value: 0.5 },
       u_displacement: { value: d },
       u_planeSize: { value: new THREE.Vector2(viewport.width, viewport.width) },
-      u_minHeight: { value: 1.1 }, // Minimum height threshold
+      u_minHeight: { value: 1.2 }, // Minimum height threshold
     },
     vertexShader: vertexShader,
     fragmentShader: fragmentShader,
@@ -114,7 +114,7 @@ const Grass = () => {
         displacementMap={d} displacementScale={10} />
       </mesh>
       <instancedMesh ref={meshRef} args={[undefined, undefined, amount]}>
-        <coneGeometry args={[0.05, 0.95, 2, 20, false, 0, Math.PI]} />
+        <coneGeometry args={[0.05, 0.6, 2, 20, false, 0, Math.PI]} />
         <shaderMaterial args={[shader]} side={THREE.DoubleSide} />
       </instancedMesh>
       {/* {fireflies} */}
@@ -193,7 +193,7 @@ export default Grass;
 function Ground() {
   const [floor, normal] = useTexture(["/Texture/si-col.webp", "/Texture/si-norm.webp"]);
   return (
-    <mesh position={[0, 0, 1]}>
+    <mesh position={[0, 0, 1.2]}>
       <planeGeometry args={[10, 10]} />
       <MeshReflectorMaterial
         blur={[400, 100]}
