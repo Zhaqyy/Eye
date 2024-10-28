@@ -30,7 +30,7 @@ const Grass = () => {
   // --------------------------------------------
   // initialize matrix
 
-  const amount = 10000;
+  const amount = 20000;
   const updateMatrix = useCallback(() => {
     const object = new THREE.Object3D();
     const samplingPosition = new THREE.Vector3();
@@ -101,20 +101,20 @@ const Grass = () => {
   return (
     <group
       rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, -2, 1]}
+      position={[0, -3, -2]}
       // onPointerMove={handleHover}
     >
       <mesh
         geometry={samplingGeometry}
         position={[0, 0, 0.15]}
       >
-        <meshStandardMaterial color='#ffffff' 
+        <meshStandardMaterial color='#002f00' 
         normalMap={n} 
         // aoMap={ao} 
         displacementMap={d} displacementScale={10} />
       </mesh>
       <instancedMesh ref={meshRef} args={[undefined, undefined, amount]}>
-        <coneGeometry args={[0.05, 0.6, 2, 20, false, 0, Math.PI]} />
+        <coneGeometry args={[0.05, 0.8, 2, 20, false, 0, Math.PI]} />
         <shaderMaterial args={[shader]} side={THREE.DoubleSide} />
       </instancedMesh>
       {/* {fireflies} */}
