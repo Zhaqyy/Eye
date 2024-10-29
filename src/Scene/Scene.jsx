@@ -45,16 +45,17 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
   return (
     <>
       <Canvas
-        camera={{ fov: 70, position: [0, 0, 5], far: 150 }}
-        // gl={{ localClippingEnabled: true }}
+        camera={{ fov: 70, position: [0, 0, 5], far: 15 }}
       >
         {/* Lights */}
-        <ambientLight intensity={1.5} />
+        <ambientLight intensity={0.95} />
         <pointLight position={[0, 1, -2]} color='red' intensity={90} />
-        <SpotLight
+        <pointLight position={[0, 5, 0]} color='white' intensity={110} />
+        <pointLight position={[-3, 5, 0]} color='#72ada8' intensity={100} />
+        {/* <SpotLight
           // castShadow
           // target={[0,0,0]}
-          position={[0, 7, 3]}
+          position={[5, 7, 3]}
           penumbra={0.2}
           radiusTop={0.4}
           radiusBottom={40}
@@ -64,7 +65,23 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
           anglePower={5}
           intensity={1}
           opacity={0.1}
-        />
+        /> */}
+        {/* <SpotLight
+          // castShadow
+          // target={[0,0,0]}
+          color={'#344767'}
+          position={[-3, 7, 3]}
+          penumbra={0.2}
+          radiusTop={0.4}
+          radiusBottom={40}
+          distance={80}
+          angle={0.45}
+          attenuation={20}
+          anglePower={5}
+          intensity={1}
+          opacity={0.1}
+        /> */}
+        
 
 
         {/* Main Scene */}

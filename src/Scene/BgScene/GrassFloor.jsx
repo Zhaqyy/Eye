@@ -11,6 +11,7 @@ const Grass = () => {
   const { viewport, raycaster, pointer } = useThree(); // To get viewport width
   const n = useTexture("/Texture/n.jpg");
   const d = useTexture("/Texture/d.jpg");
+  const c = useTexture("/Texture/rm.jpg");
 
   // --------------------------------------------
   // sampling geometry (plane geometry with dynamic width)
@@ -85,10 +86,12 @@ const Grass = () => {
         geometry={samplingGeometry}
         position={[0, 0, 0.15]}
       >
-        <meshStandardMaterial color='#002f00' 
+        <meshStandardMaterial 
+        color='#2b2b2b' 
         normalMap={n} 
-        // aoMap={ao} 
-        displacementMap={d} displacementScale={10} />
+        map={c}
+        displacementMap={d} 
+        displacementScale={10} />
       </mesh>
       {/* <instancedMesh ref={meshRef} args={[undefined, undefined, amount]}>
         <coneGeometry args={[0.05, 0.8, 2, 20, false, 0, Math.PI]} />
@@ -171,110 +174,20 @@ function Ground() {
     <mesh position={[0, 0, 1.2]}>
       <planeGeometry args={[10, 10]} />
       <MeshReflectorMaterial
-        blur={[400, 100]}
-        resolution={512}
-        mixBlur={2}
-        mixStrength={1.5}
+        mixStrength={0.5}
         mirror={1}
         roughness={4}
         roughnessMap={floor}
-        depthScale={1.2}
-        minDepthThreshold={0.4}
-        maxDepthThreshold={1.4}
-        // color="#050505"
-        metalness={0}
-        reflectorOffset={-0.2}
         normalMap={normal}
         normalScale={[3, 3]}
         fog
+        blur={[400, 400]}
+        resolution={512}
+        mixBlur={1}
+        depthScale={1}
+        minDepthThreshold={0.85}
+        metalness={0}
       />
     </mesh>
   );
 }
-
-// const Fireflies = ({ count = 100 }) => {
-//   const pointsRef = useRef();
-//   const { viewport, pointer, raycaster, camera } = useThree();
-
-//   const fireflyPositions = useMemo(() => {
-//     const positions = [];
-//     for (let i = 0; i < count; i++) {
-//       positions.push((Math.random() - 0.5) * viewport.width, (Math.random() - 0.5) * viewport.width, Math.random() * 0.5);
-//     }
-//     return new Float32Array(positions);
-//   }, [count, viewport]);
-
-//   useFrame(state => {
-//     if (pointsRef.current) {
-//       // Fireflies float effect
-//       const positions = pointsRef.current.geometry.attributes.position.array;
-//       // for (let i = 0; i < count; i++) {
-//       //   const zIndex = i * 3 + 2; // Z-axis position
-//       //   positions[zIndex] += Math.sin(state.clock.elapsedTime + i) * 0.01;
-//       // }
-//       pointsRef.current.geometry.attributes.position.needsUpdate = true;
-//     }
-//   });
-
-//   const handleHover = useCallback(
-//     event => {
-//       raycaster.setFromCamera(pointer, camera);
-//       const intersects = raycaster.intersectObject(pointsRef.current);
-
-//       if (intersects.length > 0) {
-//         const { point } = intersects[0];
-//         for (let i = 0; i < fireflyPositions.length; i += 3) {
-//           const fireflyPos = new THREE.Vector3(fireflyPositions[i], fireflyPositions[i + 1], fireflyPositions[i + 2]);
-
-//           if (fireflyPos.distanceTo(point) < 1) {
-//             // Trigger animation on nearby fireflies
-//             fireflyPositions[i + 2] += 0.5; // Fly up effect
-//             pointsRef.current.geometry.attributes.position.needsUpdate = true;
-//           }
-//         }
-//       }
-//     },
-//     [fireflyPositions]
-//   );
-
-//   return (
-//     <points ref={pointsRef} onPointerMove={handleHover}>
-//       <bufferGeometry>
-//         <bufferAttribute attach='attributes-position' count={fireflyPositions.length / 3} array={fireflyPositions} itemSize={3} />
-//       </bufferGeometry>
-//       <pointsMaterial size={0.1} color='yellow' transparent opacity={0.6} />
-//     </points>
-//   );
-// };
-
-// const Fireflies = ({ count = 100 }) => {
-//   const pointsRef = useRef();
-//   const { viewport } = useThree();
-//   const fireflyPositions = useMemo(() => {
-//     const positions = [];
-//     for (let i = 0; i < count; i++) {
-//       positions.push((Math.random() - 0.5) * viewport.width, (Math.random() - 0.5) * viewport.width, Math.random() * 0.5);
-//     }
-//     return new Float32Array(positions);
-//   }, [count, viewport]);
-
-//   useFrame(state => {
-//     if (pointsRef.current) {
-//       const positions = pointsRef.current.geometry.attributes.position.array;
-//       for (let i = 0; i < count; i++) {
-//         const zIndex = i * 3 + 2; // Z-axis position
-//         positions[zIndex] += Math.sin(state.clock.elapsedTime + i) * 0.01; // Simple up/down float
-//       }
-//       pointsRef.current.geometry.attributes.position.needsUpdate = true;
-//     }
-//   });
-
-//   return (
-//     <points ref={pointsRef}>
-//       <bufferGeometry>
-//         <bufferAttribute attach='attributes-position' count={fireflyPositions.length / 3} array={fireflyPositions} itemSize={3} />
-//       </bufferGeometry>
-//       <pointsMaterial size={0.1} color='yellow' transparent opacity={0.6} />
-//     </points>
-//   );
-// };
