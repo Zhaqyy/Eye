@@ -2,7 +2,7 @@ import * as THREE from "three";
 import React, { useRef, useState, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { EllipseCurve, CatmullRomCurve3, Vector3 } from "three";
-
+import FakeGlowMaterial from '../Helper/FakeGlowMaterial.jsx'
 function Pillar(props) {
   const sphereRef = useRef();
   const { pointer } = useThree();
@@ -34,23 +34,34 @@ function Pillar(props) {
       {/* Half-circle tube */}
       <mesh>
         <tubeGeometry args={[curve, 16, 0.25, 5, false]} />
-        <meshStandardMaterial color={"#242424"} />
+        {/* <meshStandardMaterial color={"#242424"} /> */}
+        <meshPhongMaterial color={"#242424"} shininess={100} />
       </mesh>
 
       {/* Circular end caps */}
       <mesh position={pathPoints[0]} rotation={[Math.PI / 2, 0, Math.PI / 2]}>
         <circleGeometry args={[0.25, 5]} />
-        <meshStandardMaterial color={"#242424"} />
+        {/* <meshStandardMaterial color={"#242424"} /> */}
+        <meshPhongMaterial color={"#242424"} shininess={100} />
       </mesh>
       <mesh position={pathPoints[pathPoints.length - 1]} rotation={[Math.PI / 2, 0, Math.PI / 2]}>
         <circleGeometry args={[0.25, 5]} />
-        <meshStandardMaterial color={"#242424"} />
+        {/* <meshStandardMaterial color={"#242424"} /> */}
+        <meshPhongMaterial color={"#242424"} shininess={100} />
       </mesh>
 
       {/* Sphere following the path */}
       <mesh ref={sphereRef} position={[0, 0, 0]}>
         <sphereGeometry args={[0.25, 16, 16]} />
-        <meshStandardMaterial color={"#ff6347"} emissive={"#ff6347"} emissiveIntensity={0.6} />
+        {/* <meshStandardMaterial color={"#ff6347"} emissive={"#ff6347"} emissiveIntensity={0.6} /> */}
+        <FakeGlowMaterial
+    falloff={0.25}
+    glowInternalRadius={1.0}
+    glowColor={"#ff0000"}
+    glowSharpness={1}
+    side={"THREE.FrontSide"}
+    opacity={1.0}
+/>
       </mesh>
     </group>
   );

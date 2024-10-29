@@ -1,4 +1,12 @@
-import { Environment, Lightformer, MeshReflectorMaterial, OrbitControls, QuadraticBezierLine, useTexture } from "@react-three/drei";
+import {
+  Environment,
+  Lightformer,
+  MeshReflectorMaterial,
+  OrbitControls,
+  QuadraticBezierLine,
+  SpotLight,
+  useTexture,
+} from "@react-three/drei";
 import * as THREE from "three";
 import { Eye } from "./BgScene/Eye";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -40,6 +48,33 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         camera={{ fov: 70, position: [0, 0, 5], far: 150 }}
         // gl={{ localClippingEnabled: true }}
       >
+        {/* Lights */}
+        <ambientLight intensity={1.5} />
+        <pointLight position={[0, 1, -2]} color='red' intensity={90} />
+        <SpotLight
+          // castShadow
+          // target={[0,0,0]}
+          position={[0, 7, 3]}
+          penumbra={0.2}
+          radiusTop={0.4}
+          radiusBottom={40}
+          distance={80}
+          angle={0.45}
+          attenuation={20}
+          anglePower={5}
+          intensity={1}
+          opacity={0.1}
+        />
+
+
+        {/* Main Scene */}
+        <group position={[0, 0, -1]}>
+          <Pillars />
+          <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+        </group>
+        <Grass />
+
+        {/* Scene & Utils */}
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
         <fog attach='fog' args={["#050505", 5, 10]} />
@@ -47,6 +82,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         <Environment
           resolution={8}
           // background
+          // environmentIntensity={5.5}
         >
           <group rotation={[-Math.PI / 4, -0.3, 0]}>
             <Lightformer intensity={1} rotation-x={Math.PI / 2} position={[0, 1, -5]} scale={[10, 10, 1]} />
@@ -55,9 +91,20 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
             <Lightformer type='ring' intensity={2} rotation-y={Math.PI / 2} position={[-0.1, -1, -5]} scale={20} />
           </group>
         </Environment>
-        <Pillars />
-        {/* <BgModel/> */}
+        <OrbitControls />
+        {/* <Environment preset='night' environmentIntensity={1.5} /> */}
+        {/* <Rig /> */}
+
+
+        {/* About Page Tests */}
+        {/* <Grid/> */}
+
+
+        {/* Unused */}
         {/* <Simulation width={1024} height={1024} /> */}
+        {/* <Disc/> */}
+        {/* <Simulation width={1024} height={1024} /> */}
+        {/* <CarouselWrap /> */}
         {/* <FBOParticles/> */}
         {/* <FlowOverlay/> */}
         {/* <Eye ref={eye} position={[0,1,0]} /> */}
@@ -66,18 +113,6 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
       ))} */}
         {/* <Tether start={eye} end={ghost} /> */}
         {/* <InstancedTether start={eye} positions={positions} /> */}
-        <ambientLight intensity={2} />
-        {/* <Disc/> */}
-        {/* <Simulation width={1024} height={1024} /> */}
-        {/* <Environment preset='night' environmentIntensity={1.5} /> */}
-        {/* <Grass/> */}
-        {/* <Rig /> */}
-        {/* <CarouselWrap /> */}
-        <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-        <OrbitControls />
-
-        {/* About Page */}
-        {/* <Grid/> */}
       </Canvas>
     </>
   );

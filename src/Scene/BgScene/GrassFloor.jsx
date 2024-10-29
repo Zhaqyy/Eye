@@ -47,37 +47,14 @@ const Grass = () => {
     meshRef.current.instanceMatrix.needsUpdate = true;
   }, [amount, sampler]);
 
-  useEffect(() => {
-    // Fixed cone matrix
-    meshRef.current.geometry.applyMatrix4(new THREE.Matrix4().makeRotationX(Math.PI / 2));
-    meshRef.current.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, 0.25));
+  // useEffect(() => {
+  //   // Fixed cone matrix
+  //   meshRef.current.geometry.applyMatrix4(new THREE.Matrix4().makeRotationX(Math.PI / 2));
+  //   meshRef.current.geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(0, 0, 0.25));
 
-    updateMatrix();
-  }, [updateMatrix]);
+  //   updateMatrix();
+  // }, [updateMatrix]);
 
-  // --------------------------------------------
-  // add fireflies
-
-  // const fireflyRef = useRef();
-
-  // const fireflies = useMemo(() => new Fireflies({ count: 1000 }), []);
-
-  // const handleHover = event => {
-  //   raycaster.setFromCamera(pointer, event.camera);
-  //   const intersects = raycaster.intersectObject(meshRef.current);
-
-  //   if (intersects.length > 0) {
-  //     const { point } = intersects[0];
-  //     // Check each firefly's distance to the cursor
-  //     fireflyRef.current.children.forEach(firefly => {
-  //       const distance = firefly.position.distanceTo(point);
-  //       if (distance < 1) {
-  //         firefly.material.opacity = 1; // Make firefly visible
-  //         firefly.position.y += 0.01; // Simple "fly up" effect
-  //       }
-  //     });
-  //   }
-  // };
 
   // --------------------------------------------
   // create shader
@@ -101,7 +78,7 @@ const Grass = () => {
   return (
     <group
       rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, -3, -2]}
+      position={[0, -3.5, 2]}
       // onPointerMove={handleHover}
     >
       <mesh
@@ -113,12 +90,10 @@ const Grass = () => {
         // aoMap={ao} 
         displacementMap={d} displacementScale={10} />
       </mesh>
-      <instancedMesh ref={meshRef} args={[undefined, undefined, amount]}>
+      {/* <instancedMesh ref={meshRef} args={[undefined, undefined, amount]}>
         <coneGeometry args={[0.05, 0.8, 2, 20, false, 0, Math.PI]} />
         <shaderMaterial args={[shader]} side={THREE.DoubleSide} />
-      </instancedMesh>
-      {/* {fireflies} */}
-      {/* <Fireflies count={1000} /> */}
+      </instancedMesh> */}
       <Ground/>
     </group>
   );
