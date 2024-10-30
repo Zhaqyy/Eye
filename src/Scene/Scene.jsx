@@ -5,6 +5,7 @@ import {
   OrbitControls,
   QuadraticBezierLine,
   SpotLight,
+  useDepthBuffer,
   useTexture,
 } from "@react-three/drei";
 import * as THREE from "three";
@@ -23,6 +24,8 @@ import { shaderMaterial } from "@react-three/drei";
 import Grid from "./Grid";
 import Pillars from "./BgScene/Pillars";
 import Grass from "./BgScene/GrassFloor";
+import FakeGlowMaterial from "./Helper/FakeGlowMaterial";
+import VolLight from "./Helper/VolumetricLight";
 // import { useRef } from 'react';
 // import { useControls } from 'leva';
 
@@ -44,57 +47,11 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 
   return (
     <>
-      <Canvas
-        camera={{ fov: 70, position: [0, 0, 5], far: 15 }}
-      >
-        {/* Lights */}
-        <ambientLight intensity={0.95} />
-        <pointLight position={[0, 1, -2]} color='red' intensity={90} />
-        <pointLight position={[0, 5, 0]} color='white' intensity={110} />
-        <pointLight position={[-3, 5, 0]} color='#72ada8' intensity={100} />
-        {/* <SpotLight
-          // castShadow
-          // target={[0,0,0]}
-          position={[5, 7, 3]}
-          penumbra={0.2}
-          radiusTop={0.4}
-          radiusBottom={40}
-          distance={80}
-          angle={0.45}
-          attenuation={20}
-          anglePower={5}
-          intensity={1}
-          opacity={0.1}
-        /> */}
-        {/* <SpotLight
-          // castShadow
-          // target={[0,0,0]}
-          color={'#344767'}
-          position={[-3, 7, 3]}
-          penumbra={0.2}
-          radiusTop={0.4}
-          radiusBottom={40}
-          distance={80}
-          angle={0.45}
-          attenuation={20}
-          anglePower={5}
-          intensity={1}
-          opacity={0.1}
-        /> */}
-        
-
-
-        {/* Main Scene */}
-        <group position={[0, 0, -1]}>
-          <Pillars />
-          <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-        </group>
-        <Grass />
-
+      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }}>
         {/* Scene & Utils */}
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
-        <fog attach='fog' args={["#050505", 5, 10]} />
+        {/* <fog attach='fog' args={["#050505", 5, 10]} /> */}
 
         <Environment
           resolution={8}
@@ -112,10 +69,43 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <Environment preset='night' environmentIntensity={1.5} /> */}
         {/* <Rig /> */}
 
+        {/* Lights */}
+        <ambientLight intensity={0.95} />
+        {/* <pointLight position={[0, 5, 0]} color='white' intensity={110} /> */}
+        {/* <pointLight position={[-2, 5, 0]} color='#72ada8' intensity={100} /> */}
+        {/* <VolLight position={[3, 2, -1]} rotation={[0, -Math.PI / 2, 0]} color='#d0d0d0' opacity={0.92} radius={5} length={9} /> */}
+        {/* <VolLight position={[-5, -4, 1]} rotation={[0, 0, 0]} color="#d0d0d0" opacity={0.1} length={5} /> */}
+        {/* <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color="#6f95a2" opacity={0.92} length={15} /> */}
+        <VolLight position={[0, 2, -1]} rotation={[0, 0, 0]} color="#6f95a2" opacity={0.95} glowSharpness={0.6} fallOff={0.5}>
+        <coneGeometry args={[5, 5, 32, 1, true, 0]}  />
+        </VolLight>
+
+{/* <Foo/> */}
+{/* <SpotLight
+          // castShadow
+          // target={[0,0,0]}
+          color={'#ffffff'}
+          position={[-3, 5, 3]}
+          penumbra={0.2}
+          radiusTop={0.4}
+          radiusBottom={40}
+          distance={80}
+          angle={0.85}
+          attenuation={20}
+          anglePower={5}
+          intensity={1}
+          opacity={0.1}
+        /> */}
+
+        {/* Main Scene */}
+        <group position={[0, 0, -1]}>
+          <Pillars />
+          <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+        </group>
+        <Grass />
 
         {/* About Page Tests */}
         {/* <Grid/> */}
-
 
         {/* Unused */}
         {/* <Simulation width={1024} height={1024} /> */}
@@ -189,4 +179,9 @@ function InstancedTether({ start, positions }) {
   });
 
   return <instancedMesh ref={meshRef} args={[geometry, material, count]} />;
+}
+
+function Foo() {
+  const depthBuffer = useDepthBuffer()
+  return <SpotLight depthBuffer={depthBuffer} />
 }

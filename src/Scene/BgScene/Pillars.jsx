@@ -7,6 +7,7 @@ import { Billboard, Shadow, Sparkles } from "@react-three/drei";
 import { Depth, LayerMaterial } from "lamina";
 function Pillar(props) {
   const sphereRef = useRef();
+  const lightRef = useRef();
   const { pointer } = useThree();
   const [mouseY, setMouseY] = useState(0);
 
@@ -14,6 +15,10 @@ function Pillar(props) {
   const halfEllipseCurve = new EllipseCurve(0, 0, 2, 1, 0, Math.PI, false, 0);
   const pathPoints = halfEllipseCurve.getPoints(50).map(p => new Vector3(p.x, p.y, 0));
   const curve = new CatmullRomCurve3(pathPoints, false);
+
+  // Tube height limits for clamping
+  const minY = pathPoints[0].y; // Bottom of the tube
+  const maxY = pathPoints[pathPoints.length - 1].y; // Top of the tube
 
   // Smooth the mouseY value using lerp
   useFrame(() => {
@@ -28,6 +33,12 @@ function Pillar(props) {
 
       // Apply an offset on x-axis for peeking effect
       sphereRef.current.position.set(pointOnPath.x, pointOnPath.y - 0.5, pointOnPath.z);
+    }
+
+    // Update point light position with clamped y-value
+    if (lightRef.current) {
+      const clampedY = Math.min(Math.max(lerpedY * (maxY - minY) + minY, minY), maxY);
+      lightRef.current.position.set(0, lerpedY, -2); // Only updating y-axis, x and z remain constant
     }
   });
 
@@ -48,8 +59,12 @@ function Pillar(props) {
         <circleGeometry args={[0.25, 5]} />
         <meshPhongMaterial color={"#242424"} shininess={100} />
       </mesh>
+
       {/* Sphere following the path */}
       <Sphere ref={sphereRef} color='#ff0000' amount={20} emissive='#ff0000' glow='#ff0000' size={0.25} />
+
+      {/* Moving point light */}
+      <pointLight ref={lightRef} position={[0, 0, -2]} color='red' intensity={25} />
     </group>
   );
 }
@@ -63,15 +78,6 @@ export default function Pillars() {
     </>
   );
 }
-
-// <FakeGlowMaterial
-//   falloff={0.25}
-//   glowInternalRadius={1.0}
-//   glowColor={"#ff0000"}
-//   glowSharpness={1}
-//   side={"THREE.FrontSide"}
-//   opacity={1.0}
-// />
 
 // Sphere with memoization for improved performance
 const Sphere = React.memo(
