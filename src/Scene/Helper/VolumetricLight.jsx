@@ -40,7 +40,7 @@ const VolLight = ({
         glowSharpness={glowSharpness} // Controls the sharpness of the glow effect
         opacity={opacity} // Controls transparency
         side={THREE.FrontSide} // Ensures the light renders only on the front side
-        depthTest={false} // Allows proper depth sorting
+        depthTest={true} // Allows proper depth sorting
       />
     </mesh>
   );

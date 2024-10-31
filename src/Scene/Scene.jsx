@@ -1,4 +1,6 @@
 import {
+  Cloud,
+  Clouds,
   Environment,
   Lightformer,
   MeshReflectorMaterial,
@@ -51,9 +53,9 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* Scene & Utils */}
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
-        {/* <fog attach='fog' args={["#050505", 5, 10]} /> */}
+        <fog attach='fog' args={["#050505", 5, 10]} />
 
-        <Environment
+        {/* <Environment
           resolution={8}
           // background
           // environmentIntensity={5.5}
@@ -64,44 +66,42 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
             <Lightformer intensity={1} rotation-y={-Math.PI / 2} position={[5, 1, 0]} scale={[20, 2, 1]} />
             <Lightformer type='ring' intensity={2} rotation-y={Math.PI / 2} position={[-0.1, -1, -5]} scale={20} />
           </group>
-        </Environment>
+        </Environment> */}
         <OrbitControls />
         {/* <Environment preset='night' environmentIntensity={1.5} /> */}
         {/* <Rig /> */}
 
         {/* Lights */}
         <ambientLight intensity={0.95} />
-        {/* <pointLight position={[0, 5, 0]} color='white' intensity={110} /> */}
+        <pointLight position={[0, 5, 0]} color='white' intensity={50} />
         {/* <pointLight position={[-2, 5, 0]} color='#72ada8' intensity={100} /> */}
-        {/* <VolLight position={[3, 2, -1]} rotation={[0, -Math.PI / 2, 0]} color='#d0d0d0' opacity={0.92} radius={5} length={9} /> */}
-        {/* <VolLight position={[-5, -4, 1]} rotation={[0, 0, 0]} color="#d0d0d0" opacity={0.1} length={5} /> */}
-        {/* <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color="#6f95a2" opacity={0.92} length={15} /> */}
-        <VolLight position={[0, 2, -1]} rotation={[0, 0, 0]} color="#6f95a2" opacity={0.95} glowSharpness={0.6} fallOff={0.5}>
-        <coneGeometry args={[5, 5, 32, 1, true, 0]}  />
-        </VolLight>
 
-{/* <Foo/> */}
-{/* <SpotLight
-          // castShadow
-          // target={[0,0,0]}
-          color={'#ffffff'}
-          position={[-3, 5, 3]}
-          penumbra={0.2}
-          radiusTop={0.4}
-          radiusBottom={40}
-          distance={80}
-          angle={0.85}
-          attenuation={20}
-          anglePower={5}
-          intensity={1}
-          opacity={0.1}
-        /> */}
+        {/* good one */}
+        <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color='#6f95a2' opacity={0.92} length={15} />
+
+        {/* <DepthSpotlight /> */}
+
 
         {/* Main Scene */}
         <group position={[0, 0, -1]}>
           <Pillars />
           <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
         </group>
+        <Clouds>
+          <Cloud
+            concentrate='inside'
+            // seed={1}
+            segments={1}
+            color={"#6f95a2"}
+            // color={"#ac8964"}
+            bounds={5}
+            volume={11}
+            growth={1}
+            opacity={1}
+            position={[0, 0, 2]}
+            speed={0.1}
+          />
+        </Clouds>
         <Grass />
 
         {/* About Page Tests */}
@@ -181,7 +181,22 @@ function InstancedTether({ start, positions }) {
   return <instancedMesh ref={meshRef} args={[geometry, material, count]} />;
 }
 
-function Foo() {
-  const depthBuffer = useDepthBuffer()
-  return <SpotLight depthBuffer={depthBuffer} />
+function DepthSpotlight() {
+  const depthBuffer = useDepthBuffer();
+  return (
+    <SpotLight
+      depthBuffer={depthBuffer}
+      color={"#ffffff"}
+      position={[-3, 5, 3]}
+      penumbra={0.2}
+      radiusTop={0.4}
+      radiusBottom={40}
+      distance={80}
+      angle={0.85}
+      attenuation={20}
+      anglePower={5}
+      intensity={1}
+      opacity={0.1}
+    />
+  );
 }
