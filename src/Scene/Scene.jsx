@@ -25,7 +25,7 @@ import { extend } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
 import Grid from "./Grid";
 import Pillars from "./BgScene/Pillars";
-import Grass from "./BgScene/GrassFloor";
+import Grass from "./BgScene/Floor";
 import FakeGlowMaterial from "./Helper/FakeGlowMaterial";
 import VolLight from "./Helper/VolumetricLight";
 // import { useRef } from 'react';
@@ -78,15 +78,6 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 
         {/* good one */}
         <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color='#6f95a2' opacity={0.92} length={15} />
-
-        {/* <DepthSpotlight /> */}
-
-
-        {/* Main Scene */}
-        <group position={[0, 0, -1]}>
-          <Pillars />
-          <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-        </group>
         <Clouds>
           <Cloud
             concentrate='inside'
@@ -102,6 +93,14 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
             speed={0.1}
           />
         </Clouds>
+        {/* <DepthSpotlight /> */}
+
+        {/* Main Scene */}
+        <group position={[0, 0, -1]}>
+          <Pillars />
+          <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+        </group>
+
         <Grass />
 
         {/* About Page Tests */}
