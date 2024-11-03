@@ -3,7 +3,9 @@ import * as THREE from "three";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler";
 import { useFrame, useThree } from "@react-three/fiber";
 import { cnoise } from "../Helper/cNoise.jsx";
-import { MeshReflectorMaterial, useTexture, useTrailTexture } from "@react-three/drei";
+import { MeshReflectorMaterial, Sparkles, useTexture, useTrailTexture } from "@react-three/drei";
+import CustomSparkles from "../Helper/SampledParticles.jsx";
+import SimplePointCloud from "../Helper/SampledParticles.jsx";
 
 const Grass = () => {
   const meshRef = useRef(null);
@@ -30,6 +32,7 @@ const Grass = () => {
   // initialize matrix
 
   const amount = 20000;
+
   const updateMatrix = useCallback(() => {
     const object = new THREE.Object3D();
     const samplingPosition = new THREE.Vector3();
@@ -87,6 +90,10 @@ const Grass = () => {
         <shaderMaterial args={[shader]} side={THREE.DoubleSide} />
       </instancedMesh> */}
       <Ground />
+
+      {/* Sparkles with Surface Sampling */}
+
+      <CustomSparkles segments={50} />
     </group>
   );
 };
@@ -156,30 +163,6 @@ void main() {
 `;
 
 export default Grass;
-
-// function Ground() {
-//   const [floor, normal] = useTexture(["/Texture/si-col.webp", "/Texture/si-norm.webp"]);
-//   return (
-//     <mesh position={[0, 0, 1.2]}>
-//       <planeGeometry args={[10, 10]} />
-//       <MeshReflectorMaterial
-//         mixStrength={0.5}
-//         mirror={1}
-//         roughness={4}
-//         roughnessMap={floor}
-//         normalMap={normal}
-//         normalScale={[3, 3]}
-//         fog
-//         blur={[400, 400]}
-//         resolution={512}
-//         mixBlur={1}
-//         depthScale={1}
-//         minDepthThreshold={0.85}
-//         metalness={0}
-//       />
-//     </mesh>
-//   );
-// }
 
 function Ground() {
   const [floor, normal, rippleTexture] = useTexture(["/Texture/si-col.webp", "/Texture/wn.jpg", "/Texture/ripple.png"]);

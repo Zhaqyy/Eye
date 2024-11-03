@@ -49,7 +49,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 
   return (
     <>
-      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }}>
+      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }} >
         {/* Scene & Utils */}
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
@@ -78,6 +78,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 
         {/* good one */}
         <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color='#6f95a2' opacity={0.92} length={15} />
+
         <Clouds>
           <Cloud
             concentrate='inside'
