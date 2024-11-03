@@ -79,7 +79,7 @@ const Grass = () => {
   return (
     <group
       rotation={[-Math.PI / 2, 0, 0]}
-      position={[0, -3.5, 2]}
+      position={[0, -3.5, 1]}
       // onPointerMove={handleHover}
     >
       <mesh geometry={samplingGeometry} position={[0, 0, 0.15]}>
@@ -174,8 +174,8 @@ function Ground() {
   const timeRef = useRef(0); // Reference to track time
 
   const [trailTexture, onMove] = useTrailTexture({
-    size: 64,
-    radius: 0.075,
+    size: 32,
+    radius: 0.1,
     color: "white",
     decay: 0.75,
     opacity: 1,
@@ -187,7 +187,7 @@ function Ground() {
       <planeGeometry args={[10, 10]} />
       <MeshReflectorMaterial
         ref={materialRef}
-        mixStrength={0.5}
+        mixStrength={0.75}
         mirror={1}
         roughness={4}
         // aoMap={trailTexture}

@@ -150,16 +150,20 @@ const SampledPointCloud = ({ segments = 100 }) => {
     const pointCloudRef = useRef();
     const { viewport, raycaster, camera, pointer } = useThree();
     const planeSize = viewport.width;
-    const interactionRadius = 1.25;
-  
+    const interactionRadius = 1.0;
+    const d = useTexture("/Texture/d.jpg");
+
     // Load displacement texture
-    const displacementTexture = useTexture("/Texture/d.jpg");
+    const displacementTexture = d;
   
     // Create a plane to use for raycasting
     const [targetIntersection, setTargetIntersection] = useState(new THREE.Vector2(0, 0));
     const [currentIntersection, setCurrentIntersection] = useState(new THREE.Vector2(0, 0));
     const planeMeshRef = useRef();
   
+// Adjust for perfect alignment on raycasting plane
+const planePosition = [0, 0, 1]; 
+
     // Handle mouse move to update intersection point on the plane
     const handleMouseMove = () => {
       if (!planeMeshRef.current) return;
@@ -238,25 +242,32 @@ const SampledPointCloud = ({ segments = 100 }) => {
             v_visibility = proximityFactor;
   
             // Float effect with time and lerp
-            pos.z += sin(u_time * 2.0) * 0.05 * proximityFactor;
+            pos.z += sin(u_time * 5.0) * 0.05 * proximityFactor;
   
             // Final positioning
             gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-            gl_PointSize = 20.0 * proximityFactor;
+            gl_PointSize = 30.0 * proximityFactor;
           }
         `,
         fragmentShader: `
+        uniform float u_time;
           varying float v_visibility;
   
           void main() {
             float distanceToCenter = distance(gl_PointCoord, vec2(0.5));
             float strength = 0.1 / distanceToCenter - 0.1;
   
-            // Randomly transition colors over time
-            vec3 baseColor = vec3(0.0, 0.5, 1.0);
-            vec3 targetColor = vec3(1.0, 0.5, 0.2);
-            vec3 color = mix(baseColor, targetColor, v_visibility * abs(sin(v_visibility)));
+            // // Randomly transition colors over time
+            // vec3 baseColor = vec3(0.0, 0.5, 1.0);
+            // vec3 targetColor = vec3(1.0, 0.5, 0.2);
+            // vec3 color = mix(baseColor, targetColor, v_visibility * abs(sin(v_visibility)));
   
+            // Random color generation using sine waves and u_time for smooth transitions
+    float r = 0.5 + 0.5 * sin(u_time + v_visibility * 5.0);
+    float g = 0.5 + 0.5 * sin(u_time * 1.3 + v_visibility * 3.5);
+    float b = 0.5 + 0.5 * sin(u_time * 1.7 + v_visibility * 4.0);
+    vec3 color = vec3(r, g, b);
+
             gl_FragColor = vec4(color * strength, strength * v_visibility);
           }
         `,
@@ -275,11 +286,14 @@ const SampledPointCloud = ({ segments = 100 }) => {
         {/* Invisible plane for raycasting */}
         <mesh
           ref={planeMeshRef}
-          position={[0, 0, 2]}
+          position={planePosition}
+        //   rotation={[-Math.PI / 2, 0, 0]}
           onPointerMove={handleMouseMove}
           visible={false}
+        //   visible={true}
         >
-          <planeGeometry args={[planeSize, planeSize]} />
+          <planeGeometry args={[planeSize, planeSize, 20, 20]} />
+          {/* <meshStandardMaterial color={'white'} displacementMap={d} displacementScale={10}/> */}
         </mesh>
   
         {/* Point cloud */}
