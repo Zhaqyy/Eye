@@ -92,8 +92,7 @@ const Grass = () => {
       <Ground />
 
       {/* Sparkles with Surface Sampling */}
-
-      <CustomSparkles segments={50} />
+      <CustomSparkles segments={90} />
     </group>
   );
 };
@@ -165,7 +164,7 @@ void main() {
 export default Grass;
 
 function Ground() {
-  const [floor, normal, rippleTexture] = useTexture(["/Texture/si-col.webp", "/Texture/wn.jpg", "/Texture/ripple.png"]);
+  const [normal] = useTexture(["/Texture/wn.jpg"]);
 
   // const waterNormalMap = WaterNormalMap();
 
@@ -179,7 +178,7 @@ function Ground() {
     color: "white",
     decay: 0.75,
     opacity: 1,
-    smoothing: 0.2,
+    smoothing: 0,
     interpolate: 2,
   });
   return (
