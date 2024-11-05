@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import { ReactLenis, useLenis } from "lenis/react";
 // import './Style/main.css'
 // import 'lenis/dist/lenis.css'
@@ -26,20 +26,27 @@ const App = () => {
       gsap.ticker.remove(update);
     };
   });
+
+  const location = useLocation();
+
+  // routes where <CursorLottie /> should not render
+  const excludedRoutes = ["/"];
+
   return (
     <>
       <ReactLenis
         root
         ref={lenisRef}
         autoRaf={false}
-        options={{ 
+        options={{
           // orientation: "horizontal",
           //  gestureOrientataion: "both",
-            duration: 1.6, 
-            syncTouch: true 
-          }}
+          duration: 1.6,
+          syncTouch: true,
+        }}
       >
-        <CursorLottie/>
+        {/* Conditionally render CursorLottie based on the route */}
+        {!excludedRoutes.includes(location.pathname) && <CursorLottie />}
 
         <Routes>
           <Route index exact path='/' element={<Main />} />
@@ -58,7 +65,7 @@ const Main = () => {
 
   return (
     <>
-    {/* <Griddy/> */}
+      {/* <Griddy/> */}
       <Scene activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
       <Home activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
     </>
