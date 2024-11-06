@@ -1,16 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import { ReactLenis, useLenis } from "lenis/react";
-// import './Style/main.css'
-// import 'lenis/dist/lenis.css'
+import React, { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { ReactLenis } from "lenis/react";
 
-import Home from "./Pages/Home";
-import Scene from "./Scene/Scene";
-import Work from "./Pages/Work";
 import gsap from "gsap";
-import Griddy from "./Scene/Grid";
-import About from "./Pages/About";
+
 import CursorLottie from "./Component/CursorLottie";
+import Router from "./Routes/Router";
 
 const App = () => {
   const lenisRef = useRef();
@@ -48,26 +43,10 @@ const App = () => {
         {/* Conditionally render CursorLottie based on the route */}
         {!excludedRoutes.includes(location.pathname) && <CursorLottie />}
 
-        <Routes>
-          <Route index exact path='/' element={<Main />} />
-          <Route path='/Work/:id' element={<Work />} />
-          <Route path='/About' element={<About />} />
-        </Routes>
+        <Router />
       </ReactLenis>
     </>
   );
 };
 
 export default App;
-
-const Main = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  return (
-    <>
-      {/* <Griddy/> */}
-      <Scene activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-      <Home activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-    </>
-  );
-};

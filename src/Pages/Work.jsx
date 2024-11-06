@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { projectData } from "../Component/ProjectData";
 import "../Style/Work.css";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -200,7 +200,7 @@ const Work = () => {
           </div>
           <div className="liveBtn">
             <span>⤏</span>
-            <a href={data?.url}>Live View</a>
+            <Link to={data?.url}>Live View</Link>
           </div>
         </div>
       </section>

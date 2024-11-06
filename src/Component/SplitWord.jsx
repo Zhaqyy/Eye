@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { Link } from "react-router-dom";
 
 const Word = ({ word, url = "#" }) => {
   let el = useRef();
@@ -62,13 +63,13 @@ const Word = ({ word, url = "#" }) => {
   });
 
   return (
-    <a href={`${url}`} className='splitWrap' ref={el} onMouseOver={onHover} onMouseLeave={unHover}>
+    <Link to={`${url}`} className='splitWrap' ref={el} onMouseOver={onHover} onMouseLeave={unHover}>
       {word.split("").map((char, index) => (
         <span className='split' key={index}>
           {char === " " ? "&nbsp;&nbsp;" : char}
         </span>
       ))}
-    </a>
+    </Link>
   );
 };
 
