@@ -118,6 +118,9 @@
           display: flex;
           align-content: center;
           justify-content: center;
+          align-items: center;
+          font-size: 1.25rem;
+          color: black;
           border: 1px solid var(--border);
           border-radius: calc(var(--bRadius) * 4);
           background-color: white;

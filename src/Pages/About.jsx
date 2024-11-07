@@ -86,16 +86,16 @@ const About = () => {
                   textOrientation: "initial",
                   letterSpacing: 0,
                 });
-                gsap.to(slide.querySelector(".slideLottie"), { opacity: 0, duration: 0.2 }); // Fade out Lottie
-                gsap.set(slide.querySelector(".slideCtrl"), { opacity: 1, display: "flex" }); // Make buttons visible
-                gsap.to(slide.querySelector(".slideCtrl"), {
-                  opacity: 1,
-                  columnGap:'50px',
-                  autoRound: false,
-                  // stagger: 0.1,
-                  duration: 0.3,
-                  ease: "elastic.out(0.5, 0.5)",
-                });
+
+                // gsap.set(slide.querySelector(".slideCtrl"), { opacity: 1, display: "flex" }); // Make buttons visible
+                // gsap.to(slide.querySelector(".slideCtrl"), {
+                //   opacity: 1,
+                //   columnGap:'50px',
+                //   autoRound: false,
+                //   // stagger: 0.1,
+                //   duration: 0.3,
+                //   ease: "elastic.out(0.5, 0.5)",
+                // });
                 gsap.fromTo(
                   slide.querySelector(".title"),
                   {
@@ -118,6 +118,7 @@ const About = () => {
                 });
               },
             });
+            gsap.to(slide.querySelector(".slideLottie"), { opacity: 0, display: "none", duration: 0.2 }); // Fade out Lottie
           },
         });
       } else if (i === previousIndex.current) {
@@ -154,6 +155,7 @@ const About = () => {
                   duration: 0.25,
                 }
               );
+              gsap.to(slide.querySelector(".slideLottie"), { opacity: 1, display: "block", duration: 0.2 }); // Fade in Lottie
             },
           })
           .to(slide, {
@@ -219,6 +221,12 @@ const About = () => {
 
   const handleClick = contextSafe(index => {
     if (index !== activeIndex.current) {
+      if (scrollTimeout.current) return; // Ignore event if throttle is active
+
+      scrollTimeout.current = setTimeout(() => {
+        scrollTimeout.current = null; // Reset throttle after 1s
+      }, 1000);
+
       previousIndex.current = activeIndex.current; // Track previous index
       activeIndex.current = index; // Update active index
 
@@ -228,27 +236,53 @@ const About = () => {
       // }
 
       // Play the Lottie animation for the newly active slide
-      if (plusRef.current[index]) {
-        // plusRef.current[index].play();
-        console.log(plusRef.current[index].getDuration());
-        plusRef.current[index].goToAndPlay(0, true);
-      }
+      // if (plusRef.current[index]) {
+      //   // plusRef.current[index].play();
+      //   console.log(plusRef.current[index].getDuration());
+      //   plusRef.current[index].goToAndPlay(0, true);
+      // }
 
       animateSlides(activeIndex.current); // Trigger animation
     }
   });
 
-  const handleButtonClick = direction => {
-    previousIndex.current = activeIndex.current;
+  // const handleButtonClick = direction => {
+  //   previousIndex.current = activeIndex.current;
 
-    if (direction === "prev") {
-      activeIndex.current = (activeIndex.current - 1 + data.length) % data.length;
-    } else {
-      activeIndex.current = (activeIndex.current + 1) % data.length;
-    }
+  //   if (direction === "prev") {
+  //     activeIndex.current = (activeIndex.current - 1 + data.length) % data.length;
+  //   } else {
+  //     activeIndex.current = (activeIndex.current + 1) % data.length;
+  //   }
 
-    animateSlides(activeIndex.current);
-  };
+  //   animateSlides(activeIndex.current);
+  // };
+
+  const handleHoverEnter = contextSafe(index => {
+    const targetClass = `.slideLottie-${index}`;
+
+    if (scrollTimeout.current) return; // Ignore event if throttle is active
+
+    scrollTimeout.current = setTimeout(() => {
+      scrollTimeout.current = null; // Reset throttle after 1s
+    }, 200);
+
+    // Squash and stretch effect
+    gsap.to(targetClass, {
+      scaleX: 1.2,
+      scaleY: 0.8,
+      duration: 0.25,
+      ease: "power3.out", // Creates a fast squash
+    });
+    gsap.to(targetClass, {
+      scaleX: 1,
+      scaleY: 1,
+      duration: 0.95,
+      ease: "elastic.out(1, 0.3)",
+      delay: 0.2, // Delay to make the animation follow smoothly
+    });
+  });
+
   return (
     <div className='abt'>
       <section className='abtInfo' ref={infoSlider} onWheel={handleWheel}>
@@ -270,28 +304,30 @@ const About = () => {
               className='slide'
               ref={el => addSlideRef(el, index)}
               onClick={() => handleClick(index)} // Update to handle click
+              onMouseEnter={() => handleHoverEnter(index)}
               key={index}
             >
               {/* <div className='slideIcon'>
                 <Lottie lottieRef={(ref) => addPlusRef(ref, index)} animationData={plus} loop={false} autoplay={false} style={{ width: 30 }} />
               </div> */}
               <div className='slideIcon1'>
-                <Lottie
-                  className='slideLottie'
+                <span className={`slideLottie slideLottie-${index}`}>↔</span>
+                {/* <Lottie
+                  className={`slideLottie slideLottie-${index}`}
                   lottieRef={ref => addPlusRef(ref, index)}
                   animationData={enlarge}
-                  loop={1}
+                  // loop={1}
                   autoplay={false}
-                />
+                /> */}
               </div>
-              <div className='slideCtrl' style={{ display: "none" }}>
+              {/* <div className='slideCtrl' style={{ display: "none" }}>
                 <span className='prevSlide' onClick={() => handleButtonClick("prev")}>
                   🡐
                 </span>
                 <span className='nextSlide' onClick={() => handleButtonClick("next")}>
                   🡒
                 </span>
-              </div>
+              </div> */}
               <h3 className='title'>{item.title}</h3>
               <div className='content'>{item.content}</div>
             </div>
