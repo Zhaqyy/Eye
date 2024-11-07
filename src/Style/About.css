@@ -90,18 +90,11 @@
   opacity: 1;
   display: block;
 }
-.abtInfo .infoSlider .slide .slideIcon {
-  margin: auto;
+.abtInfo .infoSlider .slide .slideIconWrap {
   position: absolute;
   top: 1rem;
-  /* left: revert-layer; */
 }
-.abtInfo .infoSlider .slide .slideIcon1 {
-  position: absolute;
-  top: 1rem;
-  /* left: revert-layer; */
-}
-.abtInfo .infoSlider .slide .slideIcon1 .slideLottie {
+.abtInfo .infoSlider .slide .slideIconWrap .slideIcon {
   width: 40px;
   height: 40px;
   margin: auto;
@@ -114,25 +107,6 @@
   border: 1px solid var(--border);
   border-radius: calc(var(--bRadius) * 4);
   background-color: white;
-}
-.abtInfo .infoSlider .slide .slideCtrl {
-  position: absolute;
-  top: 1rem;
-  align-items: center;
-  justify-content: center;
-}
-.abtInfo .infoSlider .slide .slideCtrl span {
-  width: 40px;
-  height: 40px;
-  color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
-  border-radius: calc(var(--bRadius) * 4);
-  background-color: white;
-  margin-inline: -20px;
-  gap: 0;
 }
 .abtInfo .infoSlider .slide .title {
   writing-mode: vertical-rl;

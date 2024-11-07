@@ -1,12 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
-import Lottie from "lottie-react";
 import { useGSAP } from "@gsap/react";
 import "../Style/About.css";
 import Griddy from "../Scene/Grid";
 import Pool from "../Scene/Pool";
-import plus from "../Component/Lottie/plus.json";
-import enlarge from "../Component/Lottie/enlarge.json";
 
 const data = [
   {
@@ -48,15 +45,11 @@ const data = [
 const About = () => {
   const slides = useRef([]);
   const infoSlider = useRef();
-  const plusRef = useRef([]);
 
   const addSlideRef = (el, index) => {
     slides.current[index] = el;
   };
 
-  const addPlusRef = (lottie, index) => {
-    plusRef.current[index] = lottie;
-  };
   gsap.defaults({
     ease: "sine.inOut",
   });
@@ -86,16 +79,6 @@ const About = () => {
                   textOrientation: "initial",
                   letterSpacing: 0,
                 });
-
-                // gsap.set(slide.querySelector(".slideCtrl"), { opacity: 1, display: "flex" }); // Make buttons visible
-                // gsap.to(slide.querySelector(".slideCtrl"), {
-                //   opacity: 1,
-                //   columnGap:'50px',
-                //   autoRound: false,
-                //   // stagger: 0.1,
-                //   duration: 0.3,
-                //   ease: "elastic.out(0.5, 0.5)",
-                // });
                 gsap.fromTo(
                   slide.querySelector(".title"),
                   {
@@ -118,7 +101,7 @@ const About = () => {
                 });
               },
             });
-            gsap.to(slide.querySelector(".slideLottie"), { opacity: 0, display: "none", duration: 0.2 }); // Fade out Lottie
+            gsap.to(slide.querySelector(".slideIcon"), { opacity: 0, display: "none", duration: 0.2 }); // Fade out icon
           },
         });
       } else if (i === previousIndex.current) {
@@ -155,7 +138,7 @@ const About = () => {
                   duration: 0.25,
                 }
               );
-              gsap.to(slide.querySelector(".slideLottie"), { opacity: 1, display: "block", duration: 0.2 }); // Fade in Lottie
+              gsap.to(slide.querySelector(".slideIcon"), { opacity: 1, display: "flex", duration: 0.2 }); // Fade in icon
             },
           })
           .to(slide, {
@@ -185,15 +168,6 @@ const About = () => {
 
     // Animate to the first slide (or reset the slider state)
     animateSlides(activeIndex.current);
-    // if (plusRef.current) {
-    //   console.log(plusRef.current.getDuration())
-    //   plusRef.current.pause();
-    //   // plusRef.current.goToAndStop(1, true);
-    // }
-    // Pause all Lotties on mount
-    plusRef.current.forEach(ref => {
-      if (ref) ref.play();
-    });
   }, []);
 
   // Throttle scroll event
@@ -230,36 +204,12 @@ const About = () => {
       previousIndex.current = activeIndex.current; // Track previous index
       activeIndex.current = index; // Update active index
 
-      // Reset the Lottie animation for the previously active slide
-      // if (previousIndex.current !== null && plusRef.current[previousIndex.current]) {
-      //   plusRef.current[previousIndex.current].goToAndStop(1, true);
-      // }
-
-      // Play the Lottie animation for the newly active slide
-      // if (plusRef.current[index]) {
-      //   // plusRef.current[index].play();
-      //   console.log(plusRef.current[index].getDuration());
-      //   plusRef.current[index].goToAndPlay(0, true);
-      // }
-
       animateSlides(activeIndex.current); // Trigger animation
     }
   });
 
-  // const handleButtonClick = direction => {
-  //   previousIndex.current = activeIndex.current;
-
-  //   if (direction === "prev") {
-  //     activeIndex.current = (activeIndex.current - 1 + data.length) % data.length;
-  //   } else {
-  //     activeIndex.current = (activeIndex.current + 1) % data.length;
-  //   }
-
-  //   animateSlides(activeIndex.current);
-  // };
-
   const handleHoverEnter = contextSafe(index => {
-    const targetClass = `.slideLottie-${index}`;
+    const targetClass = `.slideIcon-${index}`;
 
     if (scrollTimeout.current) return; // Ignore event if throttle is active
 
@@ -307,27 +257,12 @@ const About = () => {
               onMouseEnter={() => handleHoverEnter(index)}
               key={index}
             >
-              {/* <div className='slideIcon'>
-                <Lottie lottieRef={(ref) => addPlusRef(ref, index)} animationData={plus} loop={false} autoplay={false} style={{ width: 30 }} />
-              </div> */}
-              <div className='slideIcon1'>
-                <span className={`slideLottie slideLottie-${index}`}>↔</span>
-                {/* <Lottie
-                  className={`slideLottie slideLottie-${index}`}
-                  lottieRef={ref => addPlusRef(ref, index)}
-                  animationData={enlarge}
-                  // loop={1}
-                  autoplay={false}
-                /> */}
+            
+              <div className='slideIconWrap'>
+                <span className={`slideIcon slideIcon-${index}`}>↔</span>
+              
               </div>
-              {/* <div className='slideCtrl' style={{ display: "none" }}>
-                <span className='prevSlide' onClick={() => handleButtonClick("prev")}>
-                  🡐
-                </span>
-                <span className='nextSlide' onClick={() => handleButtonClick("next")}>
-                  🡒
-                </span>
-              </div> */}
+
               <h3 className='title'>{item.title}</h3>
               <div className='content'>{item.content}</div>
             </div>

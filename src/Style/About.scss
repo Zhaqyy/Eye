@@ -92,26 +92,11 @@
         }
       }
 
-      .slideIcon {
-        margin: auto;
+      .slideIconWrap {
         position: absolute;
         top: 1rem;
-        /* left: revert-layer; */
-      }
-      .slideIcon1 {
-        // width: 40px;
-        // height: 40px;
-        // margin: auto;
-        // display: flex;
-        // align-content: center;
-        // justify-content: center;
-        position: absolute;
-        top: 1rem;
-        /* left: revert-layer; */
-        // border: 1px solid var(--border);
-        // border-radius: calc(var(--bRadius) * 4);
-        // background-color: white;
-        .slideLottie {
+
+        .slideIcon {
           width: 40px;
           height: 40px;
           margin: auto;
@@ -126,27 +111,7 @@
           background-color: white;
         }
       }
-      .slideCtrl {
-        position: absolute;
-        top: 1rem;
-        align-items: center;
-        justify-content: center;
-
-        span {
-          width: 40px;
-          height: 40px;
-          color: black;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border: 1px solid var(--border);
-          border-radius: calc(var(--bRadius) * 4);
-          background-color: white;
-          margin-inline: -20px;
-          gap: 0;
-        }
-      }
-
+      
       .title {
         writing-mode: vertical-rl;
         text-orientation: upright;
