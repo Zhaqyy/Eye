@@ -11,7 +11,7 @@
   //   justify-content: center;
   gap: 5vw;
   overflow: visible;
-  
+
   background-image: radial-gradient(circle, var(--dot) 1px, var(--dot) 1px, transparent 1px, transparent 100%);
   background-repeat: repeat;
   background-position: center;
@@ -63,6 +63,7 @@
     gap: 1rem;
 
     .slide {
+      position: relative;
       height: 300px;
       border: 1px solid var(--border);
       border-radius: calc(var(--bRadius) * 2);
@@ -90,6 +91,59 @@
           display: block;
         }
       }
+
+      .slideIcon {
+        margin: auto;
+        position: absolute;
+        top: 1rem;
+        /* left: revert-layer; */
+      }
+      .slideIcon1 {
+        // width: 40px;
+        // height: 40px;
+        // margin: auto;
+        // display: flex;
+        // align-content: center;
+        // justify-content: center;
+        position: absolute;
+        top: 1rem;
+        /* left: revert-layer; */
+        // border: 1px solid var(--border);
+        // border-radius: calc(var(--bRadius) * 4);
+        // background-color: white;
+        .slideLottie {
+          width: 40px;
+          height: 40px;
+          margin: auto;
+          display: flex;
+          align-content: center;
+          justify-content: center;
+          border: 1px solid var(--border);
+          border-radius: calc(var(--bRadius) * 4);
+          background-color: white;
+        }
+      }
+      .slideCtrl {
+        position: absolute;
+        top: 1rem;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          width: 40px;
+          height: 40px;
+          color: black;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid var(--border);
+          border-radius: calc(var(--bRadius) * 4);
+          background-color: white;
+          margin-inline: -20px;
+          gap: 0;
+        }
+      }
+
       .title {
         writing-mode: vertical-rl;
         text-orientation: upright;
@@ -122,7 +176,8 @@
     padding: 1rem;
     z-index: 1;
 
-    .Lword,.Rword{
+    .Lword,
+    .Rword {
       display: inline-block;
     }
 
@@ -142,7 +197,7 @@
         background-color: invert($color: #000000);
         // background-color: invert($color: var(--bg));
         // background-color: invert(var(--bg));
-                border-radius: var(--bRadius);
+        border-radius: var(--bRadius);
         z-index: -1;
       }
     }
@@ -181,6 +236,7 @@
     .sceneInfoTitle {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
     }
     .contList {
       display: flex;

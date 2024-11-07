@@ -1,9 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
+import Lottie from "lottie-react";
+import { useGSAP } from "@gsap/react";
 import "../Style/About.css";
 import Griddy from "../Scene/Grid";
-import { useGSAP } from "@gsap/react";
 import Pool from "../Scene/Pool";
+import plus from "../Component/Lottie/plus.json";
+import enlarge from "../Component/Lottie/enlarge.json";
 
 const data = [
   {
@@ -45,11 +48,15 @@ const data = [
 const About = () => {
   const slides = useRef([]);
   const infoSlider = useRef();
+  const plusRef = useRef([]);
 
   const addSlideRef = (el, index) => {
     slides.current[index] = el;
   };
 
+  const addPlusRef = (lottie, index) => {
+    plusRef.current[index] = lottie;
+  };
   gsap.defaults({
     ease: "sine.inOut",
   });
@@ -61,10 +68,12 @@ const About = () => {
     slides.current.forEach((slide, i) => {
       if (i === index) {
         // Active slide animation
+        // Animate the title out First, then when its out, start others
         gsap.timeline().to(slide.querySelector(".title"), {
           opacity: 0,
           x: -25,
           duration: 0.25,
+
           onComplete: () => {
             gsap.to(slide, {
               width: 300,
@@ -76,6 +85,16 @@ const About = () => {
                   writingMode: "horizontal-tb",
                   textOrientation: "initial",
                   letterSpacing: 0,
+                });
+                gsap.to(slide.querySelector(".slideLottie"), { opacity: 0, duration: 0.2 }); // Fade out Lottie
+                gsap.set(slide.querySelector(".slideCtrl"), { opacity: 1, display: "flex" }); // Make buttons visible
+                gsap.to(slide.querySelector(".slideCtrl"), {
+                  opacity: 1,
+                  columnGap:'50px',
+                  autoRound: false,
+                  // stagger: 0.1,
+                  duration: 0.3,
+                  ease: "elastic.out(0.5, 0.5)",
                 });
                 gsap.fromTo(
                   slide.querySelector(".title"),
@@ -147,6 +166,7 @@ const About = () => {
 
     previousIndex.current = index; // Update previous index
   };
+
   const resetSlides = () => {
     slides.current.forEach(slide => {
       gsap.set(slide, { width: 70 }); // Reset all slides to their default size
@@ -163,6 +183,15 @@ const About = () => {
 
     // Animate to the first slide (or reset the slider state)
     animateSlides(activeIndex.current);
+    // if (plusRef.current) {
+    //   console.log(plusRef.current.getDuration())
+    //   plusRef.current.pause();
+    //   // plusRef.current.goToAndStop(1, true);
+    // }
+    // Pause all Lotties on mount
+    plusRef.current.forEach(ref => {
+      if (ref) ref.play();
+    });
   }, []);
 
   // Throttle scroll event
@@ -192,10 +221,34 @@ const About = () => {
     if (index !== activeIndex.current) {
       previousIndex.current = activeIndex.current; // Track previous index
       activeIndex.current = index; // Update active index
+
+      // Reset the Lottie animation for the previously active slide
+      // if (previousIndex.current !== null && plusRef.current[previousIndex.current]) {
+      //   plusRef.current[previousIndex.current].goToAndStop(1, true);
+      // }
+
+      // Play the Lottie animation for the newly active slide
+      if (plusRef.current[index]) {
+        // plusRef.current[index].play();
+        console.log(plusRef.current[index].getDuration());
+        plusRef.current[index].goToAndPlay(0, true);
+      }
+
       animateSlides(activeIndex.current); // Trigger animation
     }
   });
 
+  const handleButtonClick = direction => {
+    previousIndex.current = activeIndex.current;
+
+    if (direction === "prev") {
+      activeIndex.current = (activeIndex.current - 1 + data.length) % data.length;
+    } else {
+      activeIndex.current = (activeIndex.current + 1) % data.length;
+    }
+
+    animateSlides(activeIndex.current);
+  };
   return (
     <div className='abt'>
       <section className='abtInfo' ref={infoSlider} onWheel={handleWheel}>
@@ -219,6 +272,26 @@ const About = () => {
               onClick={() => handleClick(index)} // Update to handle click
               key={index}
             >
+              {/* <div className='slideIcon'>
+                <Lottie lottieRef={(ref) => addPlusRef(ref, index)} animationData={plus} loop={false} autoplay={false} style={{ width: 30 }} />
+              </div> */}
+              <div className='slideIcon1'>
+                <Lottie
+                  className='slideLottie'
+                  lottieRef={ref => addPlusRef(ref, index)}
+                  animationData={enlarge}
+                  loop={1}
+                  autoplay={false}
+                />
+              </div>
+              <div className='slideCtrl' style={{ display: "none" }}>
+                <span className='prevSlide' onClick={() => handleButtonClick("prev")}>
+                  🡐
+                </span>
+                <span className='nextSlide' onClick={() => handleButtonClick("next")}>
+                  🡒
+                </span>
+              </div>
               <h3 className='title'>{item.title}</h3>
               <div className='content'>{item.content}</div>
             </div>
@@ -235,13 +308,15 @@ export default About;
 const scenesData = [
   {
     name: "Pool",
-    description: "Dive into the depths of serenity with 'Pool'. This scene is an oasis of calm where shimmering waters meet reflective skies. It’s designed to show how fluidity and tranquility can transform digital spaces into something truly immersive. If you’re looking for a place to float in your thoughts, this is it!",
+    description:
+      "Dive into the depths of serenity with 'Pool'. This scene is an oasis of calm where shimmering waters meet reflective skies. It’s designed to show how fluidity and tranquility can transform digital spaces into something truly immersive. If you’re looking for a place to float in your thoughts, this is it!",
     component: Pool, // This refers to your <Pool /> component
     type: "Experiences",
   },
   {
     name: "Griddy",
-    description: "Welcome to the grid, where sharp lines and bold edges create a world of control and precision. 'Griddy' is a showcase of structure and clarity, balancing creativity with order. It’s the perfect way to demonstrate how organized chaos can form something beautifully intricate.",
+    description:
+      "Welcome to the grid, where sharp lines and bold edges create a world of control and precision. 'Griddy' is a showcase of structure and clarity, balancing creativity with order. It’s the perfect way to demonstrate how organized chaos can form something beautifully intricate.",
     component: Griddy, // This refers to your <Griddy /> component
     type: "3D Animations",
   },
@@ -258,18 +333,7 @@ const AbtCanvas = () => {
   });
 
   const LWord = ["Craft", "Build", "Design", "Shape", "Compose", "Engineer", "Innovate", "Conjure", "Construct", "Develop"];
-  const RWord = [
-    "Adaptive",
-    "Interactive",
-    "Fluid",
-    "Dynamic",
-    "Unique",
-    "Engaging",
-    "Seamless",
-    "Mind-Blowing",
-    "Weird",
-    "Intricate",
-  ];
+  const RWord = ["Adaptive", "Interactive", "Fluid", "Dynamic", "Unique", "Engaging", "Seamless", "Mind-Blowing", "Weird", "Intricate"];
 
   // Randomize word selection
   const [lWord, setLWord] = useState(LWord[0]);
@@ -338,13 +402,7 @@ const AbtCanvas = () => {
 
     // transition effect for scene info
 
-    gsap.fromTo(
-      ".sceneInfo",
-      { opacity: 0 }, 
-      { opacity: 1, duration: 0.5 }
-    );
-    
-    
+    gsap.fromTo(".sceneInfo", { opacity: 0 }, { opacity: 1, duration: 0.5 });
 
     if (e.deltaY > 0) {
       setActiveSceneIndex(prevIndex => (prevIndex + 1) % scenesData.length); // Next scene
@@ -365,9 +423,7 @@ const AbtCanvas = () => {
     <section className='abtCanvas' ref={abtCanvas} onWheel={handleWheel}>
       <span className='type'>
         <p>
-          I{" "}
-          <strong className='Lword'>{lWord}</strong>{" "}
-          <em className='Rword'>{rWord}</em>{" "}
+          I <strong className='Lword'>{lWord}</strong> <em className='Rword'>{rWord}</em>{" "}
           <span className='type-word'>{activeScene.type}</span>
         </p>
       </span>
