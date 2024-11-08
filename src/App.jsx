@@ -6,6 +6,7 @@ import gsap from "gsap";
 
 import CursorLottie from "./Component/CursorLottie";
 import Router from "./Routes/Router";
+import Header from "./Component/Header";
 
 const App = () => {
   const lenisRef = useRef();
@@ -41,8 +42,8 @@ const App = () => {
         }}
       >
         {/* Conditionally render CursorLottie based on the route */}
-        {!excludedRoutes.includes(location.pathname) && <CursorLottie />}
-
+        {/* {!excludedRoutes.includes(location.pathname) && <CursorLottie />} */}
+        <Header />
         <Router />
       </ReactLenis>
     </>

@@ -7,3 +7,26 @@
   display: inline-block;
   text-transform: none;
 }
+
+// Header
+.header {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  /* left: 50%; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6969420;
+
+  & > div {
+    width: 7vw;
+    height: 7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 0 0 calc(var(--bRadius) * 4) calc(var(--bRadius) * 4);
+    // background-color: white;
+  }
+}
