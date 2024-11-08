@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .split {
   display: inline-block;
   text-transform: none;
@@ -13,12 +14,43 @@
   justify-content: center;
   z-index: 6969420;
 }
-.header > div {
-  width: 7vw;
-  height: 7vh;
+.header .menu {
+  position: relative;
+  width: 100px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border);
   border-radius: 0 0 calc(var(--bRadius) * 4) calc(var(--bRadius) * 4);
+}
+.header .menu .menu-item {
+  width: 25%;
+  height: 50%;
+  position: absolute;
+  transform-origin: 100% 100%;
+  overflow: hidden;
+}
+.header .menu .menu-item:first-child {
+  transform: rotate(-90deg) skewY(30deg);
+}
+.header .menu .menu-item:nth-child(2) {
+  transform: rotate(-150deg) skewY(30deg);
+}
+.header .menu .menu-item:nth-child(3) {
+  transform: rotate(150deg) skewY(30deg);
+}
+.header .menu .menu-item > div {
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  /* "unskew" & rotate by -A°/2 */
+  transform: skewY(-30deg) rotate(-30deg);
+  background-color: #fff;
+  display: block;
+  opacity: 0.5;
+  cursor: pointer;
+}
+.header .menu .menu-item > div:hover {
+  opacity: 1;
 }/*# sourceMappingURL=Component.css.map */
