@@ -13,6 +13,9 @@
   justify-content: center;
   z-index: 6969420;
 }
+.header > h1 {
+  position: absolute;
+}
 .header .menu {
   position: relative;
   width: 100px;
@@ -70,7 +73,8 @@
   top: 0;
   width: 100%;
   height: 100vh;
-  /* border-radius: 50%; */
   background: radial-gradient(circle at 50% 0, rgb(15, 15, 15) 10%, rgba(0, 0, 0, 0) 50%);
+  opacity: 0;
   pointer-events: none;
+  transform-origin: top center;
 }/*# sourceMappingURL=Component.css.map */

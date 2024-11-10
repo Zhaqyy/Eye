@@ -18,20 +18,27 @@ const Header = () => {
         { opacity: 0, display: "none" },
         { opacity: 1, display: "block", stagger: 0.1, ease: "back.out(0.25)", duration: 0.5 }
       );
+      // Animate the radial gradient underlay
+      gsap.to(".underlay", {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        ease: "power2.out",
+      });
     } else {
       gsap.to(".menu-item", { opacity: 0, display: "none", duration: 0.35, ease: "power1.out", stagger: 0.1 });
+      gsap.to(".underlay", {
+        opacity: 0,
+        scale: 0,
+        duration: 0.5,
+        delay: 0.25,
+        ease: "power1.out",
+      });
     }
-
-    // Animate the radial gradient underlay
-    gsap.to(".underlay", {
-      opacity: isOpen ? 0 : 1,
-      scale: isOpen ? 0.5 : 1,
-      duration: 0.5,
-      ease: "power2.out",
-    });
   };
 
   useEffect(() => {
+    console.log(isOpen);
     const element = headerRef.current;
     const minRange = 50; // Minimum range for maximum scale (closest distance)
     const maxRange = 100; // Maximum range for minimum scale (furthest distance)
@@ -56,18 +63,32 @@ const Header = () => {
         gsap.to(element, {
           scale: 1 + proximity * 0.1,
           boxShadow: `0px 0px ${5 + proximity * 5}px rgba(0, 0, 0, ${0.1 + proximity * 0.5})`,
-          duration: 0.1, // Duration for a smooth animation
-          ease: "power3.out",
+          duration: 0.25, // Duration for a smooth animation
+          ease: "power1.out",
         });
       }
     };
 
-    // Add mousemove event listener
-    window.addEventListener("mousemove", onMouseMove);
+    const handleOutsideClick = e => {
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setIsOpen(false);
+        gsap.to(".menu-item", { opacity: 0, display: "none", duration: 0.35, ease: "power1.out", stagger: 0.1 });
+        gsap.to(".underlay", {
+          opacity: 0,
+          scale: 0,
+          duration: 0.5,
+          delay: 0.25,
+          ease: "power1.out",
+        });
+      }
+    };
 
-    // Cleanup the event listener on component unmount
+    window.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mousedown", handleOutsideClick);
+
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [isOpen]);
 
@@ -109,8 +130,8 @@ const Header = () => {
     <section className='header' onClick={toggleMenu}>
       {/* Radial gradient underlay */}
       <div className='underlay'></div>
+      <h1>Z</h1>
       <ul className='menu' ref={headerRef}>
-        {/* <h1>Z</h1> */}
         <li className='menu-item'>
           <div>
             <Link to={"#"}>Lab</Link>
