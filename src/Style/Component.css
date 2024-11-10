@@ -22,6 +22,7 @@
   justify-content: center;
   border: 1px solid var(--border);
   border-radius: 0 0 calc(var(--bRadius) * 4) calc(var(--bRadius) * 4);
+  cursor: pointer;
 }
 .header .menu .menu-item {
   width: 50%;
@@ -32,6 +33,7 @@
   transform-origin: 100% 100%;
   overflow: hidden;
   scale: 2;
+  opacity: 0;
 }
 .header .menu .menu-item:first-child {
   transform: rotate(-210deg) skewY(30deg);
@@ -58,8 +60,17 @@
 }
 .header .menu .menu-item > div > * {
   display: block;
-  transform: rotate(-180deg) scale(0.5);
+  transform: rotate(-180deg) scale(0.4);
 }
 .header .menu .menu-item > div:hover {
   opacity: 1;
+}
+.header .underlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  /* border-radius: 50%; */
+  background: radial-gradient(circle at 50% 0, rgb(15, 15, 15) 10%, rgba(0, 0, 0, 0) 50%);
+  pointer-events: none;
 }/*# sourceMappingURL=Component.css.map */

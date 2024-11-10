@@ -1,91 +1,131 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import "../Style/Component.css";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   const headerRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false); // To track menu open state
 
-//   useEffect(() => {
-//     const element = headerRef.current;
-//     const minRange = 50; // Minimum range for maximum scale (closest distance)
-//     const maxRange = 100; // Maximum range for minimum scale (furthest distance)
+  // Toggle menu open state on click
+  const toggleMenu = () => {
+    setIsOpen(prev => !prev);
 
-//     const onMouseMove = e => {
-//       const rect = element.getBoundingClientRect();
-//       const elementX = rect.left + rect.width / 2;
-//       const elementY = rect.top + rect.height / 2;
+    // Animate menu items' entrance
+    if (!isOpen) {
+      gsap.fromTo(
+        ".menu-item",
+        { opacity: 0, display: "none" },
+        { opacity: 1, display: "block", stagger: 0.1, ease: "back.out(0.25)", duration: 0.5 }
+      );
+    } else {
+      gsap.to(".menu-item", { opacity: 0, display: "none", duration: 0.35, ease: "power1.out", stagger: 0.1 });
+    }
 
-//       // Calculate the distance between the mouse and the center of the element
-//       const dx = e.clientX - elementX;
-//       const dy = e.clientY - elementY;
-//       const distance = Math.sqrt(dx * dx + dy * dy);
+    // Animate the radial gradient underlay
+    gsap.to(".underlay", {
+      opacity: isOpen ? 0 : 1,
+      scale: isOpen ? 0.5 : 1,
+      duration: 0.5,
+      ease: "power2.out",
+    });
+  };
 
-//       // Normalize the distance within the min and max range
-//       const clampedDistance = Math.min(Math.max(distance, minRange), maxRange);
-//       const proximity = 1 - (clampedDistance - minRange) / (maxRange - minRange);
+  useEffect(() => {
+    const element = headerRef.current;
+    const minRange = 50; // Minimum range for maximum scale (closest distance)
+    const maxRange = 100; // Maximum range for minimum scale (furthest distance)
 
-//       // Animate the width, height, and background color based on proximity
-//       gsap.to(element, {
-//         width: `${100 + proximity * 20}px`, // From 5vw to 10vw based on proximity
-//         height: `${50 + proximity * 10}px`, // From 5vh to 10vh based on proximity
-//         backgroundColor: `rgba(255, 255, 255, ${proximity})`, // From transparent to white
-//         color: `rgb(${255 - proximity * 255}, ${255 - proximity * 255}, ${255 - proximity * 255})`,
-//         duration: 0.1, // Duration for a smooth animation
-//         ease: "power3.Out",
-//       });
-//     };
+    const onMouseMove = e => {
+      // Only animate proximity if the menu is closed
+      if (!isOpen) {
+        const rect = element.getBoundingClientRect();
+        const elementX = rect.left + rect.width / 2;
+        const elementY = rect.top + rect.height / 2;
 
-//     // Add mousemove event listener
-//     window.addEventListener("mousemove", onMouseMove);
+        // Calculate the distance between the mouse and the center of the element
+        const dx = e.clientX - elementX;
+        const dy = e.clientY - elementY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-//     // Cleanup the event listener on component unmount
-//     return () => {
-//       window.removeEventListener("mousemove", onMouseMove);
-//     };
-//   }, []);
+        // Normalize the distance within the min and max range
+        const clampedDistance = Math.min(Math.max(distance, minRange), maxRange);
+        const proximity = 1 - (clampedDistance - minRange) / (maxRange - minRange);
 
-//   useEffect(() => {
-//     const items = headerRef.current.querySelectorAll(".menu-item");
-//     items.forEach((item, index) => {
-//       // Set initial position based on index
-// const radian = 60
-//       const angle = -radian + index * radian;
-//       const xPos = radian + index * 1 * -radian;
-//       const yPos = 20 + (index % 2) * 40;
+        // Animate the size based on proximity
+        gsap.to(element, {
+          scale: 1 + proximity * 0.1,
+          boxShadow: `0px 0px ${5 + proximity * 5}px rgba(0, 0, 0, ${0.1 + proximity * 0.5})`,
+          duration: 0.1, // Duration for a smooth animation
+          ease: "power3.out",
+        });
+      }
+    };
 
-//       gsap.set(item, {
-//         rotation: angle,
-//         x: xPos,
-//         y: yPos,
-//         skewY: -radian
-//         // transformOrigin: '3.5vh -3.5vw', // Adjust distance from center
-//       });
+    // Add mousemove event listener
+    window.addEventListener("mousemove", onMouseMove);
 
-//       // Add hover animation
-//       //   item.addEventListener('mouseenter', () => {
-//       //     gsap.to(item, {
-//       //       scale: 1.2,
-//       //       duration: 0.3,
-//       //       ease: 'power3.out',
-//       //     });
-//       //   });
-//       //   item.addEventListener('mouseleave', () => {
-//       //     gsap.to(item, {
-//       //       scale: 1,
-//       //       duration: 0.3,
-//       //       ease: 'power3.out',
-//       //     });
-//       //   });
-//     });
-//   }, []);
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+    };
+  }, [isOpen]);
+
+  //   useEffect(() => {
+  //     const items = headerRef.current.querySelectorAll(".menu-item");
+  //     items.forEach((item, index) => {
+  //       // Set initial position based on index
+  // const radian = 60
+  //       const angle = -radian + index * radian;
+  //       const xPos = radian + index * 1 * -radian;
+  //       const yPos = 20 + (index % 2) * 40;
+
+  //       gsap.set(item, {
+  //         rotation: angle,
+  //         x: xPos,
+  //         y: yPos,
+  //         skewY: -radian
+  //         // transformOrigin: '3.5vh -3.5vw', // Adjust distance from center
+  //       });
+
+  //       // Add hover animation
+  //       //   item.addEventListener('mouseenter', () => {
+  //       //     gsap.to(item, {
+  //       //       scale: 1.2,
+  //       //       duration: 0.3,
+  //       //       ease: 'power3.out',
+  //       //     });
+  //       //   });
+  //       //   item.addEventListener('mouseleave', () => {
+  //       //     gsap.to(item, {
+  //       //       scale: 1,
+  //       //       duration: 0.3,
+  //       //       ease: 'power3.out',
+  //       //     });
+  //       //   });
+  //     });
+  //   }, []);
   return (
-    <section className='header'>
+    <section className='header' onClick={toggleMenu}>
+      {/* Radial gradient underlay */}
+      <div className='underlay'></div>
       <ul className='menu' ref={headerRef}>
         {/* <h1>Z</h1> */}
-        <li className='menu-item'><div><Link to={'/'}>Home</Link></div></li>
-        <li className='menu-item'><div><Link to={'/About'}>About</Link></div></li>
-        <li className='menu-item'><div><Link to={'#'}>Lab</Link></div></li>
+        <li className='menu-item'>
+          <div>
+            <Link to={"#"}>Lab</Link>
+          </div>
+        </li>
+        <li className='menu-item'>
+          <div>
+            <Link to={"/"}>Home</Link>
+          </div>
+        </li>
+        <li className='menu-item'>
+          <div>
+            <Link to={"/About"}>About</Link>
+          </div>
+        </li>
       </ul>
     </section>
   );
