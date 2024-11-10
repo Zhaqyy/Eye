@@ -62,7 +62,7 @@ const Header = () => {
         // Animate the size based on proximity
         gsap.to(element, {
           scale: 1 + proximity * 0.1,
-          boxShadow: `0px 0px ${5 + proximity * 5}px rgba(0, 0, 0, ${0.1 + proximity * 0.5})`,
+          boxShadow: `0px 0px ${5 + proximity * 20}px ${-5 + proximity * -5}px rgba(0, 0, 0, ${0.1 + proximity * 0.5})`,
           duration: 0.25, // Duration for a smooth animation
           ease: "power1.out",
         });
