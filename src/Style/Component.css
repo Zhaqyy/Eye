@@ -1,4 +1,3 @@
-@charset "UTF-8";
 .split {
   display: inline-block;
   text-transform: none;
@@ -25,31 +24,41 @@
   border-radius: 0 0 calc(var(--bRadius) * 4) calc(var(--bRadius) * 4);
 }
 .header .menu .menu-item {
-  width: 25%;
-  height: 50%;
+  width: 50%;
+  height: 100%;
   position: absolute;
+  top: -50px;
+  left: 0;
   transform-origin: 100% 100%;
   overflow: hidden;
+  scale: 2;
 }
 .header .menu .menu-item:first-child {
-  transform: rotate(-90deg) skewY(30deg);
+  transform: rotate(-210deg) skewY(30deg);
 }
 .header .menu .menu-item:nth-child(2) {
   transform: rotate(-150deg) skewY(30deg);
 }
 .header .menu .menu-item:nth-child(3) {
-  transform: rotate(150deg) skewY(30deg);
+  transform: rotate(-90deg) skewY(30deg);
 }
 .header .menu .menu-item > div {
   width: 200%;
   height: 200%;
   border-radius: 50%;
-  /* "unskew" & rotate by -A°/2 */
   transform: skewY(-30deg) rotate(-30deg);
-  background-color: #fff;
+  background-image: radial-gradient(75% 75% at 50% 50%, rgba(255, 255, 255, 0) 25%, rgba(234, 234, 234, 0.5) 100%);
   display: block;
   opacity: 0.5;
+  border: 1px solid var(--border);
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+.header .menu .menu-item > div > * {
+  display: block;
+  transform: rotate(-180deg) scale(0.5);
 }
 .header .menu .menu-item > div:hover {
   opacity: 1;

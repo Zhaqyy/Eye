@@ -29,43 +29,46 @@
     border: 1px solid var(--border);
     border-radius: 0 0 calc(var(--bRadius) * 4) calc(var(--bRadius) * 4);
 
-
-
     .menu-item {
-      width: 25%;
-      height: 50%;
-      // background-color: #ff0000;
-      // border-radius: 50%;
+      width: 50%;
+      height: 100%;
       position: absolute;
-      // transform-origin: 2.5vh -5vw;
-      // transform-origin: top center;
+      top: -50px;
+      left: 0;
       transform-origin: 100% 100%;
       overflow: hidden;
+      scale: 2;
+
       &:first-child {
-        transform: rotate(-90deg) skewY(30deg);
+        transform: rotate(-210deg) skewY(30deg);
       }
       &:nth-child(2) {
         transform: rotate(-150deg) skewY(30deg);
       }
       &:nth-child(3) {
-        transform: rotate(150deg) skewY(30deg);
+        transform: rotate(-90deg) skewY(30deg);
       }
       & > div {
         width: 200%;
         height: 200%;
         border-radius: 50%;
-        // box-shadow: 0 0 3px dimgrey, inset 0 0 4px white;
-        /* "unskew" & rotate by -A°/2 */
         transform: skewY(-30deg) rotate(-30deg);
-        // background: /* lateral separators */ linear-gradient(75deg, transparent 50%, grey 50%, transparent 54%) no-repeat 36.5% 0,
-        //   linear-gradient(-75deg, transparent 50%, grey 50%, transparent 54%) no-repeat 63.5% 0;
-        // transform-origin: 25% 100%;
-        background-color: #fff;
+        background-image: radial-gradient(75% 75% at 50% 50%, rgba(255, 255, 255, 0) 25%, rgb(234 234 234 / 50%) 100%);
         display: block;
         opacity: 0.5;
+        border: 1px solid var(--border);
+        // padding: 10px;
+        text-align: center;
+        text-decoration: none;
         cursor: pointer;
+        transition: all 0.25s ease-in-out;
 
-        &:hover{
+        & > * {
+          display: block;
+          transform: rotate(-180deg) scale(0.5);
+        }
+
+        &:hover {
           opacity: 1;
         }
       }

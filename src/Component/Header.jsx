@@ -83,8 +83,8 @@ const Header = () => {
     <section className='header'>
       <ul className='menu' ref={headerRef}>
         {/* <h1>Z</h1> */}
-        <li className='menu-item'><div><Link to={'#'}>Home</Link></div></li>
-        <li className='menu-item'><div><Link to={'#'}>About</Link></div></li>
+        <li className='menu-item'><div><Link to={'/'}>Home</Link></div></li>
+        <li className='menu-item'><div><Link to={'/About'}>About</Link></div></li>
         <li className='menu-item'><div><Link to={'#'}>Lab</Link></div></li>
       </ul>
     </section>
