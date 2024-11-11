@@ -38,7 +38,6 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log(isOpen);
     const element = headerRef.current;
     const minRange = 50; // Minimum range for maximum scale (closest distance)
     const maxRange = 100; // Maximum range for minimum scale (furthest distance)
@@ -92,40 +91,7 @@ const Header = () => {
     };
   }, [isOpen]);
 
-  //   useEffect(() => {
-  //     const items = headerRef.current.querySelectorAll(".menu-item");
-  //     items.forEach((item, index) => {
-  //       // Set initial position based on index
-  // const radian = 60
-  //       const angle = -radian + index * radian;
-  //       const xPos = radian + index * 1 * -radian;
-  //       const yPos = 20 + (index % 2) * 40;
 
-  //       gsap.set(item, {
-  //         rotation: angle,
-  //         x: xPos,
-  //         y: yPos,
-  //         skewY: -radian
-  //         // transformOrigin: '3.5vh -3.5vw', // Adjust distance from center
-  //       });
-
-  //       // Add hover animation
-  //       //   item.addEventListener('mouseenter', () => {
-  //       //     gsap.to(item, {
-  //       //       scale: 1.2,
-  //       //       duration: 0.3,
-  //       //       ease: 'power3.out',
-  //       //     });
-  //       //   });
-  //       //   item.addEventListener('mouseleave', () => {
-  //       //     gsap.to(item, {
-  //       //       scale: 1,
-  //       //       duration: 0.3,
-  //       //       ease: 'power3.out',
-  //       //     });
-  //       //   });
-  //     });
-  //   }, []);
   return (
     <section className='header' onClick={toggleMenu}>
       {/* Radial gradient underlay */}
