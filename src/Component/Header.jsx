@@ -100,7 +100,7 @@ const Header = () => {
       <ul className='menu' ref={headerRef}>
         <li className='menu-item'>
           <div>
-            <Link to={"#"}>Lab</Link>
+            <Link to={"/Work/1"}>Lab</Link>
           </div>
         </li>
         <li className='menu-item'>

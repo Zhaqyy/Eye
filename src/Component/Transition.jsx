@@ -1,45 +1,73 @@
-import React from 'react';
-import { SwitchTransition, Transition } from 'react-transition-group';
-import { useLocation } from 'react-router-dom';
-import gsap from 'gsap';
+import React, { useRef, useState } from "react";
+import { SwitchTransition, Transition } from "react-transition-group";
+import { useLocation } from "react-router-dom";
+import gsap from "gsap";
 
 const Transitioner = ({ children }) => {
   const location = useLocation();
+
+  const animateOverlayEnter = (overlay, clipPathEnd) => {
+    // Animation to reveal the new page
+    gsap.set(overlay, { clipPath: clipPathEnd, opacity: 1, display: "block" });
+    return gsap.to(overlay, {
+      clipPath: "inset(0 0 100% 0)", // Top center finish
+      duration: 1.0,
+      ease: "power1.Out",
+      delay: 0.5,
+      onComplete: () => {
+        gsap.set(overlay, {
+          opacity: 0,
+          display: "none",
+        });
+      },
+    });
+  };
+
+  const animateOverlayExit = (overlay, clipPathStart) => {
+    // Animation to cover the current page
+    gsap.set(overlay, { clipPath: "inset(0 0 100% 0)", opacity: 1, display: "block" });
+    return gsap.to(overlay, {
+      clipPath: clipPathStart,
+      duration: 0.5,
+      delay: 0.5,
+      ease: "power1.Out",
+    });
+  };
+
   return (
     <SwitchTransition>
       <Transition
         key={location.pathname}
-        timeout={500}
-        onEnter={(node) => {
-          gsap.set(node, { autoAlpha: 0, 
-            // scale: 0.8, 
-            opacity:0,
-            xPercent: -100 });
-          gsap
-            .timeline({ paused: true })
-            .to(node, { autoAlpha: 1, xPercent: 0, duration: 0.25 })
-            .to(node, { 
-              // scale: 1, 
-              opacity:1,
-              duration: 0.25 })
-            .play();
+        timeout={1000}
+        onEnter={node => {
+          const overlay = document.getElementById("overlay");
 
-            // console.log('enter');
+          animateOverlayEnter(overlay, "inset(0 0 0 0)");
         }}
-        onExit={(node) => {
-          gsap
-            .timeline({ paused: true })
-            .to(node, { 
-              // scale: 0.8, 
-              opacity:0,
-              duration: 0.2 })
-            .to(node, { xPercent: 100, autoAlpha: 0, duration: 0.2 })
-            .play();
+        onExit={node => {
+          const overlay = document.getElementById("overlay");
 
-            // console.log('exit');
+          animateOverlayExit(overlay, "inset(0 0 0% 0)");
         }}
       >
-        {children}
+        <>
+          <div
+            id='overlay'
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              backgroundColor: "black",
+              display: "none",
+              zIndex: 999,
+              transformOrigin: "top center",
+              // pointerEvents: 'none',
+            }}
+          />
+          {children}
+        </>
       </Transition>
     </SwitchTransition>
   );
