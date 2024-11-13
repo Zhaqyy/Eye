@@ -3,6 +3,7 @@ import {
   Clouds,
   Environment,
   Lightformer,
+  Loader,
   MeshReflectorMaterial,
   OrbitControls,
   QuadraticBezierLine,
@@ -13,7 +14,7 @@ import {
 import * as THREE from "three";
 import { Eye } from "./BgScene/Eye";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useMemo, useRef, useState } from "react";
+import { Suspense, useMemo, useRef, useState } from "react";
 import Disc from "./Helper/NoiseFlow";
 import Simulation from "./Helper/FlowOver";
 import { Perf } from "r3f-perf";
@@ -49,7 +50,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 
   return (
     <>
-      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }} >
+      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }}>
         {/* Scene & Utils */}
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
@@ -71,39 +72,40 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <Environment preset='night' environmentIntensity={1.5} /> */}
         {/* <Rig /> */}
 
-        {/* Lights */}
-        <ambientLight intensity={0.95} />
-        <pointLight position={[0, 5, 0]} color='white' intensity={50} />
-        {/* <pointLight position={[-2, 5, 0]} color='#72ada8' intensity={100} /> */}
+        {/* <Suspense fallback={null}> */}
+          {/* Lights */}
+          <ambientLight intensity={0.95} />
+          <pointLight position={[0, 5, 0]} color='white' intensity={50} />
+          {/* <pointLight position={[-2, 5, 0]} color='#72ada8' intensity={100} /> */}
 
-        {/* good one */}
-        <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color='#6f95a2' opacity={0.92} length={15} />
+          {/* good one */}
+          <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color='#6f95a2' opacity={0.92} length={15} />
 
-        <Clouds>
-          <Cloud
-            concentrate='inside'
-            // seed={1}
-            segments={1}
-            color={"#6f95a2"}
-            // color={"#ac8964"}
-            bounds={5}
-            volume={11}
-            growth={1}
-            opacity={1}
-            position={[0, 0, 2]}
-            speed={0.1}
-          />
-        </Clouds>
-        {/* <DepthSpotlight /> */}
+          <Clouds>
+            <Cloud
+              concentrate='inside'
+              // seed={1}
+              segments={1}
+              color={"#6f95a2"}
+              // color={"#ac8964"}
+              bounds={5}
+              volume={11}
+              growth={1}
+              opacity={1}
+              position={[0, 0, 2]}
+              speed={0.1}
+            />
+          </Clouds>
+          {/* <DepthSpotlight /> */}
 
-        {/* Main Scene */}
-        <group position={[0, 0, -1]}>
-          <Pillars />
-          <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-        </group>
+          {/* Main Scene */}
+          <group position={[0, 0, -1]}>
+            <Pillars />
+            <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+          </group>
 
-        <Grass />
-
+          <Grass />
+        {/* </Suspense> */}
         {/* About Page Tests */}
         {/* <Grid/> */}
 
@@ -120,7 +122,9 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
       ))} */}
         {/* <Tether start={eye} end={ghost} /> */}
         {/* <InstancedTether start={eye} positions={positions} /> */}
+
       </Canvas>
+        {/* <Loader /> */}
     </>
   );
 };

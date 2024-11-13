@@ -24,6 +24,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border);
+  border-top: none;
   border-radius: 0 0 calc(var(--bRadius) * 4) calc(var(--bRadius) * 4);
   cursor: pointer;
 }

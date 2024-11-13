@@ -10,7 +10,7 @@ const Transitioner = ({ children }) => {
     // Animation to reveal the new page
     gsap.set(overlay, { clipPath: clipPathEnd, opacity: 1, display: "block" });
     return gsap.to(overlay, {
-      clipPath: "inset(0 0 100% 0)", // Top center finish
+      clipPath: "inset(0 0 100% 0)",
       duration: 1.0,
       ease: "power1.Out",
       delay: 0.5,
