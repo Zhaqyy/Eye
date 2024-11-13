@@ -7,6 +7,7 @@ import gsap from "gsap";
 import CursorLottie from "./Component/CursorLottie";
 import Router from "./Routes/Router";
 import Header from "./Component/Header";
+import { useSoundEffects } from './Component/SoundEffects';
 
 const App = () => {
   const lenisRef = useRef();

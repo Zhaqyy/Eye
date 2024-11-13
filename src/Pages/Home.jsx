@@ -3,10 +3,12 @@ import Word from "../Component/SplitWord";
 import "../Style/Home.css";
 import { projectData } from "../Component/ProjectData";
 import Breadcrumbs from "../Component/Breadcrumbs";
+import { useSoundEffects } from '../Component/SoundEffects';
 
 function Home({ activeIndex, setActiveIndex }) {
   const containerRef = useRef(null);
 
+  const { toggleMute } = useSoundEffects();
   return (
     <section className='hero'>
       <div className='main-hero'>
@@ -33,14 +35,14 @@ function Home({ activeIndex, setActiveIndex }) {
             <ul>
               {projectData.map((item, index) => (
                 <li key={index} className={index === activeIndex ? "active" : ""}>
-                  <p
+                  <a
                     onClick={e => {
                       e.preventDefault();
                       setActiveIndex(index); // Update activeIndex on click
                     }}
                   >
                     {item.title}
-                  </p>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -49,7 +51,7 @@ function Home({ activeIndex, setActiveIndex }) {
         </div>
       </div>
       <div className='hero-footer' ref={containerRef}>
-        <div className='sound'><span>S</span></div>
+        <button onClick={toggleMute} className='sound'><span>S</span></button>
         <Breadcrumbs activeIndex={activeIndex} setActiveIndex={setActiveIndex} ref={containerRef}/>
         <ul className='contact'>
           <li>
