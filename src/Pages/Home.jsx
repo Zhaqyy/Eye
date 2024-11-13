@@ -51,7 +51,9 @@ function Home({ activeIndex, setActiveIndex }) {
         </div>
       </div>
       <div className='hero-footer' ref={containerRef}>
-        <button onClick={toggleMute} className='sound'><span>S</span></button>
+        <button 
+        onClick={toggleMute} 
+        className='sound'><span>S</span></button>
         <Breadcrumbs activeIndex={activeIndex} setActiveIndex={setActiveIndex} ref={containerRef}/>
         <ul className='contact'>
           <li>

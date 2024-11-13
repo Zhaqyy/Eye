@@ -2,10 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import "../Style/Component.css";
 import { Link } from "react-router-dom";
+import { useSoundEffects } from "./SoundEffects";
 
 const Header = () => {
   const headerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false); // To track menu open state
+
+  // Use sound effects hook and pass the `isOpen` state to control ambient rate
+  const { toggleMute } = useSoundEffects(isOpen);
 
   // Toggle menu open state on click
   const toggleMenu = () => {
@@ -91,13 +95,19 @@ const Header = () => {
     };
   }, [isOpen]);
 
+  const handleHeaderHover = () => {
+    if (!isOpen) {
+      // Play interaction sound only when menu is closed
+      document.querySelector('#header').dispatchEvent(new MouseEvent('mouseenter'));
+    }
+  };
 
   return (
-    <section className='header' onClick={toggleMenu}>
+    <section className='header' >
       {/* Radial gradient underlay */}
       <div className='underlay'></div>
       <h1>Z</h1>
-      <ul className='menu' ref={headerRef}>
+      <ul id="header" className='menu' ref={headerRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover}>
         <li className='menu-item'>
           <div>
             <Link to={"/Work/1"}>Lab</Link>
