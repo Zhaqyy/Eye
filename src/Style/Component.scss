@@ -43,6 +43,7 @@
       overflow: hidden;
       scale: 2;
       opacity: 0;
+      display: none;
 
       &:first-child {
         transform: rotate(-210deg) skewY(30deg);
