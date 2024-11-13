@@ -13,7 +13,10 @@ const ambientSounds = {
 const interactionSounds = {
   hover: {
     reverbed: [new Howl({ src: ["/Sounds/popH.mp3"], volume: 0.005 }), new Howl({ src: ["/Sounds/popH2.mp3"], volume: 0.005 })],
-    normal: [new Howl({ src: ["/Sounds/hover1.mp3"], volume: 0.25 }), new Howl({ src: ["/Sounds/hover2.mp3"], volume: 0.25 })],
+    normal: [
+      new Howl({ src: ["/Sounds/hover1.mp3"], volume: 0.25, rate: 0.35 }),
+      new Howl({ src: ["/Sounds/hover2.mp3"], volume: 0.25, rate: 0.35 }),
+    ],
   },
   click: {
     reverbed: [
@@ -21,7 +24,7 @@ const interactionSounds = {
       // new Howl({ src: ['/Sounds/click_reverbed2.mp3'], volume: 1 }),
     ],
     normal: [
-      new Howl({ src: ["/Sounds/click.mp3"], volume: 0.25 }),
+      new Howl({ src: ["/Sounds/click.mp3"], volume: 0.25, rate: 3.5 }),
       // new Howl({ src: ['/Sounds/click_normal2.mp3'], volume: 1 }),
     ],
   },
@@ -48,6 +51,11 @@ export const useSoundEffects = isMenuOpen => {
     currentAmbient.current = ambient;
     ambient.play();
     ambient.fade(0, isHome ? 0.025 : 0.25, 2000);
+    if (isHome) {
+        console.log('homeambiance');
+    }else{
+        console.log('otherambiance');
+    }
   };
 
   // Mute or unmute all sounds, including interaction sounds
@@ -57,14 +65,14 @@ export const useSoundEffects = isMenuOpen => {
     gsap.to(Howler, {
       volume: targetVolume,
       duration: 1,
-      onComplete: () => Howler.mute(isMuted.current),
+    //   onComplete: () => Howler.mute(isMuted.current),
     });
   };
 
   // Adjust ambient playback rate based on menu state
   useEffect(() => {
     if (currentAmbient.current) {
-      const targetRate = isMenuOpen ? 0.75 : 1;
+      const targetRate = isMenuOpen ? 0.65 : 0.75;
       gsap.to(currentAmbient.current, { rate: targetRate, duration: 0.5 });
     }
   }, [isMenuOpen]);
@@ -80,6 +88,7 @@ export const useSoundEffects = isMenuOpen => {
     }
   };
 
+//   add event to page and trigger ambient
   useEffect(() => {
     playAmbientSound();
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -92,9 +101,12 @@ export const useSoundEffects = isMenuOpen => {
       if (isMuted.current) return;
 
       const excludedIds = ["exclude", "exclude"];
-      const includedIds = ["header", "exclude"];
-      const isButton = e.target.matches("button, a");
-      const shouldPlaySound = isButton || (includedIds.includes(e.target.id) && !excludedIds.includes(e.target.id));
+      const includedIds = ["header"];
+
+      const target = e.target;
+      const isButton = target instanceof Element && target.matches("button, a");
+      const shouldPlaySound =
+        isButton || (target instanceof Element && includedIds.includes(target.id) && !excludedIds.includes(target.id));
 
       if (shouldPlaySound) {
         const type = e.type === "mouseenter" ? "hover" : "click";
@@ -113,5 +125,14 @@ export const useSoundEffects = isMenuOpen => {
     };
   }, [isHome]);
 
-  return { toggleMute };
+  //play sound for about page slides
+  const playSlideSound = type => {
+    if (!isMuted.current) {
+      const pageType = isHome ? "reverbed" : "normal";
+      const sound = getRandomSound(interactionSounds[type][pageType]);
+      sound.play();
+    }
+  };
+
+  return { toggleMute, playSlideSound, currentAmbient };
 };

@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import "../Style/About.css";
 import Griddy from "../Scene/Grid";
 import Pool from "../Scene/Pool";
+import { useSoundEffects } from "../Component/SoundEffects";
 
 const data = [
   {
@@ -45,6 +46,7 @@ const data = [
 const About = () => {
   const slides = useRef([]);
   const infoSlider = useRef();
+  const { playSlideSound } = useSoundEffects();
 
   const addSlideRef = (el, index) => {
     slides.current[index] = el;
@@ -201,6 +203,8 @@ const About = () => {
         scrollTimeout.current = null; // Reset throttle after 1s
       }, 1000);
 
+      playSlideSound("click");
+
       previousIndex.current = activeIndex.current; // Track previous index
       activeIndex.current = index; // Update active index
 
@@ -216,6 +220,8 @@ const About = () => {
     scrollTimeout.current = setTimeout(() => {
       scrollTimeout.current = null; // Reset throttle after 1s
     }, 200);
+
+    playSlideSound("hover");
 
     // Squash and stretch effect
     gsap.to(targetClass, {
@@ -252,15 +258,14 @@ const About = () => {
           {data.map((item, index) => (
             <div
               className='slide'
+              id='slide'
               ref={el => addSlideRef(el, index)}
               onClick={() => handleClick(index)} // Update to handle click
               onMouseEnter={() => handleHoverEnter(index)}
               key={index}
             >
-            
               <div className='slideIconWrap'>
                 <span className={`slideIcon slideIcon-${index}`}>↔</span>
-              
               </div>
 
               <h3 className='title'>{item.title}</h3>
