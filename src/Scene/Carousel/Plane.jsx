@@ -3,7 +3,15 @@ import { useEffect, useMemo, useRef } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import useGPGPU from "./Gpgpu";
+import { Howl } from "howler";
 
+const hum = new Howl({
+  src: ["/Sounds/hum.mp3"],
+  loop: true, // Allows continuous play while the mouse moves
+  volume: 0,
+  rate: 0.9,
+  preload: true,
+});
 const Plane = ({ texture, width, height, active, ...props }) => {
   const $mesh = useRef();
   const { viewport, gl: renderer } = useThree();
@@ -11,6 +19,10 @@ const Plane = ({ texture, width, height, active, ...props }) => {
   const mouseIdleTime = useRef(0); // Track idle time
   const isMouseMoving = useRef(false); // Flag for mouse activity
 
+  const previousMousePosition = useRef({ x: 0, y: 0 });
+  const lastMovementTime = useRef(0);
+  const inactivityTimer = useRef(null);
+  let isFadingOut = false; 
   // GPGPU params
   const gpgpuParams = useMemo(
     () => ({
@@ -189,6 +201,69 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     [tex]
   );
 
+  // Start sound with fade-in when mouse enters
+  const handlePointerEnter = () => {
+    if (!hum.playing()) {
+      hum.play();
+    }
+    hum.fade(hum.volume(), 0.15, 1000); // Fade in smoothly to full volume
+    isFadingOut = false;
+  };
+
+  // Fade out to volume 0 on mouse leave to avoid popping
+  const handlePointerLeave = () => {
+    hum.fade(hum.volume(), 0, 1000); // Gradually fade out volume
+    isFadingOut = true;
+  };
+
+  // Handle mouse move over the plane to update the GPGPU texture
+  const handlePointerMove = event => {
+    const uv = event.uv; // UV coordinates of the mouse over the plane
+    if (uv) {
+      updateMouse(uv); // Update GPGPU state with the mouse position
+
+      const { x, y } = event.clientX;
+      const now = performance.now();
+
+      // Calculate mouse movement speed based on distance and time difference
+      const dx = x - previousMousePosition.current.x;
+      const dy = y - previousMousePosition.current.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const timeDelta = now - lastMovementTime.current || 1;
+      // const speed = distance / timeDelta;
+
+      // Calculate playback rate within specified range, with finite fallback
+      // const rate = THREE.MathUtils.clamp(0.75 + speed * 0.05, 0.75, 2.5);
+      // if (isFinite(rate)) {
+      //   hum.rate(rate); // Only set if rate is finite
+      // }
+
+    // Fade in only if we’re in a fade-out state
+    if (isFadingOut) {
+      hum.fade(hum.volume(), 0.15, 1000); // Smooth fade-in
+      isFadingOut = false; // Reset fade-out state
+    }
+
+    // Reset inactivity timer to fade out on inactivity
+    clearTimeout(inactivityTimer.current);
+    inactivityTimer.current = setTimeout(() => {
+      hum.fade(hum.volume(), 0, 1000); // Fade out volume on inactivity
+      isFadingOut = true; // Set fade-out state
+    }, 250); // Adjust delay as needed
+
+      // Update references for the next move event
+      previousMousePosition.current = { x, y };
+      lastMovementTime.current = now;
+
+      // Ensure volume is at max on movement
+      // hum.fade(hum.volume(), 1, 500);
+    }
+  };
+
+  useEffect(() => {
+    return () => hum.unload(); // Clean up sound when component unmounts
+  }, [hum]);
+
   useFrame(({ clock }) => {
     compute();
     $mesh.current.material.uniforms.uGrid.value = getTexture();
@@ -204,20 +279,8 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     }
   });
 
-  // Handle mouse move over the plane to update the GPGPU texture
-  const handlePointerMove = event => {
-    const uv = event.uv; // UV coordinates of the mouse over the plane
-    if (uv) {
-      updateMouse(uv); // Update GPGPU state with the mouse position
-    }
-  };
-
-  // const handlePointerStop = () => {
-  //   isMouseMoving.current = false; // On mouse stop, trigger lerp back
-  // };
-
   return (
-    <mesh ref={$mesh} {...props} onPointerMove={handlePointerMove} >
+    <mesh ref={$mesh} {...props} onPointerMove={handlePointerMove} onPointerEnter={handlePointerEnter} onPointerLeave={handlePointerLeave}>
       <planeGeometry args={[width, height, 30, 30]} />
       <shaderMaterial args={[shaderArgs]} />
     </mesh>

@@ -68,7 +68,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
             <Lightformer type='ring' intensity={2} rotation-y={Math.PI / 2} position={[-0.1, -1, -5]} scale={20} />
           </group>
         </Environment> */}
-        <OrbitControls />
+        {/* <OrbitControls /> */}
         {/* <Environment preset='night' environmentIntensity={1.5} /> */}
         {/* <Rig /> */}
 
@@ -133,7 +133,7 @@ export default Scene;
 function Rig() {
   const [vec] = useState(() => new THREE.Vector3());
   useFrame(state => {
-    state.camera.position.lerp(vec.set(state.pointer.x * 2, 2 + state.pointer.y * 2, 5), 0.01);
+    state.camera.position.lerp(vec.set(state.pointer.x * 0.25, state.pointer.y * 0.35, 5), 0.01);
     state.camera.lookAt(0, 0, 0);
   });
 }

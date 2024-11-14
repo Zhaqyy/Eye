@@ -6,10 +6,8 @@ import { useSoundEffects } from "./SoundEffects";
 
 const Transitioner = ({ children, isMenuOpen }) => {
   const location = useLocation();
-  const {
-    fadeOutSound,
-    fadeInSound,
-  } = useSoundEffects();
+  const { fadeOutSound, fadeInSound } = useSoundEffects();
+  const header = document.getElementById("header");
 
   const animateOverlayEnter = (overlay, clipPathEnd) => {
     // Animation to reveal the new page
@@ -39,21 +37,19 @@ const Transitioner = ({ children, isMenuOpen }) => {
     });
   };
 
-  // const fadeOutSound = () => {
-  //   if (currentAmbient.current && currentAmbient.current.playing()) {
-  //     // currentAmbient.current.fade(currentAmbient.current.volume(), 0, 1000);
-  //     gsap.to(currentAmbient.current, { rate: 0.6, duration: 0.5 });
-  //   }
-  // };
+  const handleEnterTransition = () => {
+    fadeInSound();
+    if (header) {
+      setTimeout(() => {
+        header.style.pointerEvents = "auto";
+      }, 1000);
+    }
+  };
 
-  // const fadeInSound = () => {
-  //   // playAmbientSound(); 
-  //   if (currentAmbient.current) {
-  //     // currentAmbient.current.fade(0, location.pathname === "/" ? 0.025 : 0.015, 1000);
-  //     gsap.to(currentAmbient.current, { rate: 1, duration: 0.5 });
-  //   }
-  // };
-
+  const handleExitTransition = () => {
+    fadeOutSound();
+    if (header) header.style.pointerEvents = "none";
+  };
 
   return (
     <SwitchTransition>
@@ -65,14 +61,14 @@ const Transitioner = ({ children, isMenuOpen }) => {
 
           animateOverlayEnter(overlay, "inset(0 0 0 0)");
 
-          fadeInSound;
+          handleEnterTransition();
         }}
         onExit={node => {
           const overlay = document.getElementById("overlay");
 
           animateOverlayExit(overlay, "inset(0 0 0% 0)");
 
-          fadeOutSound;
+          handleExitTransition();
         }}
       >
         <>
