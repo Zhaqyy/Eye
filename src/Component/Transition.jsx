@@ -1,10 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { SwitchTransition, Transition } from "react-transition-group";
 import { useLocation } from "react-router-dom";
 import gsap from "gsap";
+import { useSoundEffects } from "./SoundEffects";
 
-const Transitioner = ({ children }) => {
+const Transitioner = ({ children, isMenuOpen }) => {
   const location = useLocation();
+  const {
+    fadeOutSound,
+    fadeInSound,
+  } = useSoundEffects();
 
   const animateOverlayEnter = (overlay, clipPathEnd) => {
     // Animation to reveal the new page
@@ -34,6 +39,22 @@ const Transitioner = ({ children }) => {
     });
   };
 
+  // const fadeOutSound = () => {
+  //   if (currentAmbient.current && currentAmbient.current.playing()) {
+  //     // currentAmbient.current.fade(currentAmbient.current.volume(), 0, 1000);
+  //     gsap.to(currentAmbient.current, { rate: 0.6, duration: 0.5 });
+  //   }
+  // };
+
+  // const fadeInSound = () => {
+  //   // playAmbientSound(); 
+  //   if (currentAmbient.current) {
+  //     // currentAmbient.current.fade(0, location.pathname === "/" ? 0.025 : 0.015, 1000);
+  //     gsap.to(currentAmbient.current, { rate: 1, duration: 0.5 });
+  //   }
+  // };
+
+
   return (
     <SwitchTransition>
       <Transition
@@ -43,11 +64,15 @@ const Transitioner = ({ children }) => {
           const overlay = document.getElementById("overlay");
 
           animateOverlayEnter(overlay, "inset(0 0 0 0)");
+
+          fadeInSound;
         }}
         onExit={node => {
           const overlay = document.getElementById("overlay");
 
           animateOverlayExit(overlay, "inset(0 0 0% 0)");
+
+          fadeOutSound;
         }}
       >
         <>

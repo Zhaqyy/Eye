@@ -1,18 +1,15 @@
 import { Howl } from "howler";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import gsap from "gsap";
 
 // Ambient sounds setup
-const ambientSounds = {
-  home: new Howl({ src: ["/Sounds/homeAmb.mp3"], loop: true, volume: 1 }),
-  other: new Howl({ src: ["/Sounds/ambience.mp3"], loop: true, volume: 1 }),
-};
+const ambientSound = new Howl({ src: ["/Sounds/homeAmb.mp3"], loop: true, volume: 0 });
 
 // Interaction sounds setup
 const interactionSounds = {
   hover: {
-    reverbed: [new Howl({ src: ["/Sounds/popH.mp3"], volume: 0.005 }), new Howl({ src: ["/Sounds/popH2.mp3"], volume: 0.005 })],
+    reverbed: [new Howl({ src: ["/Sounds/popH.mp3"], volume: 0.0025 }), new Howl({ src: ["/Sounds/popH2.mp3"], volume: 0.005 })],
     normal: [
       new Howl({ src: ["/Sounds/hover1.mp3"], volume: 0.25, rate: 0.35 }),
       new Howl({ src: ["/Sounds/hover2.mp3"], volume: 0.25, rate: 0.35 }),
@@ -39,22 +36,25 @@ export const useSoundEffects = isMenuOpen => {
   const location = useLocation();
   const isHome = location.pathname === "/";
   const isMuted = useRef(false);
-  const currentAmbient = useRef(null);
+  const currentAmbient = useRef(ambientSound);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [inProximity, setInProximity] = useState(false);
 
   // Play the appropriate ambient sound regardless of toggle state
+  // const playAmbientSound = () => {
+  //   const targetVolume = isHome ? 0.025 : 0.015; // Lower volume for non-home pages
+  //   if (!currentAmbient.current.playing()) {
+  //     currentAmbient.current.play();
+  //     currentAmbient.current.fade(0, targetVolume, 1000); // fade in smoothly
+  //   } else {
+  //     currentAmbient.current.fade(0, targetVolume, 1000);
+  //   }
+  // };
   const playAmbientSound = () => {
-    const ambient = isHome ? ambientSounds.home : ambientSounds.other;
-    if (currentAmbient.current && currentAmbient.current !== ambient) {
-      currentAmbient.current.fade(isHome ? 0.025 : 0.25, 0, 2000);
-      setTimeout(() => currentAmbient.current.pause(), 2000);
-    }
-    currentAmbient.current = ambient;
-    ambient.play();
-    ambient.fade(0, isHome ? 0.025 : 0.25, 2000);
-    if (isHome) {
-        console.log('homeambiance');
-    }else{
-        console.log('otherambiance');
+    if (!currentAmbient.current.playing()) {
+      currentAmbient.current.play();
+      const targetVolume = isHome ? 0.025 : 0.015;
+      currentAmbient.current.fade(0, targetVolume, 1000);  // Fade in smoothly
     }
   };
 
@@ -65,7 +65,7 @@ export const useSoundEffects = isMenuOpen => {
     gsap.to(Howler, {
       volume: targetVolume,
       duration: 1,
-    //   onComplete: () => Howler.mute(isMuted.current),
+      //   onComplete: () => Howler.mute(isMuted.current),
     });
   };
 
@@ -77,18 +77,27 @@ export const useSoundEffects = isMenuOpen => {
     }
   }, [isMenuOpen]);
 
-  // Enhanced visibility change logic
+  // // Enhanced visibility change logic
+  // const handleVisibilityChange = () => {
+  //   if (document.visibilityState === "hidden" && currentAmbient.current.playing()) {
+  //     currentAmbient.current.fade(isHome ? 0.025 : 0.015, 0, 1000);
+  //     setTimeout(() => currentAmbient.current.pause(), 1000);
+  //   } else if (document.visibilityState === "visible" && !isMuted.current) {
+  //     currentAmbient.current.play();
+  //     currentAmbient.current.fade(0, isHome ? 0.025 : 0.015, 1000);
+  //   }
+  // };
+  // Detect tab visibility and fade sound out when hidden
   const handleVisibilityChange = () => {
     if (document.visibilityState === "hidden" && currentAmbient.current.playing()) {
-      currentAmbient.current.fade(isHome ? 0.025 : 0.25, 0, 1000);
+      currentAmbient.current.fade(isHome ? 0.025 : 0.015, 0, 1000);
       setTimeout(() => currentAmbient.current.pause(), 1000);
     } else if (document.visibilityState === "visible" && !isMuted.current) {
-      currentAmbient.current.play();
-      currentAmbient.current.fade(0, isHome ? 0.025 : 0.25, 1000);
+      playAmbientSound();
     }
   };
 
-//   add event to page and trigger ambient
+  //   add event to page and trigger ambient
   useEffect(() => {
     playAmbientSound();
     document.addEventListener("visibilitychange", handleVisibilityChange);
@@ -134,5 +143,43 @@ export const useSoundEffects = isMenuOpen => {
     }
   };
 
-  return { toggleMute, playSlideSound, currentAmbient };
+  // Fade out ambient sound and set transition flag
+  const fadeOutSound = () => {
+    setIsTransitioning(true);
+    if (currentAmbient.current.playing()) {
+      const volume = currentAmbient.current.volume();
+      currentAmbient.current.fade(volume, 0, 1000);
+      gsap.to(currentAmbient.current, { rate: 0.6, duration: 0.5 });
+    }
+  };
+
+  // Fade in ambient sound post-transition, adjust based on page type
+  const fadeInSound = () => {
+    setIsTransitioning(false);
+    const targetVolume = isHome ? 0.025 : 0.015;
+    if (!currentAmbient.current.playing()) {
+      currentAmbient.current.play();
+      currentAmbient.current.fade(0, targetVolume, 1000);
+    } else {
+      gsap.to(currentAmbient.current, { volume: targetVolume, rate: 1, duration: 0.5 });
+    }
+  };
+
+  // Update rate if in proximity and no transition
+  const updateProximityRate = proximity => {
+    if (!isTransitioning) {
+      const targetRate = 0.75 + (1 - proximity) * 0.25;
+      currentAmbient.current.rate(targetRate);
+    }
+  };
+
+  return {
+    toggleMute,
+    playSlideSound,
+    fadeOutSound,
+    fadeInSound,
+    updateProximityRate,
+    currentAmbient,
+    setInProximity,
+  };
 };

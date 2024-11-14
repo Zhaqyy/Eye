@@ -8,9 +8,12 @@ const Header = () => {
   const headerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false); // To track menu open state
 
-  // Use sound effects hook and pass the `isOpen` state to control ambient rate
-  const { currentAmbient } = useSoundEffects();
-  const { toggleMute } = useSoundEffects(isOpen);
+  const {
+    updateProximityRate,
+    setInProximity,
+    currentAmbient,
+  } = useSoundEffects();
+
 
   // Toggle menu open state on click
   const toggleMenu = () => {
@@ -70,10 +73,9 @@ const Header = () => {
           duration: 0.25, // Duration for a smooth animation
           ease: "power1.out",
         });
-        if (currentAmbient.current) {
-          const targetRate = 0.75 + (1 - proximity) * 0.25;
-          currentAmbient.current.rate(targetRate);
-        }
+
+        updateProximityRate(proximity);
+        setInProximity(proximity > 0); // Set proximity state
       }
     };
 
@@ -98,7 +100,7 @@ const Header = () => {
       window.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [isOpen, currentAmbient]);
+  }, [isOpen, updateProximityRate, currentAmbient]);
 
   const handleHeaderHover = () => {
     if (!isOpen) {
