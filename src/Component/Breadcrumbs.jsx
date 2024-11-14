@@ -75,7 +75,7 @@ const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex }, containerRef) =
   return (
     <ul className='bCrumb'>
       {projectData.map((item, index) => (
-        <li key={index} onMouseEnter={() => roll(index)} className={index === activeIndex ? "active" : ""}>
+        <li key={index} onMouseEnter={() => roll(index)} className={index === activeIndex ? "active" : ""} id={index === activeIndex ? "bCrumb" : ""}>
           {index === activeIndex && <p ref={firstLetterRef}>{firstLetters[activeIndex]}</p>}
         </li>
       ))}

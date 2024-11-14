@@ -54,7 +54,7 @@ export const useSoundEffects = isMenuOpen => {
     if (!currentAmbient.current.playing()) {
       currentAmbient.current.play();
       const targetVolume = isHome ? 0.025 : 0.015;
-      currentAmbient.current.fade(0, targetVolume, 1000);  // Fade in smoothly
+      currentAmbient.current.fade(0, targetVolume, 1000); // Fade in smoothly
     }
   };
 
@@ -77,23 +77,14 @@ export const useSoundEffects = isMenuOpen => {
     }
   }, [isMenuOpen]);
 
-  // // Enhanced visibility change logic
-  // const handleVisibilityChange = () => {
-  //   if (document.visibilityState === "hidden" && currentAmbient.current.playing()) {
-  //     currentAmbient.current.fade(isHome ? 0.025 : 0.015, 0, 1000);
-  //     setTimeout(() => currentAmbient.current.pause(), 1000);
-  //   } else if (document.visibilityState === "visible" && !isMuted.current) {
-  //     currentAmbient.current.play();
-  //     currentAmbient.current.fade(0, isHome ? 0.025 : 0.015, 1000);
-  //   }
-  // };
   // Detect tab visibility and fade sound out when hidden
   const handleVisibilityChange = () => {
     if (document.visibilityState === "hidden" && currentAmbient.current.playing()) {
       currentAmbient.current.fade(isHome ? 0.025 : 0.015, 0, 1000);
       setTimeout(() => currentAmbient.current.pause(), 1000);
     } else if (document.visibilityState === "visible" && !isMuted.current) {
-      playAmbientSound();
+      currentAmbient.current.play();
+      currentAmbient.current.fade(0, isHome ? 0.025 : 0.015, 1000);
     }
   };
 
@@ -110,7 +101,7 @@ export const useSoundEffects = isMenuOpen => {
       if (isMuted.current) return;
 
       const excludedIds = ["exclude", "exclude"];
-      const includedIds = ["header"];
+      const includedIds = ["header", "bCrumb"];
 
       const target = e.target;
       const isButton = target instanceof Element && target.matches("button, a");
@@ -179,7 +170,7 @@ export const useSoundEffects = isMenuOpen => {
     fadeOutSound,
     fadeInSound,
     updateProximityRate,
-    currentAmbient,
     setInProximity,
+    currentAmbient,
   };
 };
