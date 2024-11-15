@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { projectData } from "../Component/ProjectData";
 import "../Style/Work.css";
@@ -36,6 +36,21 @@ const Work = () => {
   const resetScrollPosition = () => {
     window.scrollTo(0, 0); // Scroll back to the top on routing
   };
+
+
+  const dragToRouteTransition = useCallback(() => {
+    const timeline = gsap.timeline();
+    timeline.to(workRef.current, {
+      opacity: 0,
+      duration: 0.5,
+      ease: "power1.inOut",
+    });
+    timeline.call(() => {
+      navigate(`/work/${nextProject.id}`);
+    });
+    return timeline;
+  }, [navigate, nextProject]);
+
 
   useGSAP(
     () => {
@@ -132,14 +147,11 @@ const Work = () => {
           onDragEnd: function () {
             if (this.hitTest(hit.current, "50%")) {
               // Trigger routing if hit test is successful
-              navigate(`/work/${nextProject.id}`);
+              // navigate(`/work/${nextProject.id}`);
+              dragToRouteTransition();
               resetDragPosition();
-              resetScrollPosition();
-              // const gall = ScrollTrigger.getById("gallery");
-              // if (gall) {
-              //   gall.refresh();
-              //   gall.kill({ reset: true });
-              // } // Recalculate scroll positions
+              // resetScrollPosition(); // Recalculate scroll positions
+             
             } else {
               // Restore to original position on release if not snapped
               gsap.to(drag.current, {
@@ -177,10 +189,6 @@ const Work = () => {
     },
     { dependencies: [nextProject, navigate], revertOnUpdate: true }
   );
-
-  // if (!data) {
-  //   return <h1>Project not found</h1>; // Handle case when any work is not found
-  // }
 
   return (
     <div>
