@@ -39,191 +39,210 @@ const Work = () => {
 
   useGSAP(
     () => {
-      // Pinning the `.work` section
-      let st = ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom bottom",
-        pin: workRef.current, // Pin the .work section
-        pinSpacing: false, // Disable spacing when pinned
-      });
+      if (!containerRef.current || !drag.current || !hit.current || !workRef.current) {
+        return;
+      }
+      const ctx = gsap.context(() => {
+        let st;
 
-      const slides = imageRefs.current;
+        if (containerRef.current && workRef.current) {
+          // Pinning the `.work` section
+          st = ScrollTrigger.create({
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            pin: workRef.current, // Pin the .work section
+            pinSpacing: false, // Disable spacing when pinned
+          });
+        }
 
-      //  Scroll snapping and flip animation for each image
-      slides.forEach((slide, index) => {
-        // Create the scrolling animation with flip effect
-        gsap.fromTo(
-          slide,
-          {
-            scale: 1, // Start from normal scale
-            // rotateX: 0,    // No initial rotation
-            // y: 0,          // No initial Y movement
-            // z: 0,          // No initial Z movement
-            opacity: 1, // Fully visible
-            filter: "grayscale(0%)", // No grayscale
-          },
-          {
-            scale: 0.95, // Scale down as it scrolls out
-            // rotateX: 90,   // Flip on the X-axis as it scrolls out
-            // y: -100,       // Move up slightly
-            // z: -200,       // Move away (depth)
-            opacity: 0, // Fade out
-            filter: "grayscale(100%)", // Turn grayscale as it fades
-            ease: "power1.inOut",
+        const slides = imageRefs.current;
 
-            scrollTrigger: {
-              trigger: slide,
-              start: "top top",
-              end: "bottom top",
-              toggleActions: "restart pause reverse pause",
-              scrub: true, // Scrubbing effect for smooth animation with scroll
-              // snap: 1 / slides.length, // Snaps to each image
-              // markers: true, // For debugging purposes
+        //  Scroll snapping and flip animation for each image
+        slides.forEach((slide, index) => {
+          if (!slide) return;
+          // Create the scrolling animation with flip effect
+          gsap.fromTo(
+            slide,
+            {
+              scale: 1, // Start from normal scale
+              // rotateX: 0,    // No initial rotation
+              // y: 0,          // No initial Y movement
+              // z: 0,          // No initial Z movement
+              opacity: 1, // Fully visible
+              filter: "grayscale(0%)", // No grayscale
             },
-          }
-        );
-      });
+            {
+              scale: 0.95, // Scale down as it scrolls out
+              // rotateX: 90,   // Flip on the X-axis as it scrolls out
+              // y: -100,       // Move up slightly
+              // z: -200,       // Move away (depth)
+              opacity: 0, // Fade out
+              filter: "grayscale(100%)", // Turn grayscale as it fades
+              ease: "power1.inOut",
 
-      // // Creating a scroll effect
-      gsap.to(containerRef.current, {
-        //for horizontal
-        // xPercent: -100,
-        yPercent: -100,
-        ease: "none",
-        scrollTrigger: {
-          id: `gallery`,
-          trigger: containerRef.current,
-          start: "top top",
-          end: "bottom top",
-          toggleActions: "restart pause reverse pause",
-          // pin: true,
-          scrub: true,
-          // snap: 1 / (slides.length + 1), // Snaps to each image
-          // markers: true, // For debugging purposes
-        },
-      });
-
-      const dragtoroute = Draggable.create(drag.current, {
-        type: "x", // Only allow horizontal dragging
-        bounds: dragBounds.current,
-        edgeResistance: 1,
-        lockAxis: true,
-        // inertia: true,
-        snap: {
-          x: endX => {
-            if (this.hitTest(hit.current, "50%")) {
-              // Snap to the hit element's X position
-              return gsap.getProperty(hit.current, "x");
+              scrollTrigger: {
+                trigger: slide,
+                start: "top top",
+                end: "bottom top",
+                toggleActions: "restart pause reverse pause",
+                scrub: true, // Scrubbing effect for smooth animation with scroll
+                // snap: 1 / slides.length, // Snaps to each image
+                // markers: true, // For debugging purposes
+              },
             }
-            return endX; // Otherwise, snap back to original position
-          },
-        },
-        onDragEnd: function () {
-          if (this.hitTest(hit.current, "50%")) {
-            // Trigger routing if hit test is successful
-            navigate(`/work/${nextProject.id}`);
-            resetDragPosition();
-            resetScrollPosition();
-            // const gall = ScrollTrigger.getById("gallery");
-            // if (gall) {
-            //   gall.refresh();
-            //   gall.kill({ reset: true });
-            // } // Recalculate scroll positions
-          } else {
-            // Restore to original position on release if not snapped
-            gsap.to(drag.current, {
-              duration: 0.4,
-              x: 0,
-              y: 0,
-              scale: 1,
-              ease: "elastic.out(.45)",
-            });
-          }
-        },
-        onPress: () => {
-          gsap.to(drag.current, { duration: 0.1, scale: 0.95 });
-        },
-      });
+          );
+        });
 
-      return () => {
-        st.kill();
-        resetDragPosition();
-        resetScrollPosition();
-        dragtoroute[0].kill(); // Kill the Draggable instance
-        // const gall = ScrollTrigger.getById("gallery");
-        // if (gall) {
-        //   gall.refresh();
-        //   gall.kill({ reset: true });
-        // }
-      };
+        // // Creating a scroll effect
+        gsap.to(containerRef.current, {
+          //for horizontal
+          // xPercent: -100,
+          yPercent: -100,
+          ease: "none",
+          scrollTrigger: {
+            id: `gallery`,
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom top",
+            toggleActions: "restart pause reverse pause",
+            // pin: true,
+            scrub: true,
+            // snap: 1 / (slides.length + 1), // Snaps to each image
+            // markers: true, // For debugging purposes
+          },
+        });
+
+        // Drag to route logic
+        const dragtoroute = Draggable.create(drag.current, {
+          type: "x", // Only allow horizontal dragging
+          bounds: dragBounds.current,
+          edgeResistance: 1,
+          lockAxis: true,
+          // inertia: true,
+          snap: {
+            x: endX => {
+              if (this.hitTest(hit.current, "50%")) {
+                // Snap to the hit element's X position
+                return gsap.getProperty(hit.current, "x");
+              }
+              return endX; // Otherwise, snap back to original position
+            },
+          },
+          onDragEnd: function () {
+            if (this.hitTest(hit.current, "50%")) {
+              // Trigger routing if hit test is successful
+              navigate(`/work/${nextProject.id}`);
+              resetDragPosition();
+              resetScrollPosition();
+              // const gall = ScrollTrigger.getById("gallery");
+              // if (gall) {
+              //   gall.refresh();
+              //   gall.kill({ reset: true });
+              // } // Recalculate scroll positions
+            } else {
+              // Restore to original position on release if not snapped
+              gsap.to(drag.current, {
+                duration: 0.4,
+                x: 0,
+                y: 0,
+                scale: 1,
+                ease: "elastic.out(.45)",
+              });
+            }
+          },
+          onPress: () => {
+            gsap.to(drag.current, { duration: 0.1, scale: 0.95 });
+          },
+        });
+
+        return () => {
+          // st.kill();
+          // resetDragPosition();
+          // resetScrollPosition();
+          // dragtoroute[0].kill();
+          // Only kill ScrollTrigger if it exists
+          if (st) st.kill();
+
+          // Check and reset the draggable instance
+          if (drag.current) resetDragPosition();
+          if (containerRef.current) resetScrollPosition();
+
+          // Ensure `dragtoroute` exists before calling `kill`
+          if (dragtoroute && dragtoroute[0]) dragtoroute[0].kill();
+        };
+      }, containerRef);
+
+      return () => ctx.revert();
     },
     { dependencies: [nextProject, navigate], revertOnUpdate: true }
   );
 
-  if (!data) {
-    return <h1>Work not found</h1>; // Handle case when any work is not found
-  }
+  // if (!data) {
+  //   return <h1>Project not found</h1>; // Handle case when any work is not found
+  // }
 
   return (
-    <div className='work-wrap' ref={workRef}>
-      <section className='work'>
-        <div className='title'>
-          <h6>
-            {data?.client} - {data?.year}
-          </h6>
-          <h1>{data?.title}</h1>
-        </div>
-        <div className='detail'>
-          <div className='desc'>
-            <p>{data?.detail}</p>
+    <div>
+      <div className='work-wrap' ref={workRef}>
+        <section className='work'>
+          <div className='title'>
+            <h6>
+              {data?.client} - {data?.year}
+            </h6>
+            <h1>{data?.title}</h1>
           </div>
-          <div className='service' ref={serviceRef}>
-            <div>
-              <h4>Services</h4>
-              <ul>
-                {data?.role?.map((roleItem, index) => (
-                  <li key={index}>
-                    <p>{roleItem}</p>
-                  </li>
-                ))}
-              </ul>
+          <div className='detail'>
+            <div className='desc'>
+              <p>{data?.detail}</p>
             </div>
-            <div className='stack'>
-              <h4>Stack/Tools</h4>
-              <ul>
-                {data?.stack?.map((stackItem, index) => (
-                  <li key={index}>{stackItem}</li>
-                ))}
-              </ul>
+            <div className='service' ref={serviceRef}>
+              <div>
+                <h4>Services</h4>
+                <ul>
+                  {data?.role?.map((roleItem, index) => (
+                    <li key={index}>
+                      <p>{roleItem}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className='stack'>
+                <h4>Stack/Tools</h4>
+                <ul>
+                  {data?.stack?.map((stackItem, index) => (
+                    <li key={index}>{stackItem}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className='liveBtn'>
+              <span>⤏</span>
+              <Link to={data?.url}>Live View</Link>
             </div>
           </div>
-          <div className="liveBtn">
-            <span>⤏</span>
-            <Link to={data?.url}>Live View</Link>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Gallery Section */}
-      <section className='gallery' ref={containerRef}>
-        {data?.gallery?.map((image, index) => (
-          <img src={image} key={index} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
-        ))}
+        {/* Gallery Section */}
+        <section className='gallery' ref={containerRef}>
+          {data?.gallery?.map((image, index) => (
+            <img src={image} key={index} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
+          ))}
 
-        <div className='next'>
-          <div className='pTitle'>
-            <p>Next Project</p>
-            <h2>{nextProject?.title}</h2>
+          <div className='next'>
+            <div className='pTitle'>
+              <p>Next Project</p>
+              <h2>{nextProject?.title}</h2>
+            </div>
+            <div ref={dragBounds} className='dragBounds'>
+              <div ref={drag} className='drag'></div>
+              <div ref={hit} className='hit'></div>
+            </div>
+            <img src={nextProject?.image} className='nextProjImg' alt={`project ${nextProject?.title}`} />
           </div>
-          <div ref={dragBounds} className='dragBounds'>
-            <div ref={drag} className='drag'></div>
-            <div ref={hit} className='hit'></div>
-          </div>
-          <img src={nextProject?.image} className='nextProjImg' alt={`project ${nextProject?.title}`} />
-        </div>
-      </section>
-      {/* <VerticalGallery images={data?.gallery}/> */}
+        </section>
+        {/* <VerticalGallery images={data?.gallery}/> */}
+      </div>
     </div>
   );
 };
@@ -344,58 +363,58 @@ export default Work;
 // };
 // }, [nextProject, navigate])
 
-export const VerticalGallery = ({ images }) => {
-  const containerRef = useRef(null);
-  const cardsRef = useRef([]);
+// export const VerticalGallery = ({ images }) => {
+//   const containerRef = useRef(null);
+//   const cardsRef = useRef([]);
 
-  useEffect(() => {
-    const totalCards = images.length;
+//   useEffect(() => {
+//     const totalCards = images.length;
 
-    // Define GSAP ScrollTrigger for snapping and animation
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: "top top",
-      end: () => `+=${containerRef.current.offsetHeight}`, // adjust end dynamically
-      snap: {
-        snapTo: 1 / (totalCards - 1), // Snap to each card
-        duration: 0.5,
-        ease: "power1.inOut",
-      },
-      onUpdate: self => updateCards(self.progress),
-    });
+//     // Define GSAP ScrollTrigger for snapping and animation
+//     ScrollTrigger.create({
+//       trigger: containerRef.current,
+//       start: "top top",
+//       end: () => `+=${containerRef.current.offsetHeight}`, // adjust end dynamically
+//       snap: {
+//         snapTo: 1 / (totalCards - 1), // Snap to each card
+//         duration: 0.5,
+//         ease: "power1.inOut",
+//       },
+//       onUpdate: self => updateCards(self.progress),
+//     });
 
-    // Function to dynamically adjust card height based on scroll
-    const updateCards = progress => {
-      const currentIndex = Math.round(progress * (totalCards - 1));
+//     // Function to dynamically adjust card height based on scroll
+//     const updateCards = progress => {
+//       const currentIndex = Math.round(progress * (totalCards - 1));
 
-      // Animate the center card (current one) and the adjacent ones
-      cardsRef.current.forEach((card, i) => {
-        const distance = Math.abs(currentIndex - i); // Distance from the center
+//       // Animate the center card (current one) and the adjacent ones
+//       cardsRef.current.forEach((card, i) => {
+//         const distance = Math.abs(currentIndex - i); // Distance from the center
 
-        if (distance === 0) {
-          // Center card
-          gsap.to(card, { height: "60vh", duration: 0.5 });
-        } else if (distance === 1) {
-          // Adjacent cards (before and after)
-          gsap.to(card, { height: "10vh", duration: 0.5 });
-        } else {
-          // Other cards (invisible)
-          gsap.to(card, { height: "0vh", duration: 0.5 });
-        }
-      });
-    };
-  }, [images]);
+//         if (distance === 0) {
+//           // Center card
+//           gsap.to(card, { height: "60vh", duration: 0.5 });
+//         } else if (distance === 1) {
+//           // Adjacent cards (before and after)
+//           gsap.to(card, { height: "10vh", duration: 0.5 });
+//         } else {
+//           // Other cards (invisible)
+//           gsap.to(card, { height: "0vh", duration: 0.5 });
+//         }
+//       });
+//     };
+//   }, [images]);
 
-  return (
-    <div className='gallery-container' ref={containerRef}>
-      {/* {data?.gallery?.map((image, index) => (
-          <img src={image} key={index} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
-        ))} */}
-      {images.map((image, index) => (
-        <div key={index} className='gallery-card' ref={el => (cardsRef.current[index] = el)}>
-          <img src={image} alt={`Gallery Image ${index}`} />
-        </div>
-      ))}
-    </div>
-  );
-};
+//   return (
+//     <div className='gallery-container' ref={containerRef}>
+//       {/* {data?.gallery?.map((image, index) => (
+//           <img src={image} key={index} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
+//         ))} */}
+//       {images.map((image, index) => (
+//         <div key={index} className='gallery-card' ref={el => (cardsRef.current[index] = el)}>
+//           <img src={image} alt={`Gallery Image ${index}`} />
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };

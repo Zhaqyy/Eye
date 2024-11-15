@@ -1,39 +1,37 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SwitchTransition, Transition } from "react-transition-group";
 import { useLocation } from "react-router-dom";
 import gsap from "gsap";
 import { useSoundEffects } from "./SoundEffects";
 
-const Transitioner = ({ children, isMenuOpen }) => {
+const Transitioner = ({ children }) => {
   const location = useLocation();
   const { fadeOutSound, fadeInSound } = useSoundEffects();
   const header = document.getElementById("header");
+  const overlayRef = useRef(null);
 
-  const animateOverlayEnter = (overlay, clipPathEnd) => {
-    // Animation to reveal the new page
-    gsap.set(overlay, { clipPath: clipPathEnd, opacity: 1, display: "block" });
+  const animateOverlayEnter = overlay => {
+    if (!overlay) return;
+    gsap.set(overlay, { clipPath: "inset(0 0 0 0)", opacity: 1, display: "block" });
     return gsap.to(overlay, {
       clipPath: "inset(0 0 100% 0)",
       duration: 1.0,
-      ease: "power1.Out",
+      ease: "expo.inOut",
       delay: 0.5,
       onComplete: () => {
-        gsap.set(overlay, {
-          opacity: 0,
-          display: "none",
-        });
+        gsap.set(overlay, { opacity: 0, display: "none" });
       },
     });
   };
 
-  const animateOverlayExit = (overlay, clipPathStart) => {
-    // Animation to cover the current page
+  const animateOverlayExit = overlay => {
+    if (!overlay) return;
     gsap.set(overlay, { clipPath: "inset(0 0 100% 0)", opacity: 1, display: "block" });
     return gsap.to(overlay, {
-      clipPath: clipPathStart,
+      clipPath: "inset(0 0 0% 0)",
       duration: 0.5,
+      ease: "expo.inOut",
       delay: 0.5,
-      ease: "power1.Out",
     });
   };
 
@@ -51,22 +49,28 @@ const Transitioner = ({ children, isMenuOpen }) => {
     if (header) header.style.pointerEvents = "none";
   };
 
+  useEffect(() => {
+    const ctx = gsap.context(() => {}, overlayRef);
+
+    return () => ctx.revert(); // Clean up animations on unmount
+  }, []);
+
   return (
     <SwitchTransition>
       <Transition
         key={location.pathname}
         timeout={1000}
         onEnter={node => {
-          const overlay = document.getElementById("overlay");
+          const overlay = overlayRef.current;
 
-          animateOverlayEnter(overlay, "inset(0 0 0 0)");
+          animateOverlayEnter(overlay);
 
           handleEnterTransition();
         }}
         onExit={node => {
-          const overlay = document.getElementById("overlay");
+          const overlay = overlayRef.current;
 
-          animateOverlayExit(overlay, "inset(0 0 0% 0)");
+          animateOverlayExit(overlay);
 
           handleExitTransition();
         }}
@@ -74,6 +78,7 @@ const Transitioner = ({ children, isMenuOpen }) => {
         <>
           <div
             id='overlay'
+            ref={overlayRef}
             style={{
               position: "fixed",
               top: 0,
