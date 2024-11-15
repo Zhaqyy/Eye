@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 // import gsap from "gsap";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import PostProcessing from "./PostProcessing";
 import { projectData } from "../../Component/ProjectData";
 import Plane from "./Plane";
@@ -21,10 +21,24 @@ Lerp
 export const lerp = (v0, v1, t) => v0 * (1 - t) + v1 * t;
 
 /*------------------------------
+Sound
+------------------------------*/
+const slideSound = new Howl({
+  src: ["/Sounds/swing2.mp3"],
+  volume: 0.005,
+  rate: 2.5,
+});
+const clickSound = new Howl({
+  src: ["/Sounds/swing.mp3"],
+  volume: 0.0025,
+  rate: 4.5,
+});
+
+/*------------------------------
 Carousel
 ------------------------------*/
 const Carousel = ({ activeIndex, setActiveIndex }) => {
-//   const [activeIndex, setActiveIndex] = useState(0); // Active image index
+  //   const [activeIndex, setActiveIndex] = useState(0); // Active image index
   const [isTransitioning, setIsTransitioning] = useState(false); // Prevent multiple transitions
   const slideCount = useMemo(() => projectData.length, []); // Number of slides
   const { viewport } = useThree();
@@ -33,13 +47,13 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
   // Add a delay between transitions (e.g., 0.5s after the transition)
   const delayBetweenTransitions = 750;
 
-  
   /*--------------------
   Handle click navigation
   --------------------*/
   const navigate = useNavigate();
 
   const handleNavigation = () => {
+    clickSound.play();
     navigate(`/Work/${projectData[activeIndex].id}`);
   };
 
@@ -87,6 +101,8 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
     if (isTransitioning) return; // Prevent slide changes while transitioning
     setIsTransitioning(true); // Lock transitions
 
+    slideSound.play();
+
     setActiveIndex(prev => (prev + 1) % slideCount); // Move to the next slide
 
     // Unlock transitions after a delay
@@ -98,6 +114,8 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
   const prevSlide = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
+
+    slideSound.play();
 
     setActiveIndex(prev => (prev - 1 + slideCount) % slideCount); // Move to the previous slide
 

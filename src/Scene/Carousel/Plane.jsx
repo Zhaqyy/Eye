@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useThree, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import useGPGPU from "./Gpgpu";
@@ -18,9 +18,9 @@ const Plane = ({ texture, width, height, active, ...props }) => {
   const tex = useTexture(texture);
   const mouseIdleTime = useRef(0); // Track idle time
   const isMouseMoving = useRef(false); // Flag for mouse activity
+  const [hovered, setHovered] = useState(false)
 
-  const previousMousePosition = useRef({ x: 0, y: 0 });
-  const lastMovementTime = useRef(0);
+
   const inactivityTimer = useRef(null);
   let isFadingOut = false; 
   // GPGPU params
@@ -201,6 +201,11 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     [tex]
   );
 
+  useEffect(() => {
+    document.body.style.cursor = hovered ? 'pointer' : 'auto'
+  }, [hovered])
+
+  
   // Start sound with fade-in when mouse enters
   const handlePointerEnter = () => {
     if (!hum.playing()) {
@@ -208,12 +213,14 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     }
     hum.fade(hum.volume(), 0.15, 1000); // Fade in smoothly to full volume
     isFadingOut = false;
+    setHovered(true)
   };
 
   // Fade out to volume 0 on mouse leave to avoid popping
   const handlePointerLeave = () => {
     hum.fade(hum.volume(), 0, 1000); // Gradually fade out volume
     isFadingOut = true;
+    setHovered(false)
   };
 
   // Handle mouse move over the plane to update the GPGPU texture
@@ -222,21 +229,6 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     if (uv) {
       updateMouse(uv); // Update GPGPU state with the mouse position
 
-      const { x, y } = event.clientX;
-      const now = performance.now();
-
-      // Calculate mouse movement speed based on distance and time difference
-      const dx = x - previousMousePosition.current.x;
-      const dy = y - previousMousePosition.current.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      const timeDelta = now - lastMovementTime.current || 1;
-      // const speed = distance / timeDelta;
-
-      // Calculate playback rate within specified range, with finite fallback
-      // const rate = THREE.MathUtils.clamp(0.75 + speed * 0.05, 0.75, 2.5);
-      // if (isFinite(rate)) {
-      //   hum.rate(rate); // Only set if rate is finite
-      // }
 
     // Fade in only if we’re in a fade-out state
     if (isFadingOut) {
@@ -251,18 +243,13 @@ const Plane = ({ texture, width, height, active, ...props }) => {
       isFadingOut = true; // Set fade-out state
     }, 250); // Adjust delay as needed
 
-      // Update references for the next move event
-      previousMousePosition.current = { x, y };
-      lastMovementTime.current = now;
 
-      // Ensure volume is at max on movement
-      // hum.fade(hum.volume(), 1, 500);
     }
   };
 
-  useEffect(() => {
-    return () => hum.unload(); // Clean up sound when component unmounts
-  }, [hum]);
+  // useEffect(() => {
+  //   return () => hum.unload(); // Clean up sound when component unmounts
+  // }, [hum]);
 
   useFrame(({ clock }) => {
     compute();
