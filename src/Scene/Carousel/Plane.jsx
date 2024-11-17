@@ -211,7 +211,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
     if (!hum.playing()) {
       hum.play();
     }
-    hum.fade(hum.volume(), 0.15, 1000); // Fade in smoothly to full volume
+    hum.fade(hum.volume(), 0.25, 1000); // Fade in smoothly to full volume
     isFadingOut = false;
     setHovered(true)
   };
@@ -232,7 +232,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
 
     // Fade in only if we’re in a fade-out state
     if (isFadingOut) {
-      hum.fade(hum.volume(), 0.15, 1000); // Smooth fade-in
+      hum.fade(hum.volume(), 0.25, 1000); // Smooth fade-in
       isFadingOut = false; // Reset fade-out state
     }
 

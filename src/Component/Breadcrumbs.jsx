@@ -22,22 +22,6 @@ const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex }, containerRef) =
     }
   }, [activeIndex]); // Re-run animation when activeIndex changes
 
-  const maxRotate = 90;
-  const perspective = 25;
-  const plane = useRef(null);
-  //   const containerRef = useRef(null);
-
-  //     const manageMouseMove = e => {
-  //       const x = e.clientX / window.innerWidth;
-  //       const y = e.clientY / window.innerHeight;
-  //       const perspective = 25
-  //       const rotateX = maxRotate * x - maxRotate / 2;
-  //       const rotateY = (maxRotate * y - maxRotate / 2) * -1;
-  //       if (firstLetterRef.current) {
-  //         firstLetterRef.current.style.transform = `rotateX(${rotateY}deg) rotateY(${rotateX}deg)`;
-  //       }
-  //     };
-
   const { contextSafe } = useGSAP();
 
   const handleRoll = contextSafe(() => {
@@ -45,7 +29,7 @@ const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex }, containerRef) =
     const randomRotationX = (Math.random() - 0.5) * 720; // Range: -360 to 360 degrees
     const randomRotationY = (Math.random() - 0.5) * 720; // Range: -360 to 360 degrees
     const randomRotationZ = (Math.random() - 0.5) * 720; // Range: -360 to 360 degrees
-  
+
     // Animate the random 3D rotation with GSAP
     gsap.to(firstLetterRef.current, {
       rotateX: randomRotationX,
@@ -62,7 +46,7 @@ const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex }, containerRef) =
           ease: "elastic.out(.95)",
           duration: 1.0, // Duration of the reset animation
         });
-      }
+      },
     });
   });
   // Event handler setup
@@ -75,7 +59,12 @@ const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex }, containerRef) =
   return (
     <ul className='bCrumb'>
       {projectData.map((item, index) => (
-        <li key={index} onMouseEnter={() => roll(index)} className={index === activeIndex ? "active" : ""} id={index === activeIndex ? "bCrumb" : ""}>
+        <li
+          key={index}
+          onMouseEnter={() => roll(index)}
+          className={index === activeIndex ? "active" : ""}
+          id={index === activeIndex ? "bCrumb" : ""}
+        >
           {index === activeIndex && <p ref={firstLetterRef}>{firstLetters[activeIndex]}</p>}
         </li>
       ))}

@@ -194,4 +194,5 @@
 }
 .abtCanvas .sceneInfo > p {
   flex-grow: 1;
+  overflow: scroll;
 }/*# sourceMappingURL=About.css.map */

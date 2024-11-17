@@ -12,7 +12,6 @@ Plane Settings
 const planeSettings = {
   width: 5.5,
   height: 3,
-  gap: 10,
 };
 
 /*------------------------------

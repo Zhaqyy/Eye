@@ -51,7 +51,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 
   return (
     <>
-      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 150 }}>
+      <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 15 }} resize={{ debounce: 0 }} shadows={false} >
         {/* Scene & Utils */}
         <Perf position='top-left' />
         <color attach='background' args={["#050505"]} />
@@ -100,7 +100,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
           {/* <DepthSpotlight /> */}
 
           {/* Main Scene */}
-        <Bounds fit clip observe margin={0.3}>
+        {/* <Bounds fit clip observe margin={0.3}> */}
 
           <group position={[0, 0, -1]}>
             <Pillars />
@@ -108,7 +108,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
           </group>
 
           <Grass />
-        </Bounds>
+        {/* </Bounds> */}
         {/* </Suspense> */}
         {/* About Page Tests */}
         {/* <Grid/> */}

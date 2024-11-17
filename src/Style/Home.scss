@@ -190,6 +190,10 @@ h2 {
     }
   }
 
+  .titleMobile {
+    display: none;
+  }
+
   .hero-footer {
     width: 100%;
     // min-height: 10vh;
@@ -202,7 +206,6 @@ h2 {
     // border: 1px solid var(--border);
 
     .sound {
-      width: 300px;
       pointer-events: all;
       cursor: pointer;
 
@@ -225,6 +228,10 @@ h2 {
       transform-style: preserve-3d;
       perspective: 25vw;
       pointer-events: all;
+
+      position: absolute;
+      left: 50%;
+      translate: -50% 0;
 
       li {
         width: 30px;
@@ -271,6 +278,67 @@ h2 {
           opacity: 1;
         }
       }
+    }
+  }
+}
+
+@media (width <= 999px) {
+  .hero {
+    .main-hero {
+      justify-content: start;
+
+      .nav {
+        display: none;
+      }
+
+      .detail {
+        min-width: auto;
+        flex-direction: row;
+        width: 100%;
+        height: fit-content;
+        padding-block: 10vh;
+        justify-content: space-between;
+        gap: 1rem;
+        font-variant-caps: all-small-caps;
+        // font-synthesis-weight: none;
+
+        h1 {
+          line-height: 1;
+        }
+        .project {
+          display: none;
+        }
+      }
+    }
+
+    .titleMobile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      a {
+        text-transform: uppercase;
+        font-size: 1.5rem;
+        pointer-events: all;
+        transition: all 0.5s ease;
+      }
+    }
+
+    .hero-footer {
+      .contact {
+        min-width: auto;
+      }
+    }
+  }
+}
+
+@media (width <= 550px) {
+  .hero .main-hero .detail h5 {
+    width: min-content;
+  }
+  .hero .hero-footer {
+    .contact {
+      display: none;
     }
   }
 }

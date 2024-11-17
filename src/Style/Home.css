@@ -154,6 +154,9 @@ h2 {
 .hero .main-hero .detail .project li p:hover {
   opacity: 1;
 }
+.hero .titleMobile {
+  display: none;
+}
 .hero .hero-footer {
   width: 100%;
   display: flex;
@@ -164,7 +167,6 @@ h2 {
   font-size: 0.75rem;
 }
 .hero .hero-footer .sound {
-  width: 300px;
   pointer-events: all;
   cursor: pointer;
 }
@@ -185,6 +187,9 @@ h2 {
   transform-style: preserve-3d;
   perspective: 25vw;
   pointer-events: all;
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
 }
 .hero .hero-footer .bCrumb li {
   width: 30px;
@@ -223,4 +228,53 @@ h2 {
 }
 .hero .hero-footer .contact a:hover {
   opacity: 1;
+}
+
+@media (width <= 999px) {
+  .hero .main-hero {
+    justify-content: start;
+  }
+  .hero .main-hero .nav {
+    display: none;
+  }
+  .hero .main-hero .detail {
+    min-width: auto;
+    flex-direction: row;
+    width: 100%;
+    height: -moz-fit-content;
+    height: fit-content;
+    padding-block: 10vh;
+    justify-content: space-between;
+    gap: 1rem;
+    font-variant-caps: all-small-caps;
+  }
+  .hero .main-hero .detail h1 {
+    line-height: 1;
+  }
+  .hero .main-hero .detail .project {
+    display: none;
+  }
+  .hero .titleMobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .hero .titleMobile a {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    pointer-events: all;
+    transition: all 0.5s ease;
+  }
+  .hero .hero-footer .contact {
+    min-width: auto;
+  }
+}
+@media (width <= 550px) {
+  .hero .main-hero .detail h5 {
+    width: -moz-min-content;
+    width: min-content;
+  }
+  .hero .hero-footer .contact {
+    display: none;
+  }
 }/*# sourceMappingURL=Home.css.map */

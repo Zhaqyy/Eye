@@ -3,7 +3,8 @@ import Word from "../Component/SplitWord";
 import "../Style/Home.css";
 import { projectData } from "../Component/ProjectData";
 import Breadcrumbs from "../Component/Breadcrumbs";
-import { useSoundEffects } from '../Component/SoundEffects';
+import { useSoundEffects } from "../Component/SoundEffects";
+import { Link } from "react-router-dom";
 
 function Home({ activeIndex, setActiveIndex }) {
   const containerRef = useRef(null);
@@ -15,10 +16,10 @@ function Home({ activeIndex, setActiveIndex }) {
         <nav className='nav'>
           <ul>
             <li className='nav-item'>
-              <Word word={"Overview"} url="/" />
+              <Word word={"Overview"} url='/' />
             </li>
             <li className='nav-item'>
-              <Word word={"About"} url="/About" />
+              <Word word={"About"} url='/About' />
             </li>
             <li className='nav-item'>
               <Word word={"Lab"} />
@@ -50,11 +51,16 @@ function Home({ activeIndex, setActiveIndex }) {
           <h5>Available for Work/Freelance</h5>
         </div>
       </div>
+      
+      <div className='titleMobile'>
+        <Link to={`/Work/${projectData[activeIndex].id}`}>{projectData[activeIndex].title}</Link>
+      </div>
+
       <div className='hero-footer' ref={containerRef}>
-        <button 
-        onClick={toggleMute} 
-        className='sound'><span>S</span></button>
-        <Breadcrumbs activeIndex={activeIndex} setActiveIndex={setActiveIndex} ref={containerRef}/>
+        <button onClick={toggleMute} className='sound'>
+          <span>S</span>
+        </button>
+        <Breadcrumbs activeIndex={activeIndex} setActiveIndex={setActiveIndex} ref={containerRef} />
         <ul className='contact'>
           <li>
             <a href='#'>LinkedIn</a>
