@@ -1,4 +1,5 @@
 import {
+  Bounds,
   Cloud,
   Clouds,
   Environment,
@@ -73,10 +74,10 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <Rig /> */}
 
         {/* <Suspense fallback={null}> */}
-          {/* Lights */}
-          <ambientLight intensity={0.95} />
-          <pointLight position={[0, 5, 0]} color='white' intensity={50} />
-          {/* <pointLight position={[-2, 5, 0]} color='#72ada8' intensity={100} /> */}
+        {/* Lights */}
+        <ambientLight intensity={0.95} />
+        <pointLight position={[0, 5, 0]} color='white' intensity={50} />
+        {/* <pointLight position={[-2, 5, 0]} color='#72ada8' intensity={100} /> */}
 
           {/* good one */}
           <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color='#6f95a2' opacity={0.92} length={15} />
@@ -99,12 +100,15 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
           {/* <DepthSpotlight /> */}
 
           {/* Main Scene */}
+        <Bounds fit clip observe margin={0.3}>
+
           <group position={[0, 0, -1]}>
             <Pillars />
             <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
           </group>
 
           <Grass />
+        </Bounds>
         {/* </Suspense> */}
         {/* About Page Tests */}
         {/* <Grid/> */}
@@ -122,9 +126,8 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
       ))} */}
         {/* <Tether start={eye} end={ghost} /> */}
         {/* <InstancedTether start={eye} positions={positions} /> */}
-
       </Canvas>
-        {/* <Loader /> */}
+      {/* <Loader /> */}
     </>
   );
 };
