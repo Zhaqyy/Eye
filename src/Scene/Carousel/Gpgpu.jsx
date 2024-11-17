@@ -80,14 +80,26 @@ const useGPGPU = ({ renderer, size, params }) => {
     variableRef.current.material.uniforms.uMouse.value = uv;
   };
 
+  // const compute = () => {
+  //   if (gpgpuRef.current) {
+  //     gpgpuRef.current.compute();
+  //   }
+  //   variableRef.current.material.uniforms.uMouseMove.value *= 0.95;
+  //   variableRef.current.material.uniforms.uDeltaMouse.value.multiplyScalar(variableRef.current.material.uniforms.uRelaxation.value);
+  // };
   const compute = () => {
     if (gpgpuRef.current) {
       gpgpuRef.current.compute();
     }
-    variableRef.current.material.uniforms.uMouseMove.value *= 0.95;
-    variableRef.current.material.uniforms.uDeltaMouse.value.multiplyScalar(variableRef.current.material.uniforms.uRelaxation.value);
+    
+    if (variableRef.current && variableRef.current.material) {
+      variableRef.current.material.uniforms.uMouseMove.value *= 0.95;
+      variableRef.current.material.uniforms.uDeltaMouse.value.multiplyScalar(
+        variableRef.current.material.uniforms.uRelaxation.value
+      );
+    } 
   };
-
+  
   const getTexture = () => {
     if (gpgpuRef.current) {
       return gpgpuRef.current.getCurrentRenderTarget(variableRef.current).texture;
