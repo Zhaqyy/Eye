@@ -15,6 +15,7 @@
 }
 .header > h1 {
   position: absolute;
+  z-index: 1;
 }
 .header .menu {
   position: relative;
@@ -27,6 +28,8 @@
   border-top: none;
   border-radius: 0 0 calc(var(--bRadius) * 4) calc(var(--bRadius) * 4);
   cursor: pointer;
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
 }
 .header .menu .menu-item {
   width: 50%;

@@ -195,4 +195,47 @@
 .abtCanvas .sceneInfo > p {
   flex-grow: 1;
   overflow: scroll;
+}
+
+@media (width <= 999px) {
+  .abt {
+    height: auto;
+    min-height: 100vh;
+    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+    padding-block: 10vh;
+    background: none;
+    -webkit-mask-image: none;
+            mask-image: none;
+    gap: 10vh;
+  }
+  .abt .abtInfo .abtHeader {
+    place-items: center;
+    text-align: center;
+  }
+  .abt .abtInfo .abtHeader p {
+    width: 100%;
+  }
+  .abt .abtInfo .abtTitle {
+    justify-content: center;
+  }
+  .abt .abtInfo .abtTitle h1 {
+    font-size: clamp(2.5rem, 5.333vw + 0.333rem, 4.5rem);
+  }
+  .abt .abtInfo .abtTitle h5 {
+    display: none;
+  }
+  .abt .abtInfo .infoSlider {
+    justify-content: center;
+  }
+  .abt .abtCanvas {
+    height: 100%;
+  }
+  .abt .abtCanvas .canv {
+    min-height: 70vh;
+  }
+}
+@media (width <= 650px) {
+  .abt {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
 }/*# sourceMappingURL=About.css.map */

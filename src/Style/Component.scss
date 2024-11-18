@@ -20,6 +20,7 @@
   z-index: 6969;
   & > h1 {
     position: absolute;
+    z-index: 1;
   }
   .menu {
     position: relative;
@@ -32,6 +33,7 @@
     border-top: none;
     border-radius: 0 0 calc(var(--bRadius) * 4) calc(var(--bRadius) * 4);
     cursor: pointer;
+    backdrop-filter: blur(2px);
 
     .menu-item {
       width: 50%;

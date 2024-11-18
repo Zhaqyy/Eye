@@ -111,7 +111,7 @@
           background-color: white;
         }
       }
-      
+
       .title {
         writing-mode: vertical-rl;
         text-orientation: upright;
@@ -215,5 +215,55 @@
       flex-grow: 1;
       overflow: scroll;
     }
+  }
+}
+
+@media (width <= 999px) {
+  .abt {
+    height: auto;
+    min-height: 100vh;
+    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+    padding-block: 10vh;
+    background: none;
+    mask-image: none;
+    gap: 10vh;
+
+    .abtInfo {
+      .abtHeader {
+        place-items: center;
+        text-align: center;
+
+        p {
+          width: 100%;
+        }
+      }
+      .abtTitle {
+        justify-content: center;
+        h1 {
+          font-size: clamp(2.5rem, 5.333vw + 0.333rem, 4.5rem);
+        }
+        h5 {
+          display: none;
+        }
+      }
+      .infoSlider {
+        justify-content: center;
+      }
+    }
+
+    .abtCanvas {
+      height: 100%;
+
+      .canv {
+        min-height: 70vh;
+      }
+    }
+  }
+}
+
+@media (width <= 650px) {
+  .abt {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    
   }
 }

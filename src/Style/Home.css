@@ -41,6 +41,7 @@ body::-webkit-scrollbar,
 #root {
   background-position: center;
   background-size: cover;
+  height: auto;
 }
 
 body {
