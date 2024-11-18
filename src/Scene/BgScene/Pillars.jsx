@@ -1,20 +1,31 @@
 import * as THREE from "three";
-import React, { useRef, useState, useEffect, forwardRef, memo } from "react";
+import React, { useRef, useState, useEffect, forwardRef, memo, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { EllipseCurve, CatmullRomCurve3, Vector3 } from "three";
 import FakeGlowMaterial from "../Helper/FakeGlowMaterial.jsx";
 import { Billboard, Shadow, Sparkles } from "@react-three/drei";
 import { Depth, LayerMaterial } from "lamina";
-function Pillar(props) {
+function Pillar({isMobile, ...props}) {
   const sphereRef = useRef();
   const lightRef = useRef();
-  const { pointer } = useThree();
+  const { pointer, viewport } = useThree();
   const [mouseY, setMouseY] = useState(0);
 
+  
   // Define a half-circle path
-  const halfEllipseCurve = new EllipseCurve(0, 0, 2, 1, 0, Math.PI, false, 0);
-  const pathPoints = halfEllipseCurve.getPoints(50).map(p => new Vector3(p.x, p.y, 0));
-  const curve = new CatmullRomCurve3(pathPoints, false);
+  const mobileRadius = viewport.width * 0.5;
+  const halfEllipseCurve = useMemo(() => {
+    // Use different dimensions based on the `isMobile` prop
+    return isMobile
+      ? new EllipseCurve(0, 0, mobileRadius, 1, 0, Math.PI, false, 0) // Mobile dimensions
+      : new EllipseCurve(0, 0, 2, 1, 0, Math.PI, false, 0); // Desktop dimensions
+  }, [isMobile, viewport]);
+
+  const pathPoints = useMemo(
+    () => halfEllipseCurve.getPoints(50).map((p) => new Vector3(p.x, p.y, 0)),
+    [halfEllipseCurve]
+  );
+  const curve = useMemo(() => new CatmullRomCurve3(pathPoints, false), [pathPoints]);
 
   // Tube height limits for clamping
   const minY = pathPoints[0].y; // Bottom of the tube
@@ -22,7 +33,7 @@ function Pillar(props) {
 
   // Smooth the mouseY value using lerp
   useFrame(() => {
-    const targetY = pointer.y; // Pointer's raw y position
+    const targetY = isMobile ? -pointer.x : pointer.y; // Use x-axis for mobile, y-axis for desktop
     const lerpedY = mouseY + (targetY - mouseY) * 0.02; // Apply lerp directly to mouseY state
     setMouseY(lerpedY); // Update state with interpolated value
 
@@ -43,7 +54,7 @@ function Pillar(props) {
   });
 
   return (
-    <group {...props}>
+    <group {...props} >
       {/* Half-circle tube */}
       <mesh>
         <tubeGeometry args={[curve, 16, 0.25, 5, false]} />
@@ -71,10 +82,20 @@ function Pillar(props) {
 
 // Wrapper component for rendering two instances with unique keys and positioning
 export default function Pillars() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 800);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <>
-      <Pillar key='pillar1' position={[3.5, 0, 0]} rotation={[0, -Math.PI / 6, -Math.PI / 2]} />
-      <Pillar key='pillar2' position={[-3.5, 0, 0]} rotation={[Math.PI, -Math.PI / 6, Math.PI / 2]} />
+      <Pillar key='pillar1' isMobile={isMobile} position={isMobile?[0,2,0]:[3.5, 0, 0]} rotation={isMobile?[0,0,0]:[0, -Math.PI / 6, -Math.PI / 2]}  visible={true} />
+      <Pillar key='pillar2' position={[-3.5, 0, 0]} rotation={[Math.PI, -Math.PI / 6, Math.PI / 2]}  visible={!isMobile}/>
     </>
   );
 }

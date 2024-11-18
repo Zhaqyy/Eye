@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { MeshSurfaceSampler } from "three/examples/jsm/math/MeshSurfaceSampler";
 import { useFrame, useThree } from "@react-three/fiber";
@@ -75,6 +75,16 @@ const Grass = () => {
   useFrame(() => {
     shader.uniforms.u_time.value += 0.0005;
   });
+  
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 800);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <group
@@ -82,9 +92,17 @@ const Grass = () => {
       position={[0, -3.5, 1]}
       // onPointerMove={handleHover}
     >
-      <mesh geometry={samplingGeometry} position={[0, 0, 0.15]}>
-        <meshStandardMaterial color='#2b2b2b' normalMap={n} map={c} displacementMap={d} displacementScale={10} />
-      </mesh>
+      {!isMobile && (
+        <mesh geometry={samplingGeometry} position={[0, 0, 0.15]}>
+          <meshStandardMaterial
+            color="#2b2b2b"
+            normalMap={n}
+            map={c}
+            displacementMap={d}
+            displacementScale={10}
+          />
+        </mesh>
+      )}
       {/* <instancedMesh ref={meshRef} args={[undefined, undefined, amount]}>
         <coneGeometry args={[0.05, 0.8, 2, 20, false, 0, Math.PI]} />
         <shaderMaterial args={[shader]} side={THREE.DoubleSide} />
@@ -92,7 +110,7 @@ const Grass = () => {
       <Ground />
 
       {/* Sparkles with Surface Sampling */}
-      <CustomSparkles segments={90} />
+      {!isMobile && <CustomSparkles segments={90} />}
     </group>
   );
 };

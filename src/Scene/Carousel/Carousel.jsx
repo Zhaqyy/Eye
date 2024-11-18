@@ -7,14 +7,6 @@ import { projectData } from "../../Component/ProjectData";
 import Plane from "./Plane";
 
 /*------------------------------
-Plane Settings
-------------------------------*/
-const planeSettings = {
-  width: 5.5,
-  height: 3,
-};
-
-/*------------------------------
 Lerp
 ------------------------------*/
 export const lerp = (v0, v1, t) => v0 * (1 - t) + v1 * t;
@@ -148,6 +140,24 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
   Render Slider
   --------------------*/
   const renderSlider = () => {
+/*------------------------------
+Plane Settings
+------------------------------*/
+    const { viewport } = useThree(); // Get viewport size
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 550);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 550);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+    const planeSettings = {
+      width: isMobile ? viewport.width * 0.9 : 5.5,
+      height: 3,
+    };
+
     return (
       <group>
         <Plane

@@ -9,13 +9,14 @@ import {
   OrbitControls,
   QuadraticBezierLine,
   SpotLight,
+  useBounds,
   useDepthBuffer,
   useTexture,
 } from "@react-three/drei";
 import * as THREE from "three";
 import { Eye } from "./BgScene/Eye";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Suspense, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import Disc from "./Helper/NoiseFlow";
 import Simulation from "./Helper/FlowOver";
 import { Perf } from "r3f-perf";
@@ -100,15 +101,15 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
           {/* <DepthSpotlight /> */}
 
           {/* Main Scene */}
-        {/* <Bounds fit clip observe margin={0.3}> */}
-
+        {/* <Bounds reset clip observe margin={0.25}>
+        <ResponsiveBounds /> */}
           <group position={[0, 0, -1]}>
             <Pillars />
             <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
           </group>
+        {/* </Bounds> */}
 
           <Grass />
-        {/* </Bounds> */}
         {/* </Suspense> */}
         {/* About Page Tests */}
         {/* <Grid/> */}
@@ -207,3 +208,23 @@ function DepthSpotlight() {
     />
   );
 }
+
+const ResponsiveBounds = () => {
+  // const { refresh } = useBounds(); // Access refresh inside the Bounds context
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     refresh().clip().fit(); // Recalculate bounds
+  //   };
+  //   window.addEventListener('resize', handleResize);
+
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, [refresh]);
+  const bounds = useBounds();
+    useEffect(() => {
+        bounds?.refresh().reset().clip().fit();
+    }, [
+        bounds,
+    ]);
+  // return null; // No visual rendering needed
+};
