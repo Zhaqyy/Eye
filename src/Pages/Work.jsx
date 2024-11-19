@@ -60,73 +60,73 @@ const Work = () => {
       const ctx = gsap.context(() => {
         let st;
 
-        if (containerRef.current && workRef.current) {
-          // Pinning the `.work` section
-          st = ScrollTrigger.create({
-            trigger: containerRef.current,
-            start: "top top",
-            end: "bottom bottom",
-            pin: workRef.current, // Pin the .work section
-            pinSpacing: false, // Disable spacing when pinned
-          });
-        }
+        // if (containerRef.current && workRef.current) {
+        //   // Pinning the `.work` section
+        //   st = ScrollTrigger.create({
+        //     trigger: containerRef.current,
+        //     start: "top top",
+        //     end: "bottom bottom",
+        //     pin: workRef.current, // Pin the .work section
+        //     pinSpacing: false, // Disable spacing when pinned
+        //   });
+        // }
 
-        const slides = imageRefs.current;
+        // const slides = imageRefs.current;
 
-        //  Scroll snapping and flip animation for each image
-        slides.forEach((slide, index) => {
-          if (!slide) return;
-          // Create the scrolling animation with flip effect
-          gsap.fromTo(
-            slide,
-            {
-              scale: 1, // Start from normal scale
-              // rotateX: 0,    // No initial rotation
-              // y: 0,          // No initial Y movement
-              // z: 0,          // No initial Z movement
-              opacity: 1, // Fully visible
-              filter: "grayscale(0%)", // No grayscale
-            },
-            {
-              scale: 0.95, // Scale down as it scrolls out
-              // rotateX: 90,   // Flip on the X-axis as it scrolls out
-              // y: -100,       // Move up slightly
-              // z: -200,       // Move away (depth)
-              opacity: 0, // Fade out
-              filter: "grayscale(100%)", // Turn grayscale as it fades
-              ease: "power1.inOut",
+        // //  Scroll snapping and flip animation for each image
+        // slides.forEach((slide, index) => {
+        //   if (!slide) return;
+        //   // Create the scrolling animation with flip effect
+        //   gsap.fromTo(
+        //     slide,
+        //     {
+        //       scale: 1, // Start from normal scale
+        //       // rotateX: 0,    // No initial rotation
+        //       // y: 0,          // No initial Y movement
+        //       // z: 0,          // No initial Z movement
+        //       opacity: 1, // Fully visible
+        //       filter: "grayscale(0%)", // No grayscale
+        //     },
+        //     {
+        //       scale: 0.95, // Scale down as it scrolls out
+        //       // rotateX: 90,   // Flip on the X-axis as it scrolls out
+        //       // y: -100,       // Move up slightly
+        //       // z: -200,       // Move away (depth)
+        //       opacity: 0, // Fade out
+        //       filter: "grayscale(100%)", // Turn grayscale as it fades
+        //       ease: "power1.inOut",
 
-              scrollTrigger: {
-                trigger: slide,
-                start: "top top",
-                end: "bottom top",
-                toggleActions: "restart pause reverse pause",
-                scrub: true, // Scrubbing effect for smooth animation with scroll
-                // snap: 1 / slides.length, // Snaps to each image
-                // markers: true, // For debugging purposes
-              },
-            }
-          );
-        });
+        //       scrollTrigger: {
+        //         trigger: slide,
+        //         start: "top top",
+        //         end: "bottom top",
+        //         toggleActions: "restart pause reverse pause",
+        //         scrub: true, // Scrubbing effect for smooth animation with scroll
+        //         // snap: 1 / slides.length, // Snaps to each image
+        //         // markers: true, // For debugging purposes
+        //       },
+        //     }
+        //   );
+        // });
 
-        // // Creating a scroll effect
-        gsap.to(containerRef.current, {
-          //for horizontal
-          // xPercent: -100,
-          yPercent: -100,
-          ease: "none",
-          scrollTrigger: {
-            id: `gallery`,
-            trigger: containerRef.current,
-            start: "top top",
-            end: "bottom top",
-            toggleActions: "restart pause reverse pause",
-            // pin: true,
-            scrub: true,
-            // snap: 1 / (slides.length + 1), // Snaps to each image
-            // markers: true, // For debugging purposes
-          },
-        });
+        // // // Creating a scroll effect
+        // gsap.to(containerRef.current, {
+        //   //for horizontal
+        //   // xPercent: -100,
+        //   yPercent: -100,
+        //   ease: "none",
+        //   scrollTrigger: {
+        //     id: `gallery`,
+        //     trigger: containerRef.current,
+        //     start: "top top",
+        //     end: "bottom top",
+        //     toggleActions: "restart pause reverse pause",
+        //     // pin: true,
+        //     scrub: true,
+        //     // snap: 1 / (slides.length + 1), // Snaps to each image
+        //     // markers: true, // For debugging purposes
+        //   },
+        // });
 
         // Drag to route logic
         const dragtoroute = Draggable.create(drag.current, {

@@ -39,7 +39,8 @@ body,
   min-width: 100%;
   width: auto;
   // height: 100%;
-  height: auto;
+  // height: auto;
+  height: max(100vh, 100%);
   margin: 0;
   padding: 0;
   --accent: #141414;

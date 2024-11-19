@@ -1,5 +1,6 @@
 .work-wrap {
   width: 100vw;
+  height: auto;
   min-height: 100vh;
   padding: 0 5vw;
   display: inline-flex;
@@ -16,6 +17,11 @@
   flex-direction: column;
   justify-content: center;
   gap: 5vh;
+  position: sticky;
+  top: 0;
+}
+.work .title h1 {
+  font-size: clamp(1rem, 5.333vw + 0.333rem, 2rem);
 }
 .work .title h6 {
   text-transform: uppercase;
@@ -102,6 +108,7 @@
 }
 
 .next {
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -112,13 +119,23 @@
   padding: 1rem 1.5rem;
   margin-block: 5vh;
   border-radius: var(--bRadius);
+  gap: 1rem;
 }
 .next .pTitle {
   width: 150px;
 }
+.next .pTitle p {
+  color: gray;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+.next .pTitle h2 {
+  font-size: clamp(1rem, 5.333vw + 0.333rem, 1.75rem);
+}
 .next .dragBounds {
   height: 50px;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -140,4 +157,69 @@
 .next .nextProjImg {
   height: 100%;
   border-radius: calc(var(--bRadius) / 2);
+}
+
+@media (width <= 999px) {
+  .work-wrap {
+    flex-direction: column;
+    align-items: center;
+    padding-block: 10vh;
+    height: 100vh;
+  }
+  .work-wrap .work {
+    width: 100%;
+    max-width: unset;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 10vw;
+    align-items: baseline;
+    position: relative;
+  }
+  .work-wrap .work h1 {
+    font-size: clamp(1rem, 5.333vw + 0.333rem, 2.25rem);
+  }
+  .work-wrap .work .detail {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .work-wrap .work .detail .desc {
+    max-width: unset;
+  }
+  .gallery {
+    align-items: center;
+    width: 100%;
+  }
+  .gallery .image-slide {
+    width: 90%;
+  }
+}
+@media (width <= 600px) {
+  .work-wrap .work {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .next {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    border-radius: calc(var(--bRadius) / 2);
+  }
+  .next .nextProjImg {
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--bRadius) / 4);
+  }
+  .next .dragBounds {
+    width: 100%;
+    max-width: unset;
+    height: 35px;
+    order: 2;
+  }
+  .next .dragBounds .drag {
+    height: 30px;
+    width: 50px;
+  }
 }/*# sourceMappingURL=Work.css.map */
