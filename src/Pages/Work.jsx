@@ -160,7 +160,7 @@ const Work = () => {
               // navigate(`/work/${nextProject.id}`);
               dragToRouteTransition();
               resetDragPosition();
-              // resetScrollPosition(); // Recalculate scroll positions
+              resetScrollPosition(); // Recalculate scroll positions
              
             } else {
               // Restore to original position on release if not snapped
