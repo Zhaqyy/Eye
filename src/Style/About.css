@@ -242,4 +242,9 @@
   .abt {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
+}
+@media (width <= 500px) {
+  .abt .abtInfo .infoSlider {
+    flex-direction: column;
+  }
 }/*# sourceMappingURL=About.css.map */

@@ -40,6 +40,7 @@ const App = () => {
           //  gestureOrientataion: "both",
           duration: 1.6,
           syncTouch: true,
+          touchMultiplier: 0,
         }}
       >
         {/* Conditionally render CursorLottie based on the route */}

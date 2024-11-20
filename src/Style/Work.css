@@ -109,6 +109,7 @@
   -o-object-fit: cover;
      object-fit: cover;
   transition: transform 1s ease-out;
+  transform-origin: center;
 }
 
 .next {
@@ -202,6 +203,9 @@
     flex-wrap: wrap;
     justify-content: flex-start;
   }
+  .work-wrap .work h1 {
+    font-size: clamp(2.5rem, 5.333vw + 0.333rem, 3rem);
+  }
   .next {
     width: 100%;
     height: auto;
@@ -219,11 +223,6 @@
   .next .dragBounds {
     width: 100%;
     max-width: unset;
-    height: 35px;
     order: 2;
-  }
-  .next .dragBounds .drag {
-    height: 30px;
-    width: 50px;
   }
 }/*# sourceMappingURL=Work.css.map */

@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Draggable } from "gsap/Draggable";
+import useIsMobile from "../Component/isMobile";
 
 gsap.registerPlugin(ScrollTrigger, Draggable, useGSAP);
 
@@ -28,6 +29,8 @@ const Work = () => {
   const nextProjectIndex = id % projectData.length || 0; // Circular logic for next project
   const nextProject = projectData[nextProjectIndex];
 
+  const isMobile = useIsMobile();
+
   // Reset draggable position when routing to a new page
   const resetDragPosition = () => {
     gsap.set(drag.current, { x: 0, scale: 1 });
@@ -36,7 +39,6 @@ const Work = () => {
   const resetScrollPosition = () => {
     window.scrollTo(0, 0); // Scroll back to the top on routing
   };
-
 
   const dragToRouteTransition = useCallback(() => {
     const timeline = gsap.timeline();
@@ -51,7 +53,6 @@ const Work = () => {
     return timeline;
   }, [navigate, nextProject]);
 
-
   useGSAP(
     () => {
       if (!containerRef.current || !drag.current || !hit.current || !workRef.current) {
@@ -61,30 +62,30 @@ const Work = () => {
         let st;
 
         const slides = imageRefs.current;
-               
+
         // Apply scroll-triggered animation with enter and exit effects
         slides.forEach((slide, index) => {
           if (!slide) return;
-          
+
           let proxy = { skew: 0 },
-              skewSetter = gsap.quickSetter(slide, "skewY", "deg"), // fast setter
-              clamp = gsap.utils.clamp(-20, 20); // limit the skew range
-        // Scroll velocity-based skew effect
-        ScrollTrigger.create({
-          onUpdate: (self) => {
-            let skew = clamp(self.getVelocity() / -250);
-            if (Math.abs(skew) > Math.abs(proxy.skew)) {
-              proxy.skew = skew;
-              gsap.to(proxy, {
-                skew: 0,
-                duration: 0.1,
-                ease: "power4",
-                overwrite: true,
-                onUpdate: () => skewSetter(proxy.skew),
-              });
-            }
-          },
-        });
+            skewSetter = gsap.quickSetter(slide, "skewY", "deg"), // fast setter
+            clamp = gsap.utils.clamp(-20, 20); // limit the skew range
+          // Scroll velocity-based skew effect
+          ScrollTrigger.create({
+            onUpdate: self => {
+              let skew = clamp(self.getVelocity() / isMobile ? -100 : -250);
+              if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                proxy.skew = skew;
+                gsap.to(proxy, {
+                  skew: 0,
+                  duration: 0.1,
+                  ease: "power4",
+                  overwrite: true,
+                  onUpdate: () => skewSetter(proxy.skew),
+                });
+              }
+            },
+          });
           // Animate on entering the viewport
           gsap.fromTo(
             slide,
@@ -104,11 +105,11 @@ const Work = () => {
                 end: "top 75%",
                 toggleActions: "play none none reverse", // Rewind on exit
                 scrub: true,
-                // markers:true,
+                markers: true,
               },
             }
           );
-        
+
           // Animate on exiting the viewport
           gsap.fromTo(
             slide,
@@ -128,15 +129,15 @@ const Work = () => {
                 end: "bottom top", // Complete exit animation
                 toggleActions: "play none none reverse", // Rewind on entry
                 scrub: true,
-                // markers: {startColor: "white", endColor: "blue",}
+                markers: { startColor: "white", endColor: "blue" },
               },
             }
           );
         });
-        
-        // Set transform origin for the skew animation to improve performance
-        gsap.set(slides, { transformOrigin: "center", force3D: true });
-        
+        // if (slides) {
+        //   // Set transform origin for the skew animation to improve performance
+        //   gsap.set(slides, { transformOrigin: "center", force3D: true });
+        // }
 
         // Drag to route logic
         const dragtoroute = Draggable.create(drag.current, {
@@ -161,7 +162,6 @@ const Work = () => {
               dragToRouteTransition();
               resetDragPosition();
               resetScrollPosition(); // Recalculate scroll positions
-             
             } else {
               // Restore to original position on release if not snapped
               gsap.to(drag.current, {

@@ -271,3 +271,10 @@
     
   }
 }
+@media (width <= 500px) {
+  .abt {
+    .abtInfo .infoSlider{
+      flex-direction: column;
+    }
+  }
+}

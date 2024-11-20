@@ -196,6 +196,7 @@
   object-fit: cover;
   transition: transform 1s ease-out;
   // scroll-snap-align: center;
+  transform-origin: center;
 }
 
 .next {
@@ -322,6 +323,10 @@
  .work-wrap .work{
   flex-wrap: wrap;
   justify-content: flex-start;
+
+  h1 {
+    font-size: clamp(2.5rem, 5.333vw + 0.333rem, 3rem);
+  }
   }
   .next {
     width: 100%;
@@ -341,12 +346,13 @@
     .dragBounds {
       width: 100%;
       max-width: unset;
-      height: 35px;
+      // height: 35px;
       order: 2;
 
-      .drag {
-        height: 30px;
-        width: 50px;}
+      // .drag {
+      //   // height: 30px;
+      //   // width: 50px;
+      // }
     }
   }
 }
