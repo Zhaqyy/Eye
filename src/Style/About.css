@@ -245,6 +245,25 @@
 }
 @media (width <= 500px) {
   .abt .abtInfo .infoSlider {
+    min-height: 600px;
     flex-direction: column;
+  }
+  .abt .abtInfo .infoSlider .slide {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .abt .abtInfo .infoSlider .slide .slideIconWrap {
+    position: relative;
+    top: unset;
+  }
+  .abt .abtInfo .infoSlider .slide .slideIconWrap .slideIcon {
+    rotate: 90deg;
+  }
+  .abt .abtInfo .infoSlider .slide .title {
+    letter-spacing: 0px;
+    text-orientation: initial;
+    writing-mode: horizontal-tb;
+    width: 100%;
+    text-align: center;
   }
 }/*# sourceMappingURL=About.css.map */

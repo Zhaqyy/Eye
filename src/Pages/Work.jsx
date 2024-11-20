@@ -49,6 +49,7 @@ const Work = () => {
     });
     timeline.call(() => {
       navigate(`/work/${nextProject.id}`);
+      resetScrollPosition(); // Recalculate scroll positions
     });
     return timeline;
   }, [navigate, nextProject]);
@@ -73,7 +74,7 @@ const Work = () => {
           // Scroll velocity-based skew effect
           ScrollTrigger.create({
             onUpdate: self => {
-              let skew = clamp(self.getVelocity() / isMobile ? -100 : -250);
+              let skew = clamp(self.getVelocity() / isMobile ? -150 : -250);
               if (Math.abs(skew) > Math.abs(proxy.skew)) {
                 proxy.skew = skew;
                 gsap.to(proxy, {
@@ -98,7 +99,8 @@ const Work = () => {
               scale: 1, // Scale up to normal
               opacity: 1, // Fade in
               filter: "grayscale(0%)", // Remove grayscale
-              ease: "power1.out",
+              ease: "power1",
+              duration:0.25,
               scrollTrigger: {
                 trigger: slide,
                 start: "top bottom",
@@ -122,7 +124,8 @@ const Work = () => {
               scale: 0.9, // Scale down
               opacity: 0, // Fade out
               filter: "grayscale(100%)", // Add grayscale
-              ease: "power1.in",
+              ease: "power1",
+              duration:0.25,
               scrollTrigger: {
                 trigger: slide,
                 start: "top 25%", // Start exit animation
@@ -161,7 +164,7 @@ const Work = () => {
               // navigate(`/work/${nextProject.id}`);
               dragToRouteTransition();
               resetDragPosition();
-              resetScrollPosition(); // Recalculate scroll positions
+              
             } else {
               // Restore to original position on release if not snapped
               gsap.to(drag.current, {

@@ -268,13 +268,32 @@
 @media (width <= 650px) {
   .abt {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    
   }
 }
 @media (width <= 500px) {
   .abt {
-    .abtInfo .infoSlider{
+    .abtInfo .infoSlider {
+      min-height: 600px; 
       flex-direction: column;
+
+      .slide {
+        flex-direction: row;
+        justify-content: space-between;
+        .slideIconWrap{
+          position: relative;
+top: unset;
+          .slideIcon{
+            rotate: 90deg;
+          }
+        }
+        .title {
+          letter-spacing: 0px;
+          text-orientation: initial;
+          writing-mode: horizontal-tb;
+          width: 100%;
+          text-align: center;
+        }
+      }
     }
   }
 }

@@ -5,6 +5,7 @@ import "../Style/About.css";
 import Griddy from "../Scene/Grid";
 import Pool from "../Scene/Pool";
 import { useSoundEffects } from "../Component/SoundEffects";
+import useIsMobile from "../Component/isMobile";
 
 const data = [
   {
@@ -47,6 +48,7 @@ const About = () => {
   const slides = useRef([]);
   const infoSlider = useRef();
   const { playSlideSound } = useSoundEffects();
+  const isMobile = useIsMobile(500);
 
   const addSlideRef = (el, index) => {
     slides.current[index] = el;
@@ -64,16 +66,20 @@ const About = () => {
       if (i === index) {
         // Active slide animation
         // Animate the title out First, then when its out, start others
+        const titleProps = isMobile ? { y: 25, duration: 0.25 } : { x: -25, duration: 0.25 };
         gsap.timeline().to(slide.querySelector(".title"), {
           opacity: 0,
-          x: -25,
-          duration: 0.25,
+          ...titleProps,
 
           onComplete: () => {
+            gsap.set(slide, { flexDirection: "column", justifyContent: "center" });
+
+            const animationProps = isMobile
+              ? { height: "300px", duration: 0.25 } // Animate height for mobile
+              : { width: 300, duration: 0.25 }; // Animate width for desktop
+
             gsap.to(slide, {
-              width: 300,
-              duration: 0.25,
-              // ease: "elastic.out(0.5, 0.5)",
+              ...animationProps,
               stagger: 0.2,
               onComplete: () => {
                 gsap.set(slide.querySelector(".title"), {
@@ -103,51 +109,57 @@ const About = () => {
                 });
               },
             });
-            gsap.to(slide.querySelector(".slideIcon"), { opacity: 0, display: "none", duration: 0.2 }); // Fade out icon
+            gsap.to(slide.querySelector(".slideIcon"), { opacity: 0, display: "none", duration: isMobile? 0 : 0.2 }); // Fade out icon
           },
         });
       } else if (i === previousIndex.current) {
         // Animate only the previous slide (instead of all other slides)
+        // CLose animation
         gsap
           .timeline()
           .to(slide.querySelector(".content"), {
             opacity: 0,
             display: "none", // Hide the content for the previous slide
-            duration: 0.25,
+            duration: isMobile? 0 : 0.25,
           })
           .set(slide.querySelector(".title"), {
             opacity: 0,
-            duration: 0.25,
+            duration: isMobile? 0 : 0.25,
           })
           .to(slide.querySelector(".title"), {
             opacity: 0,
-            duration: 0.25,
+            duration: isMobile? 0 : 0.25,
             onComplete: () => {
+              const orienttitleProps = isMobile
+                ? { writingMode: "horizontal-tb", textOrientation: "initial", letterSpacing: 0 }
+                : { writingMode: "vertical-rl", textOrientation: "upright", letterSpacing: -5 };
+
               gsap.set(slide.querySelector(".title"), {
-                writingMode: "vertical-rl",
-                textOrientation: "upright",
-                letterSpacing: -5,
+                ...orienttitleProps,
               });
+              const fromtitleProps = isMobile ? { y: -25 } : { x: 25 };
+              const totitleProps = isMobile ? { y: 0 } : { x: 0 };
               gsap.fromTo(
                 slide.querySelector(".title"),
                 {
                   opacity: 0,
-                  x: 25,
+                  ...fromtitleProps,
                 },
                 {
                   opacity: 1,
-                  x: 0,
+                  ...totitleProps,
                   duration: 0.25,
                 }
               );
               gsap.to(slide.querySelector(".slideIcon"), { opacity: 1, display: "flex", duration: 0.2 }); // Fade in icon
             },
-          })
-          .to(slide, {
-            width: 70,
-            duration: 0.95,
-            ease: "elastic.out(0.5, 0.45)",
           });
+        gsap.set(slide, { flexDirection: "row", justifyContent: "space-between" });
+        const animationProps = isMobile
+          ? { height: "70px", duration: 0.95, ease: "elastic.out(0.5, 0.45" } // Animate height for mobile
+          : { width: 70, duration: 0.95, ease: "elastic.out(0.5, 0.45)" }; // Animate width for desktop
+
+        gsap.to(slide, animationProps);
       }
     });
 
@@ -156,9 +168,13 @@ const About = () => {
 
   const resetSlides = () => {
     slides.current.forEach(slide => {
-      gsap.set(slide, { width: 70 }); // Reset all slides to their default size
+      if (isMobile) {
+        gsap.set(slide, { height: "70px" });
+      } else {
+        gsap.set(slide, { width: 70 });
+      } // Reset all slides to their default size
       gsap.set(slide.querySelector(".content"), { opacity: 0, display: "none" }); // Hide all content
-      gsap.set(slide.querySelector(".title"), { opacity: 1, x: 0 }); // Reset title position and visibility
+      gsap.set(slide.querySelector(".title"), { opacity: 1, x: 0, y: 0 }); // Reset title position and visibility
     });
   };
 
