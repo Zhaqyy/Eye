@@ -5,6 +5,7 @@ import { EllipseCurve, CatmullRomCurve3, Vector3 } from "three";
 import FakeGlowMaterial from "../Helper/FakeGlowMaterial.jsx";
 import { Billboard, Shadow, Sparkles } from "@react-three/drei";
 import { Depth, LayerMaterial } from "lamina";
+import useIsMobile from "../../Component/isMobile.jsx";
 function Pillar({isMobile, ...props}) {
   const sphereRef = useRef();
   const lightRef = useRef();
@@ -82,16 +83,7 @@ function Pillar({isMobile, ...props}) {
 
 // Wrapper component for rendering two instances with unique keys and positioning
 export default function Pillars() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 800);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+  const isMobile = useIsMobile(800);
   return (
     <>
       <Pillar key='pillar1' isMobile={isMobile} position={isMobile?[0,2,0]:[3.5, 0, 0]} rotation={isMobile?[0,0,0]:[0, -Math.PI / 6, -Math.PI / 2]}  visible={true} />

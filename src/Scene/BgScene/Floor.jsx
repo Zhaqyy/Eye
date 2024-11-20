@@ -6,6 +6,7 @@ import { cnoise } from "../Helper/cNoise.jsx";
 import { MeshReflectorMaterial, Sparkles, useTexture, useTrailTexture } from "@react-three/drei";
 import CustomSparkles from "../Helper/SampledParticles.jsx";
 import SimplePointCloud from "../Helper/SampledParticles.jsx";
+import useIsMobile from "../../Component/isMobile.jsx";
 
 const Grass = () => {
   const meshRef = useRef(null);
@@ -76,15 +77,7 @@ const Grass = () => {
     shader.uniforms.u_time.value += 0.0005;
   });
   
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 800);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const isMobile = useIsMobile(800);
 
   return (
     <group

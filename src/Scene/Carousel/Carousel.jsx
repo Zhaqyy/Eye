@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import PostProcessing from "./PostProcessing";
 import { projectData } from "../../Component/ProjectData";
 import Plane from "./Plane";
+import useIsMobile from "../../Component/isMobile";
 
 /*------------------------------
 Lerp
@@ -41,15 +42,7 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
   /*------------------------------
 Mobile Resp
 ------------------------------*/
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 550);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 550);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+const isMobile = useIsMobile();
 
   /*--------------------
   Handle click navigation

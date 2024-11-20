@@ -4,6 +4,7 @@ import { useThree, useFrame } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import useGPGPU from "./Gpgpu";
 import { Howl } from "howler";
+import useIsMobile from "../../Component/isMobile";
 
 const hum = new Howl({
   src: ["/Sounds/hum.mp3"],
@@ -22,17 +23,8 @@ const Plane = ({ texture, width, height, active, ...props }) => {
  
   const inactivityTimer = useRef(null);
   let isFadingOut = false; 
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 550);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 550);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
+  
+  const isMobile = useIsMobile();
 
   // GPGPU params
   const gpgpuParams = useMemo(
