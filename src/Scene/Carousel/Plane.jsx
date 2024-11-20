@@ -19,10 +19,21 @@ const Plane = ({ texture, width, height, active, ...props }) => {
   const mouseIdleTime = useRef(0); // Track idle time
   const isMouseMoving = useRef(false); // Flag for mouse activity
   const [hovered, setHovered] = useState(false)
-
-
+ 
   const inactivityTimer = useRef(null);
   let isFadingOut = false; 
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 550);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 550);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+
   // GPGPU params
   const gpgpuParams = useMemo(
     () => ({
@@ -50,7 +61,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
         uGrid: { value: new THREE.Vector4() },
         uTime: { value: 0 },
         uEdgeSplitStrength: { value: 0.1 },
-        uEdgeSplitLerp: { value: 1 }, // lerp uniform
+        uEdgeSplitLerp: { value: isMobile ? 0.5 : 1 }, // lerp uniform
       },
       vertexShader: /* glsl */ `
       uniform float uTime;
@@ -246,10 +257,6 @@ const Plane = ({ texture, width, height, active, ...props }) => {
 
     }
   };
-
-  // useEffect(() => {
-  //   return () => hum.unload(); // Clean up sound when component unmounts
-  // }, [hum]);
 
   useFrame(({ clock }) => {
     compute();

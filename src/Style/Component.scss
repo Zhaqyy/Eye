@@ -21,6 +21,7 @@
   & > h1 {
     position: absolute;
     z-index: 1;
+    pointer-events: none;
   }
   .menu {
     position: relative;

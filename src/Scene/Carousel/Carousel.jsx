@@ -38,6 +38,19 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
   // Add a delay between transitions (e.g., 0.5s after the transition)
   const delayBetweenTransitions = 750;
 
+  /*------------------------------
+Mobile Resp
+------------------------------*/
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 550);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 550);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   /*--------------------
   Handle click navigation
   --------------------*/
@@ -72,9 +85,11 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
     if (!isDragging.current || isTransitioning) return;
     const x = e.clientX || (e.touches && e.touches[0].clientX) || 0;
     const deltaX = x - startX.current;
+    let threshhold = isMobile ? 150 : 50;
 
-    if (Math.abs(deltaX) > 50) {
-      if (deltaX < 0) nextSlide();
+    if (Math.abs(deltaX) > threshhold) {
+      console.log(threshhold);
+      if (deltaX < 0) nextSlide()
       else prevSlide();
 
       startX.current = x; // Reset startX after moving one slide
@@ -140,19 +155,10 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
   Render Slider
   --------------------*/
   const renderSlider = () => {
-/*------------------------------
+    /*------------------------------
 Plane Settings
 ------------------------------*/
-    const { viewport } = useThree(); // Get viewport size
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 550);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 550);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
     const planeSettings = {
       width: isMobile ? viewport.width * 0.9 : 5.5,
       height: 3,

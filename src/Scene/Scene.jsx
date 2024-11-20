@@ -54,7 +54,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
     <>
       <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 15 }} resize={{ debounce: 0 }} shadows={false} >
         {/* Scene & Utils */}
-        <Perf position='top-left' />
+        <Perf position='top-left' minimal={true} />
         <color attach='background' args={["#050505"]} />
         <fog attach='fog' args={["#050505", 5, 10]} />
 

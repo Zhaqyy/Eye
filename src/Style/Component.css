@@ -16,6 +16,7 @@
 .header > h1 {
   position: absolute;
   z-index: 1;
+  pointer-events: none;
 }
 .header .menu {
   position: relative;

@@ -62,6 +62,7 @@ const Breadcrumbs = forwardRef(({ activeIndex, setActiveIndex }, containerRef) =
         <li
           key={index}
           onMouseEnter={() => roll(index)}
+          onClick={() => roll(index)}
           className={index === activeIndex ? "active" : ""}
           id={index === activeIndex ? "bCrumb" : ""}
         >
