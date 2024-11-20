@@ -60,73 +60,83 @@ const Work = () => {
       const ctx = gsap.context(() => {
         let st;
 
-        // if (containerRef.current && workRef.current) {
-        //   // Pinning the `.work` section
-        //   st = ScrollTrigger.create({
-        //     trigger: containerRef.current,
-        //     start: "top top",
-        //     end: "bottom bottom",
-        //     pin: workRef.current, // Pin the .work section
-        //     pinSpacing: false, // Disable spacing when pinned
-        //   });
-        // }
-
-        // const slides = imageRefs.current;
-
-        // //  Scroll snapping and flip animation for each image
-        // slides.forEach((slide, index) => {
-        //   if (!slide) return;
-        //   // Create the scrolling animation with flip effect
-        //   gsap.fromTo(
-        //     slide,
-        //     {
-        //       scale: 1, // Start from normal scale
-        //       // rotateX: 0,    // No initial rotation
-        //       // y: 0,          // No initial Y movement
-        //       // z: 0,          // No initial Z movement
-        //       opacity: 1, // Fully visible
-        //       filter: "grayscale(0%)", // No grayscale
-        //     },
-        //     {
-        //       scale: 0.95, // Scale down as it scrolls out
-        //       // rotateX: 90,   // Flip on the X-axis as it scrolls out
-        //       // y: -100,       // Move up slightly
-        //       // z: -200,       // Move away (depth)
-        //       opacity: 0, // Fade out
-        //       filter: "grayscale(100%)", // Turn grayscale as it fades
-        //       ease: "power1.inOut",
-
-        //       scrollTrigger: {
-        //         trigger: slide,
-        //         start: "top top",
-        //         end: "bottom top",
-        //         toggleActions: "restart pause reverse pause",
-        //         scrub: true, // Scrubbing effect for smooth animation with scroll
-        //         // snap: 1 / slides.length, // Snaps to each image
-        //         // markers: true, // For debugging purposes
-        //       },
-        //     }
-        //   );
-        // });
-
-        // // // Creating a scroll effect
-        // gsap.to(containerRef.current, {
-        //   //for horizontal
-        //   // xPercent: -100,
-        //   yPercent: -100,
-        //   ease: "none",
-        //   scrollTrigger: {
-        //     id: `gallery`,
-        //     trigger: containerRef.current,
-        //     start: "top top",
-        //     end: "bottom top",
-        //     toggleActions: "restart pause reverse pause",
-        //     // pin: true,
-        //     scrub: true,
-        //     // snap: 1 / (slides.length + 1), // Snaps to each image
-        //     // markers: true, // For debugging purposes
-        //   },
-        // });
+        const slides = imageRefs.current;
+               
+        // Apply scroll-triggered animation with enter and exit effects
+        slides.forEach((slide, index) => {
+          if (!slide) return;
+          
+          let proxy = { skew: 0 },
+              skewSetter = gsap.quickSetter(slide, "skewY", "deg"), // fast setter
+              clamp = gsap.utils.clamp(-20, 20); // limit the skew range
+        // Scroll velocity-based skew effect
+        ScrollTrigger.create({
+          onUpdate: (self) => {
+            let skew = clamp(self.getVelocity() / -250);
+            if (Math.abs(skew) > Math.abs(proxy.skew)) {
+              proxy.skew = skew;
+              gsap.to(proxy, {
+                skew: 0,
+                duration: 0.1,
+                ease: "power4",
+                overwrite: true,
+                onUpdate: () => skewSetter(proxy.skew),
+              });
+            }
+          },
+        });
+          // Animate on entering the viewport
+          gsap.fromTo(
+            slide,
+            {
+              scale: 0.9, // Smaller scale when out of view
+              opacity: 0, // Invisible initially
+              filter: "grayscale(100%)", // Fully grayscale
+            },
+            {
+              scale: 1, // Scale up to normal
+              opacity: 1, // Fade in
+              filter: "grayscale(0%)", // Remove grayscale
+              ease: "power1.out",
+              scrollTrigger: {
+                trigger: slide,
+                start: "top bottom",
+                end: "top 75%",
+                toggleActions: "play none none reverse", // Rewind on exit
+                scrub: true,
+                // markers:true,
+              },
+            }
+          );
+        
+          // Animate on exiting the viewport
+          gsap.fromTo(
+            slide,
+            {
+              scale: 1, // Start at normal scale
+              opacity: 1, // Fully visible
+              filter: "grayscale(0%)", // No grayscale
+            },
+            {
+              scale: 0.9, // Scale down
+              opacity: 0, // Fade out
+              filter: "grayscale(100%)", // Add grayscale
+              ease: "power1.in",
+              scrollTrigger: {
+                trigger: slide,
+                start: "top 25%", // Start exit animation
+                end: "bottom top", // Complete exit animation
+                toggleActions: "play none none reverse", // Rewind on entry
+                scrub: true,
+                // markers: {startColor: "white", endColor: "blue",}
+              },
+            }
+          );
+        });
+        
+        // Set transform origin for the skew animation to improve performance
+        gsap.set(slides, { transformOrigin: "center", force3D: true });
+        
 
         // Drag to route logic
         const dragtoroute = Draggable.create(drag.current, {
@@ -169,10 +179,6 @@ const Work = () => {
         });
 
         return () => {
-          // st.kill();
-          // resetDragPosition();
-          // resetScrollPosition();
-          // dragtoroute[0].kill();
           // Only kill ScrollTrigger if it exists
           if (st) st.kill();
 

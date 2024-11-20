@@ -86,7 +86,7 @@ export default function Pillars() {
         key='pillar1'
         isMobile={isMobile}
         position={isMobile ? [0, 2, 0] : [3.5, 0, 0]}
-        rotation={isMobile ? [Math.PI / 2, , 0, 0] : [0, -Math.PI / 6, -Math.PI / 2]}
+        rotation={isMobile ? [Math.PI / 6 , 0, 0] : [0, -Math.PI / 6, -Math.PI / 2]}
         visible={true}
       />
       <Pillar key='pillar2' position={[-3.5, 0, 0]} rotation={[Math.PI, -Math.PI / 6, Math.PI / 2]} visible={!isMobile} />
