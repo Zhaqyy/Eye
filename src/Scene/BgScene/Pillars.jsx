@@ -6,13 +6,12 @@ import FakeGlowMaterial from "../Helper/FakeGlowMaterial.jsx";
 import { Billboard, Shadow, Sparkles } from "@react-three/drei";
 import { Depth, LayerMaterial } from "lamina";
 import useIsMobile from "../../Component/isMobile.jsx";
-function Pillar({isMobile, ...props}) {
+function Pillar({ isMobile, ...props }) {
   const sphereRef = useRef();
   const lightRef = useRef();
   const { pointer, viewport } = useThree();
   const [mouseY, setMouseY] = useState(0);
 
-  
   // Define a half-circle path
   const mobileRadius = viewport.width * 0.5;
   const halfEllipseCurve = useMemo(() => {
@@ -22,10 +21,7 @@ function Pillar({isMobile, ...props}) {
       : new EllipseCurve(0, 0, 2, 1, 0, Math.PI, false, 0); // Desktop dimensions
   }, [isMobile, viewport]);
 
-  const pathPoints = useMemo(
-    () => halfEllipseCurve.getPoints(50).map((p) => new Vector3(p.x, p.y, 0)),
-    [halfEllipseCurve]
-  );
+  const pathPoints = useMemo(() => halfEllipseCurve.getPoints(50).map(p => new Vector3(p.x, p.y, 0)), [halfEllipseCurve]);
   const curve = useMemo(() => new CatmullRomCurve3(pathPoints, false), [pathPoints]);
 
   // Tube height limits for clamping
@@ -55,7 +51,7 @@ function Pillar({isMobile, ...props}) {
   });
 
   return (
-    <group {...props} >
+    <group {...props}>
       {/* Half-circle tube */}
       <mesh>
         <tubeGeometry args={[curve, 16, 0.25, 5, false]} />
@@ -86,8 +82,14 @@ export default function Pillars() {
   const isMobile = useIsMobile(800);
   return (
     <>
-      <Pillar key='pillar1' isMobile={isMobile} position={isMobile?[0,2,0]:[3.5, 0, 0]} rotation={isMobile?[0,0,0]:[0, -Math.PI / 6, -Math.PI / 2]}  visible={true} />
-      <Pillar key='pillar2' position={[-3.5, 0, 0]} rotation={[Math.PI, -Math.PI / 6, Math.PI / 2]}  visible={!isMobile}/>
+      <Pillar
+        key='pillar1'
+        isMobile={isMobile}
+        position={isMobile ? [0, 2, 0] : [3.5, 0, 0]}
+        rotation={isMobile ? [Math.PI / 2, , 0, 0] : [0, -Math.PI / 6, -Math.PI / 2]}
+        visible={true}
+      />
+      <Pillar key='pillar2' position={[-3.5, 0, 0]} rotation={[Math.PI, -Math.PI / 6, Math.PI / 2]} visible={!isMobile} />
     </>
   );
 }

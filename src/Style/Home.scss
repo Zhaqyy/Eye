@@ -39,8 +39,8 @@ body,
   min-width: 100%;
   width: auto;
   // height: 100%;
-  // height: auto;
-  height: max(100vh, 100%);
+  height: auto;
+  // height: max(100vh, 100%);
   margin: 0;
   padding: 0;
   --accent: #141414;
@@ -66,8 +66,8 @@ body,
   background-position: center;
   background-size: cover;
   // height: auto;
-  height: max(100vh, 100%);
-  min-height: 100vh;
+  // height: max(100vh, 100%);
+  // min-height: 100vh;
 }
 
 body {
@@ -104,6 +104,16 @@ h2 {
   //   font-family: "krona One", helvetica neue, helvetica, arial, sans-serif;
   font-weight: 600;
 }
+
+#gl{
+height: 100vh;
+}
+@supports(height: 100dvh) {
+  #gl{
+    height: 100dvh;
+    }
+}
+
 
 .hero {
   width: 100%;

@@ -51,7 +51,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
   );
 
   return (
-    <>
+    <div id="gl">
       <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 15 }} resize={{ debounce: 0 }} shadows={false} >
         {/* Scene & Utils */}
         <Perf position='top-left' minimal={true} />
@@ -129,7 +129,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <InstancedTether start={eye} positions={positions} /> */}
       </Canvas>
       {/* <Loader /> */}
-    </>
+    </div>
   );
 };
 export default Scene;

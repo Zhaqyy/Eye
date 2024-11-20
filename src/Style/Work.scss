@@ -280,8 +280,8 @@
   .work-wrap {
     flex-direction: column;
     align-items: center;
-    padding-block: 10vh;
-    height: 100vh;
+    padding-block: 10vh 0;
+    height: auto;
 
     .work {
       width: 100%;

@@ -23,7 +23,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
  
   const inactivityTimer = useRef(null);
   let isFadingOut = false; 
-  
+
   const isMobile = useIsMobile();
 
   // GPGPU params
@@ -53,7 +53,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
         uGrid: { value: new THREE.Vector4() },
         uTime: { value: 0 },
         uEdgeSplitStrength: { value: 0.1 },
-        uEdgeSplitLerp: { value: isMobile ? 0.5 : 1 }, // lerp uniform
+        uEdgeSplitLerp: { value: isMobile ? 0.35 : 1 }, // lerp uniform
       },
       vertexShader: /* glsl */ `
       uniform float uTime;
