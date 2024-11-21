@@ -51,9 +51,31 @@ function Home({ activeIndex, setActiveIndex }) {
           <h5>Available for Work/Freelance</h5>
         </div>
       </div>
-      
+
       <div className='titleMobile'>
+        {/* Previous button */}
+        <span
+          className={"titleCtrl"}
+          onClick={e => {
+            e.preventDefault();
+            setActiveIndex(prevIndex => (prevIndex - 1 + projectData.length) % projectData.length); // Decrement index with wrap-around
+          }}
+        >
+          ⥒
+        </span>
+
         <Link to={`/Work/${projectData[activeIndex].id}`}>{projectData[activeIndex].title}</Link>
+
+        {/* Next button */}
+        <span
+          className={"titleCtrl"}
+          onClick={e => {
+            e.preventDefault();
+            setActiveIndex(prevIndex => (prevIndex + 1) % projectData.length); // Increment index with wrap-around
+          }}
+        >
+          ⥓
+        </span>
       </div>
 
       <div className='hero-footer' ref={containerRef}>

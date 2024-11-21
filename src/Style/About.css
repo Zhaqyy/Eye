@@ -279,6 +279,10 @@
   .abt {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
+  .abtCanvas .canv .canvIcon span {
+    font-weight: bolder;
+    font-size: x-large;
+  }
 }
 @media (width <= 500px) {
   .abt .abtInfo .infoSlider {

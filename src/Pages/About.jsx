@@ -507,13 +507,13 @@ const AbtCanvas = () => {
             className={"canvPrev"}
             onClick={() => switchScene(-1)} // Trigger previous scene
           >
-            ⥓
+            ⥒
           </span>
           <span
             className={"canvNext"}
             onClick={() => switchScene(1)} // Trigger next scene
           >
-            ⥒
+            ⥓
           </span>
         </div>
         {React.createElement(activeScene.component)}

@@ -330,12 +330,31 @@ height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
+      gap: 1.5rem;
 
       a {
         text-transform: uppercase;
         font-size: 1.5rem;
         pointer-events: all;
         transition: all 0.5s ease;
+      }
+
+      .titleCtrl{
+        height: 100%;
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+        align-items: baseline;
+        font-size: 1.25rem;
+        color: black;
+        border: 1px solid var(--border);
+        border-radius: calc(var(--bRadius) * 4);
+        background-color: white;
+        font-weight: bolder;
+        vertical-align: middle;
+        font-size: x-large;
+        // line-height: 1;
+        pointer-events: all;
       }
     }
 
