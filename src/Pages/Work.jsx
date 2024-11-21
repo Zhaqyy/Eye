@@ -30,7 +30,7 @@ const Work = () => {
   const nextProject = projectData[nextProjectIndex];
 
   const isMobile = useIsMobile();
-
+  ScrollTrigger.defaults({ ignoreMobileResize: true });
   // Reset draggable position when routing to a new page
   const resetDragPosition = () => {
     gsap.set(drag.current, { x: 0, scale: 1 });
@@ -63,7 +63,7 @@ const Work = () => {
         let st;
 
         const slides = imageRefs.current;
-
+        ScrollTrigger.normalizeScroll(true);
         // Apply scroll-triggered animation with enter and exit effects
         slides.forEach((slide, index) => {
           if (!slide) return;
@@ -74,7 +74,7 @@ const Work = () => {
           // Scroll velocity-based skew effect
           ScrollTrigger.create({
             onUpdate: self => {
-              let skew = clamp(self.getVelocity() / isMobile ? -150 : -250);
+              let skew = clamp(self.getVelocity() / -250);
               if (Math.abs(skew) > Math.abs(proxy.skew)) {
                 proxy.skew = skew;
                 gsap.to(proxy, {
@@ -100,14 +100,15 @@ const Work = () => {
               opacity: 1, // Fade in
               filter: "grayscale(0%)", // Remove grayscale
               ease: "power1",
-              duration:0.25,
+              duration: 0.25,
               scrollTrigger: {
                 trigger: slide,
                 start: "top bottom",
                 end: "top 75%",
                 toggleActions: "play none none reverse", // Rewind on exit
                 scrub: true,
-                markers: true,
+                // markers: true,
+                invalidateOnRefresh:true,
               },
             }
           );
@@ -125,14 +126,15 @@ const Work = () => {
               opacity: 0, // Fade out
               filter: "grayscale(100%)", // Add grayscale
               ease: "power1",
-              duration:0.25,
+              duration: 0.25,
               scrollTrigger: {
                 trigger: slide,
-                start: "top 25%", // Start exit animation
+                start: isMobile ? "top 10%" : "top 25%", // Start exit animation
                 end: "bottom top", // Complete exit animation
                 toggleActions: "play none none reverse", // Rewind on entry
                 scrub: true,
-                markers: { startColor: "white", endColor: "blue" },
+                // markers: { startColor: "white", endColor: "blue" },
+                invalidateOnRefresh:true,
               },
             }
           );
@@ -164,7 +166,6 @@ const Work = () => {
               // navigate(`/work/${nextProject.id}`);
               dragToRouteTransition();
               resetDragPosition();
-              
             } else {
               // Restore to original position on release if not snapped
               gsap.to(drag.current, {
@@ -265,120 +266,6 @@ const Work = () => {
 };
 
 export default Work;
-// useGSAP(() => {
-// // Pinning the `.work` section
-// let st = ScrollTrigger.create({
-//   trigger: containerRef.current,
-//   start: "top top",
-//   end: "bottom bottom",
-//   pin: workRef.current, // Pin the .work section
-//   pinSpacing: false, // Disable spacing when pinned
-// });
-
-// const slides = imageRefs.current;
-
-// //  Scroll snapping and flip animation for each image
-// slides.forEach((slide, index) => {
-//   // Create the scrolling animation with flip effect
-//   gsap.fromTo(
-//     slide,
-//     {
-//       // scale: 1,      // Start from normal scale
-//       // rotateX: 0,    // No initial rotation
-//       // y: 0,          // No initial Y movement
-//       // z: 0,          // No initial Z movement
-//       // opacity: 1,    // Fully visible
-//       filter: "grayscale(0%)", // No grayscale
-//     },
-//     {
-//       // scale: 0.8,    // Scale down as it scrolls out
-//       // rotateX: 90,   // Flip on the X-axis as it scrolls out
-//       // y: -100,       // Move up slightly
-//       // z: -200,       // Move away (depth)
-//       // opacity: 0,    // Fade out
-//       filter: "grayscale(100%)", // Turn grayscale as it fades
-//       ease: "power1.inOut",
-
-//       scrollTrigger: {
-//         trigger: slide,
-//         start: "top top",
-//         end: "bottom top",
-//         toggleActions: "restart pause reverse pause",
-//         scrub: true, // Scrubbing effect for smooth animation with scroll
-//         // snap: 1 / slides.length, // Snaps to each image
-//         // markers: true, // For debugging purposes
-//       },
-//     }
-//   );
-// });
-
-// // Creating a scroll effect
-// gsap.to(containerRef.current, {
-//   x: -100,
-//   ease: "none",
-//   scrollTrigger: {
-//     id: `gallery`,
-//     trigger: containerRef.current,
-//     start: "top top",
-//     end: "bottom top",
-//     toggleActions: "restart pause reverse pause",
-//     pin: true,
-//     scrub: true,
-//     // snap: 1 / (slides.length + 1), // Snaps to each image
-//     // markers: true, // For debugging purposes
-//   },
-// });
-
-// const dragtoroute = Draggable.create(drag.current, {
-//   type: "x", // Only allow horizontal dragging
-//   bounds: dragBounds.current,
-//   edgeResistance: 1,
-//   lockAxis: true,
-//   // inertia: true,
-//   snap: {
-//     x: endX => {
-//       if (this.hitTest(hit.current, "50%")) {
-//         // Snap to the hit element's X position
-//         return gsap.getProperty(hit.current, "x");
-//       }
-//       return endX; // Otherwise, snap back to original position
-//     },
-//   },
-//   onDragEnd: function () {
-//     if (this.hitTest(hit.current, "50%")) {
-//       // Trigger routing if hit test is successful
-//       navigate(`/work/${nextProject.id}`);
-//       const gall = ScrollTrigger.getById("gallery");
-//       if (gall) {
-//         gall.refresh();
-//         gall.kill({ reset: true });
-//       } // Recalculate scroll positions
-//     } else {
-//       // Restore to original position on release if not snapped
-//       gsap.to(drag.current, {
-//         duration: 0.4,
-//         x: 0,
-//         y: 0,
-//         scale: 1,
-//         ease: "elastic.out(.45)",
-//       });
-//     }
-//   },
-//   onPress: () => {
-//     gsap.to(drag.current, { duration: 0.1, scale: 0.95 });
-//   },
-// });
-
-// return () => {
-//   st.kill();
-//   const gall = ScrollTrigger.getById("gallery");
-//   if (gall) {
-//     gall.refresh();
-//     gall.kill({ reset: true });
-//   }
-//   dragtoroute[0].kill(); // Kill the Draggable instance
-// };
-// }, [nextProject, navigate])
 
 // export const VerticalGallery = ({ images }) => {
 //   const containerRef = useRef(null);

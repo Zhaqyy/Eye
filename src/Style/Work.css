@@ -110,6 +110,8 @@
      object-fit: cover;
   transition: transform 1s ease-out;
   transform-origin: center;
+  height: auto;
+  aspect-ratio: 16/9;
 }
 
 .next {

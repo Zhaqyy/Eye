@@ -197,6 +197,8 @@
   transition: transform 1s ease-out;
   // scroll-snap-align: center;
   transform-origin: center;
+  height: auto;
+    aspect-ratio: 16 / 9;
 }
 
 .next {
