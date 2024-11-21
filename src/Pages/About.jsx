@@ -153,14 +153,14 @@ const About = () => {
               );
               gsap.to(slide.querySelector(".slideIcon"), { opacity: 1, display: "flex", duration: 0.2 }); // Fade in icon
               const slideProps = isMobile
-              ? { flexDirection: "row", justifyContent: "space-between", }
-              : { flexDirection: "column", justifyContent: "center", };
-            gsap.set(slide, { ...slideProps });
-            const animationProps = isMobile
-              ? { height: "70px", duration: 0.95, ease: "elastic.out(0.5, 0.45)" } // Animate height for mobile
-              : { width: 70, duration: 0.95, ease: "elastic.out(0.5, 0.45)" }; // Animate width for desktop
-    
-            gsap.to(slide, {...animationProps});
+                ? { flexDirection: "row", justifyContent: "space-between" }
+                : { flexDirection: "column", justifyContent: "center" };
+              gsap.set(slide, { ...slideProps });
+              const animationProps = isMobile
+                ? { height: "70px", duration: 0.95, ease: "elastic.out(0.5, 0.45)" } // Animate height for mobile
+                : { width: 70, duration: 0.95, ease: "elastic.out(0.5, 0.45)" }; // Animate width for desktop
+
+              gsap.to(slide, { ...animationProps });
             },
           });
       }
@@ -307,21 +307,36 @@ const scenesData = [
       "Dive into the depths of serenity with 'Pool'. This scene is an oasis of calm where shimmering waters meet reflective skies. It’s designed to show how fluidity and tranquility can transform digital spaces into something truly immersive. If you’re looking for a place to float in your thoughts, this is it!",
     component: Pool, // This refers to the <Pool /> component
     type: "Experiences",
+    mobile: true, // Visible on mobile
+  },
+  {
+    name: "Angel",
+    description:
+      "Dive into the depths of serenity with 'Pool'. This scene is an oasis of calm where shimmering waters meet reflective skies.",
+    component: Pool,
+    type: "UI Prototypes",
+    mobile: true,
   },
   {
     name: "Griddy",
     description:
       "Welcome to the grid, where sharp lines and bold edges create a world of control and precision. 'Griddy' is a showcase of structure and clarity, balancing creativity with order. It’s the perfect way to demonstrate how organized chaos can form something beautifully intricate.",
-    component: Griddy, // This refers to the <Griddy /> component
+    component: Griddy,
     type: "3D Animations",
+    mobile: false,
   },
 ];
 
 const AbtCanvas = () => {
   const abtCanvas = useRef();
 
+  const isMobile = useIsMobile(800);
+
+  // Filter scenes based on the `mobile` property
+  const filteredScenes = scenesData.filter(scene => (isMobile ? scene.mobile : true));
+
   const [activeSceneIndex, setActiveSceneIndex] = useState(0);
-  const activeScene = scenesData[activeSceneIndex];
+  const activeScene = filteredScenes[activeSceneIndex];
 
   gsap.defaults({
     ease: "sine.inOut",
@@ -343,68 +358,6 @@ const AbtCanvas = () => {
   const { contextSafe } = useGSAP({ scope: abtCanvas });
   const scrollTimeout = useRef(null);
 
-  // const handleWheel = contextSafe(e => {
-  //   if (scrollTimeout.current) return; // Ignore event if throttle is active
-
-  //   scrollTimeout.current = setTimeout(() => {
-  //     scrollTimeout.current = null; // Reset throttle after 1s
-  //   }, 600);
-
-  //   randomizeWords();
-
-  //   // Fade up/down animations depending on scroll direction
-  //   const direction = e.deltaY > 0 ? 1 : -1;
-
-  //   gsap.fromTo(
-  //     ".Lword",
-  //     {
-  //       y: direction * 5,
-  //       opacity: 0,
-  //     },
-  //     {
-  //       y: 0,
-  //       opacity: 1,
-  //       duration: 0.25,
-  //     }
-  //   );
-
-  //   gsap.fromTo(
-  //     ".Rword",
-  //     {
-  //       y: -direction * 5,
-  //       opacity: 0,
-  //     },
-  //     {
-  //       y: 0,
-  //       opacity: 1,
-  //       duration: 0.25,
-  //     }
-  //   );
-
-  //   // Blurring the "type" part
-  //   gsap.fromTo(
-  //     ".type-word",
-  //     {
-  //       filter: "blur(2px)",
-  //       opacity: 0,
-  //     },
-  //     {
-  //       filter: "blur(0px)",
-  //       opacity: 1,
-  //       duration: 0.5,
-  //     }
-  //   );
-
-  //   // transition effect for scene info
-
-  //   gsap.fromTo(".sceneInfo", { opacity: 0 }, { opacity: 1, duration: 0.5 });
-
-  //   if (e.deltaY > 0) {
-  //     setActiveSceneIndex(prevIndex => (prevIndex + 1) % scenesData.length); // Next scene
-  //   } else {
-  //     setActiveSceneIndex(prevIndex => (prevIndex === 0 ? scenesData.length - 1 : prevIndex - 1)); // Previous scene
-  //   }
-  // });
 
   const triggerAnimation = direction => {
     randomizeWords();
@@ -463,27 +416,26 @@ const AbtCanvas = () => {
     triggerAnimation(direction);
 
     if (direction > 0) {
-      setActiveSceneIndex(prevIndex => (prevIndex + 1) % scenesData.length);
+      setActiveSceneIndex(prevIndex => (prevIndex + 1) % filteredScenes.length);
     } else {
-      setActiveSceneIndex(prevIndex => (prevIndex === 0 ? scenesData.length - 1 : prevIndex - 1));
+      setActiveSceneIndex(prevIndex => (prevIndex === 0 ? filteredScenes.length - 1 : prevIndex - 1));
     }
   };
 
-
   const handleWheel = contextSafe(e => {
     if (scrollTimeout.current) return; // Ignore event if throttle is active
-  
+
     scrollTimeout.current = setTimeout(() => {
       scrollTimeout.current = null; // Reset throttle after 600ms
     }, 600);
-  
+
     // Determine direction (1 for down, -1 for up)
     const direction = e.deltaY > 0 ? 1 : -1;
-  
+
     // Use the existing scene switch method
     switchScene(direction);
   });
-  
+
   useEffect(() => {
     gsap.fromTo(
       ".canv",
@@ -503,13 +455,15 @@ const AbtCanvas = () => {
 
       <div className='canv' onWheel={handleWheel}>
         <div className={"canvIcon"}>
-        <span
+          <span
+            id='ctrlBtn'
             className={"canvPrev"}
             onClick={() => switchScene(-1)} // Trigger previous scene
           >
             ⥒
           </span>
           <span
+            id='ctrlBtn'
             className={"canvNext"}
             onClick={() => switchScene(1)} // Trigger next scene
           >

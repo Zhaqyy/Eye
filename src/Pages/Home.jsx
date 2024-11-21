@@ -55,6 +55,7 @@ function Home({ activeIndex, setActiveIndex }) {
       <div className='titleMobile'>
         {/* Previous button */}
         <span
+          id='ctrlBtn'
           className={"titleCtrl"}
           onClick={e => {
             e.preventDefault();
@@ -68,6 +69,7 @@ function Home({ activeIndex, setActiveIndex }) {
 
         {/* Next button */}
         <span
+          id='ctrlBtn'
           className={"titleCtrl"}
           onClick={e => {
             e.preventDefault();

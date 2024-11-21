@@ -101,7 +101,7 @@ export const useSoundEffects = isMenuOpen => {
       if (isMuted.current) return;
 
       const excludedIds = ["exclude", "exclude"];
-      const includedIds = ["bCrumb"];
+      const includedIds = ["bCrumb", "ctrlBtn"];
 
       const target = e.target;
       const isButton = target instanceof Element && target.matches("button, a");
