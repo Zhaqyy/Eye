@@ -146,7 +146,18 @@
 .abtCanvas .type .Rword {
   display: inline-block;
 }
+.abtCanvas .type p {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.3rem;
+}
 .abtCanvas .type span {
+  width: -moz-fit-content;
+  width: fit-content;
+  display: block;
   position: relative;
   padding: 0.5rem;
   margin-left: 0.5rem;
@@ -169,6 +180,32 @@
   border-radius: var(--bRadius);
   padding: 1rem;
   border: 1px solid var(--border);
+  position: relative;
+}
+.abtCanvas .canv .canvIcon {
+  height: -moz-fit-content;
+  height: fit-content;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 1rem;
+  z-index: 1;
+  display: flex;
+  gap: 0.25rem;
+}
+.abtCanvas .canv .canvIcon span {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  color: black;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--bRadius) * 4);
+  background-color: white;
+  vertical-align: middle;
+  line-height: 1;
 }
 .abtCanvas .sceneInfo {
   width: 100%;

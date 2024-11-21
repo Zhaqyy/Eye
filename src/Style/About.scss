@@ -152,8 +152,18 @@
     .Rword {
       display: inline-block;
     }
+    p {
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.3rem;
+    }
 
     span {
+      width: fit-content;
+      display: block;
       position: relative;
       padding: 0.5rem;
       margin-left: 0.5rem;
@@ -180,6 +190,35 @@
     border-radius: var(--bRadius);
     padding: 1rem;
     border: 1px solid var(--border);
+    position: relative;
+
+    .canvIcon {
+      height: fit-content;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 1rem;
+      z-index: 1;
+      display: flex;
+      gap: 0.25rem;
+      
+      span{
+        width: 40px;
+          height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 1.25rem;
+          color: black;
+          border: 1px solid var(--border);
+          border-radius: calc(var(--bRadius) * 4);
+          background-color: white;
+          // font-weight: bolder;
+          vertical-align: middle;
+          // font-size: x-large;
+          line-height: 1;
+      }
+    }
   }
 
   .sceneInfo {
@@ -273,16 +312,16 @@
 @media (width <= 500px) {
   .abt {
     .abtInfo .infoSlider {
-      min-height: 600px; 
+      min-height: 600px;
       flex-direction: column;
 
       .slide {
         flex-direction: row;
         justify-content: space-between;
-        .slideIconWrap{
+        .slideIconWrap {
           position: relative;
-top: unset;
-          .slideIcon{
+          top: unset;
+          .slideIcon {
             rotate: 90deg;
           }
         }
