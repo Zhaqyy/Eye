@@ -1,3 +1,30 @@
+::-moz-selection {
+  background: gray;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+::selection {
+  background: gray;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+
+::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background: inherit;
+}
+
 .split {
   display: inline-block;
   text-transform: none;

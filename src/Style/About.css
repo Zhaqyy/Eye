@@ -235,7 +235,7 @@
 }
 .abtCanvas .sceneInfo > p {
   flex-grow: 1;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 @media (width <= 999px) {

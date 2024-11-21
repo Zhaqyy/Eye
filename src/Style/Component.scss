@@ -1,5 +1,24 @@
 // Component styling
 
+
+::selection {
+  background: gray;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+}
+::-webkit-scrollbar-track {
+background: inherit;
+}
+::-webkit-scrollbar-thumb {
+background: #fff6;
+border-radius: 99px;
+}
+::-webkit-scrollbar {
+width: 5px;
+height: 5px;
+background: inherit;
+}
+
 // .splitWrap:hover {
 //   letter-spacing: -2px;
 // }
