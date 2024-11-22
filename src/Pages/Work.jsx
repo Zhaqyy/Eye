@@ -7,6 +7,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Draggable } from "gsap/Draggable";
 import useIsMobile from "../Component/isMobile";
+import Word from "../Component/SplitWord";
 
 gsap.registerPlugin(ScrollTrigger, Draggable, useGSAP);
 
@@ -129,7 +130,7 @@ const Work = () => {
               duration: 0.25,
               scrollTrigger: {
                 trigger: slide,
-                start: isMobile ? "top 10%" : "top 25%", // Start exit animation
+                start: isMobile ? "40% 10%" : "50% 15%", // Start exit animation
                 end: "bottom top", // Complete exit animation
                 toggleActions: "play none none reverse", // Rewind on entry
                 scrub: true,
@@ -235,7 +236,8 @@ const Work = () => {
               </div>
             </div>
             <div className='liveBtn'>
-              <span>⤏</span>
+              <span></span>
+              {/* <Word url={data?.url} word={'Live View'} /> */}
               <Link to={data?.url}>Live View</Link>
             </div>
           </div>

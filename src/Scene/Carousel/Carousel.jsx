@@ -81,7 +81,6 @@ const isMobile = useIsMobile();
     let threshhold = isMobile ? 150 : 50;
 
     if (Math.abs(deltaX) > threshhold) {
-      console.log(threshhold);
       if (deltaX < 0) nextSlide()
       else prevSlide();
 

@@ -37,7 +37,7 @@
   .detail {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    justify-items: center;
+    justify-items: start;
     min-height: 200px;
     gap: 1.5rem;
 
@@ -74,9 +74,10 @@
     }
 
     .liveBtn {
-      width: 100%;
-      filter: contrast(10);
-      span {
+      // width: 100%;
+      // filter: contrast(10);
+      position: relative;
+      & > span {
         // margin-right: 0.5rem;
         // position: absolute;
         // top: -50%;
@@ -86,51 +87,84 @@
         padding: 0.5rem;
         display: inline-block;
         text-align: center;
-        border: 2px solid var(--border);
+        // border: 2px solid var(--border);
         border-radius: 50%;
-        background-color: white;
-        color: black;
+        // background-color: white;
+        color: white;
         font-weight: bolder;
         vertical-align: middle;
         font-size: larger;
         line-height: 1;
         transform-origin: right;
-        transition: all 0.5s ease-in-out;
+        transition: all 0.25s ease;
 
-        // &::before {
-        //   content: "";
-        //   // margin-right: 0.5rem;
-        //   position: absolute;
-        //   top: -50%;
-        //   left: -50%;
-        //   width: 1rem;
-        //   height: 1rem;
-        //   padding: 0.5rem;
-        //   display: inline-block;
-        //   border: 2px solid var(--border);
-        //   border-radius: 50%;
-        //   transform-origin: right;
-        //   transition: all 0.5s ease-in-out;
-        // }
+        backdrop-filter: invert(1);
+        position: absolute;
+        left: 100%;
+        z-index: 1;
+        mix-blend-mode: difference;
 
-        &:hover {
+        &::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 25%;
+          translate: -50% -50%;
+          width: 10px;
+          height: 10px;
+          display: inline-block;
+          border-radius: 50%;
+          scale: 0;
+          opacity: 0;
+          // background: white;
+          transition: all 0.25s ease-in-out, opacity 0s;
+        }
+      }
+      &:hover {
+        & > span {
+          translate: -20px 0;
+
           &::before {
-            transform: rotateY(180deg);
-            width: 100px;
+            background: white;
+            scale: 1;
+            opacity: 1;
+            animation: eye 5s linear(0 0%, 0 1.8%, 0.01 3.6%, 0.03 6.35%, 0.07 9.1%, 0.13 11.4%, 0.19 13.4%, 0.27 15%, 0.34 16.1%, 0.54 18.35%, 0.66 20.6%, 0.72 22.4%, 0.77 24.6%, 0.81 27.3%, 0.85 30.4%, 0.88 35.1%, 0.92 40.6%, 0.94 47.2%, 0.96 55%, 0.98 64%, 0.99 74.4%, 1 86.4%, 1 100%) forwards infinite alternate ;
+            animation-composition: accumulate;
           }
         }
       }
       a {
+        display: inline-block;
+        min-width: 125px;
         padding: 0.5rem 1rem;
         // margin-left: 1rem;
         position: relative;
-        // background-color: white;
-        // color: black;
+        background-color: var(--bg);
         border: 2px solid var(--border);
         border-radius: var(--bRadius);
         transition: all 0.5s ease-in-out;
       }
     }
+  }
+}
+@keyframes eye {
+  0% {
+    transform: translate(0px, 0px) rotate3d(1, 1, 0, 0deg);
+  }
+  20% {
+    transform: translate(-2px, -2px) rotate3d(-1, 1, 0, -35deg);
+  }
+  40% {
+    transform: translate(2px, -2px) rotate3d(1, 1, 0, 35deg);
+  }
+  60% {
+    transform: translate(-2px, 2px) rotate3d(-1, -1, 0, -35deg);
+  }
+  80% {
+    transform: translate(2px, 2px) rotate3d(-1, 1, 0, 35deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate3d(1, 1, 0, 0deg);
   }
 }
 
@@ -198,7 +232,7 @@
   // scroll-snap-align: center;
   transform-origin: center;
   height: auto;
-    aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 9;
 }
 
 .next {
@@ -322,13 +356,13 @@
   }
 }
 @media (width <= 600px) {
- .work-wrap .work{
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  .work-wrap .work {
+    flex-wrap: wrap;
+    justify-content: flex-start;
 
-  h1 {
-    font-size: clamp(2.5rem, 5.333vw + 0.333rem, 3rem);
-  }
+    h1 {
+      font-size: clamp(2.5rem, 5.333vw + 0.333rem, 3rem);
+    }
   }
   .next {
     width: 100%;
