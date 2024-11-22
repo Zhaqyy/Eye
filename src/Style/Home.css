@@ -79,6 +79,7 @@ h2 {
 
 #gl {
   height: 100vh;
+  touch-action: none;
 }
 
 @supports (height: 100dvh) {
@@ -276,10 +277,11 @@ h2 {
   }
   .hero .titleMobile .titleCtrl {
     height: 100%;
+    max-height: 40px;
     aspect-ratio: 1;
     display: flex;
     justify-content: center;
-    align-items: baseline;
+    align-items: center;
     font-size: 1.25rem;
     color: black;
     border: 1px solid var(--border);

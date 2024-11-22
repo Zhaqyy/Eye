@@ -172,9 +172,9 @@ const About = () => {
   const resetSlides = () => {
     slides.current.forEach(slide => {
       if (isMobile) {
-        gsap.set(slide, { height: "70px" });
+        gsap.set(slide, { width:"100%", height: "70px" });
       } else {
-        gsap.set(slide, { width: 70 });
+        gsap.set(slide, { width: 70,height:300 });
       } // Reset all slides to their default size
       gsap.set(slide.querySelector(".content"), { opacity: 0, display: "none" }); // Hide all content
       gsap.set(slide.querySelector(".title"), { opacity: 1, x: 0, y: 0 }); // Reset title position and visibility
@@ -189,7 +189,7 @@ const About = () => {
 
     // Animate to the first slide (or reset the slider state)
     animateSlides(activeIndex.current);
-  }, []);
+  }, [isMobile]);
 
   // Throttle scroll event
   const { contextSafe } = useGSAP({ scope: infoSlider });
@@ -281,6 +281,7 @@ const About = () => {
               ref={el => addSlideRef(el, index)}
               onClick={() => handleClick(index)} // Update to handle click
               onMouseEnter={() => handleHoverEnter(index)}
+              onTouchEnd={() => handleClick(index)}
               key={index}
             >
               <div className='slideIconWrap'>
