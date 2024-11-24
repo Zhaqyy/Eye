@@ -117,4 +117,49 @@
   opacity: 0;
   pointer-events: none;
   transform-origin: top center;
+}
+
+.loader {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  overflow: hidden;
+  z-index: 2;
+}
+.loaderWrapper {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+.loaderProgressWrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 5vh;
+  width: 100%;
+  z-index: 3;
+}
+.loaderProgress {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.loaderProgressNumber {
+  position: absolute;
+  left: -5vw;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  white-space: nowrap;
+  color: white;
+  font-size: 3.2rem;
 }/*# sourceMappingURL=Component.css.map */

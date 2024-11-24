@@ -137,7 +137,7 @@ background: inherit;
   overflow: hidden;
   z-index: 2;
 
-  &__wrapper {
+  &Wrapper {
     position: relative;
     height: 100%;
     width: 100%;
@@ -146,7 +146,7 @@ background: inherit;
     overflow: hidden;
   }
 
-  &__progressWrapper {
+  &ProgressWrapper {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -155,7 +155,7 @@ background: inherit;
     z-index: 3;
   }
 
-  &__progress {
+  &Progress {
     height: 100%;
     width: 100%;
     background-color: black;
@@ -163,7 +163,7 @@ background: inherit;
     transform-origin: left center;
   }
 
-  &__progressNumber {
+  &ProgressNumber {
     position: absolute;
     left: -5vw;
     top: 50%;
