@@ -49,7 +49,7 @@ const Work = () => {
       ease: "power1.inOut",
     });
     timeline.call(() => {
-      navigate(`/work/${nextProject.id}`);
+      navigate(`/Project/${nextProject.id}`);
       resetScrollPosition(); // Recalculate scroll positions
     });
     return timeline;
@@ -164,7 +164,7 @@ const Work = () => {
           onDragEnd: function () {
             if (this.hitTest(hit.current, "50%")) {
               // Trigger routing if hit test is successful
-              // navigate(`/work/${nextProject.id}`);
+              // navigate(`/Project/${nextProject.id}`);
               dragToRouteTransition();
               resetDragPosition();
             } else {

@@ -51,7 +51,7 @@ const isMobile = useIsMobile();
 
   const handleNavigation = () => {
     clickSound.play();
-    navigate(`/Work/${projectData[activeIndex].id}`);
+    navigate(`/Project/${projectData[activeIndex].id}`);
   };
 
   /*--------------------

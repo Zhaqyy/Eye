@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { Routes, Route } from "react-router-dom";
 
+import Loader from "../Component/Loader/Loader";
 import Transitioner from "../Component/Transition";
 
 import Home from "../Pages/Home";
@@ -10,36 +11,45 @@ import Work from "../Pages/Work";
 import About from "../Pages/About";
 
 const Router = () => {
+  const [loaderFinished, setLoaderFinished] = useState(false);
+
   return (
-    <Routes>
-      <Route
-        index
-        path='/'
-        element={
-          <Transitioner>
-            <Main />
-          </Transitioner>
-        }
-      />
-      <Route
-        path='/about'
-        element={
-          <Transitioner>
-            <About />
-          </Transitioner>
-        }
-      />
-      <Route
-        path='/Work/:id'
-        element={
-          <Transitioner>
-            <Work />
-          </Transitioner>
-        }
-      />
-    </Routes>
+    <>
+      {!loaderFinished ? (
+        <Loader onComplete={() => setLoaderFinished(true)} />
+      ) : (
+        <Routes>
+          <Route
+            index
+            path="/"
+            element={
+              <Transitioner>
+                <Main />
+              </Transitioner>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Transitioner>
+                <About />
+              </Transitioner>
+            }
+          />
+          <Route
+            path="/Project/:id"
+            element={
+              <Transitioner>
+                <Work />
+              </Transitioner>
+            }
+          />
+        </Routes>
+      )}
+    </>
   );
 };
+
 
 export default Router;
 

@@ -48,7 +48,7 @@ function Home({ activeIndex, setActiveIndex }) {
               ))}
             </ul>
           </div>
-          <h5>Available for Work/Freelance</h5>
+          <h5>Available for Project/Freelance</h5>
         </div>
       </div>
 
@@ -65,7 +65,7 @@ function Home({ activeIndex, setActiveIndex }) {
           ⥒
         </span>
 
-        <Link to={`/Work/${projectData[activeIndex].id}`}>{projectData[activeIndex].title}</Link>
+        <Link to={`/Project/${projectData[activeIndex].id}`}>{projectData[activeIndex].title}</Link>
 
         {/* Next button */}
         <span
