@@ -172,24 +172,14 @@ const About = () => {
   const resetSlides = () => {
     slides.current.forEach(slide => {
       if (isMobile) {
-        gsap.set(slide, { width:"100%", height: "70px" });
+        gsap.set(slide, { width: "100%", height: "70px" });
       } else {
-        gsap.set(slide, { width: 70,height:300 });
+        gsap.set(slide, { width: 70, height: 300 });
       } // Reset all slides to their default size
       gsap.set(slide.querySelector(".content"), { opacity: 0, display: "none" }); // Hide all content
       gsap.set(slide.querySelector(".title"), { opacity: 1, x: 0, y: 0 }); // Reset title position and visibility
     });
   };
-
-  useEffect(() => {
-    resetSlides();
-    // Reset the activeIndex to 0 on any re-render or mount
-    activeIndex.current = 0;
-    previousIndex.current = null; // Clear previous index
-
-    // Animate to the first slide (or reset the slider state)
-    animateSlides(activeIndex.current);
-  }, [isMobile]);
 
   // Throttle scroll event
   const { contextSafe } = useGSAP({ scope: infoSlider });
@@ -258,8 +248,35 @@ const About = () => {
     });
   });
 
+  // Intro Animation
+  const abtRef = useRef(null);
+
+  useEffect(() => {
+    const context = gsap.context(() => {
+      // timeline for the animation
+      const tl = gsap.timeline();
+
+      // animation for abt elements
+      tl.add(animateAbtElements(abtRef),'abtSection');
+
+      // callback to reset slides after animation completes
+      tl.call(
+        () => {
+          resetSlides();
+          activeIndex.current = 0;
+          previousIndex.current = null;
+          animateSlides(activeIndex.current);
+        },
+        null,
+        ">"
+      );
+    }, abtRef);
+
+    return () => context.revert(); // Cleanup on unmount
+  }, [isMobile]);
+
   return (
-    <div className='abt'>
+    <div className='abt' ref={abtRef}>
       <section className='abtInfo' ref={infoSlider} onWheel={handleWheel}>
         <div className='abtHeader'>
           <div className='abtTitle'>
@@ -359,7 +376,6 @@ const AbtCanvas = () => {
   const { contextSafe } = useGSAP({ scope: abtCanvas });
   const scrollTimeout = useRef(null);
 
-
   const triggerAnimation = direction => {
     randomizeWords();
 
@@ -437,12 +453,35 @@ const AbtCanvas = () => {
     switchScene(direction);
   });
 
+  const handleHoverEnter = contextSafe((e) => {
+    const target = e.currentTarget;
+  
+    // Squash and stretch effect
+    gsap.to(target, {
+      scaleX: 1.1,
+      scaleY: 0.9,
+      duration: 0.25,
+      ease: "power3.out", // Creates a fast squash
+    });
+    gsap.to(target, {
+      scaleX: 1,
+      scaleY: 1,
+      duration: 0.95,
+      ease: "elastic.out(1, 0.3)",
+      delay: 0.2, // Delay to make the animation follow smoothly
+    });
+  });
+
   useEffect(() => {
-    gsap.fromTo(
-      ".canv",
-      { opacity: 0 }, // Fade in new scene
-      { opacity: 1, duration: 0.5 }
-    );
+    const context = gsap.context(() => {
+      // timeline for the animation
+      const tl = gsap.timeline();
+
+      // animation for abt cancas
+      tl.add(animateAbtCanvas(abtCanvas),'abtSection');
+    }, abtCanvas);
+
+    return () => context.revert(); // Cleanup on unmount
   }, [activeSceneIndex]);
 
   return (
@@ -459,6 +498,7 @@ const AbtCanvas = () => {
           <span
             id='ctrlBtn'
             className={"canvPrev"}
+           onMouseEnter={handleHoverEnter}
             onClick={() => switchScene(-1)} // Trigger previous scene
           >
             ⥒
@@ -466,6 +506,7 @@ const AbtCanvas = () => {
           <span
             id='ctrlBtn'
             className={"canvNext"}
+           onMouseEnter={handleHoverEnter}
             onClick={() => switchScene(1)} // Trigger next scene
           >
             ⥓
@@ -492,4 +533,148 @@ const AbtCanvas = () => {
       </div>
     </section>
   );
+};
+
+// Animation function
+export const animateAbtElements = abtRef => {
+  const tl = gsap.timeline();
+
+  // Staggered clipPath animation for h1 elements
+  tl.fromTo(
+    abtRef.current.querySelectorAll(".abtTitle h1"),
+    { clipPath: "inset(0 0 100% 0)" },
+    {
+      clipPath: "inset(0 0 0% 0)",
+      duration: 1.5,
+      stagger: 0.5,
+      ease: "expo.out",
+    }
+  );
+
+  // ClipPath animation for h5 (from left to right)
+  tl.fromTo(
+    abtRef.current.querySelector(".abtTitle h5"),
+    { clipPath: "inset(0 100% 0 0)" },
+    {
+      clipPath: "inset(0 0% 0 0)",
+      // autoAlpha: 1,
+      duration: 0.5,
+      ease: "expo.in",
+    },
+    "-=1.25" // Overlap with the stagger animation
+  );
+
+  // Fade-in animation for paragraph
+  tl.fromTo(
+    abtRef.current.querySelector(".abtHeader p"),
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      duration: 1.5,
+      ease: "expo.out",
+    },
+    "-=0.5"
+  );
+
+  return tl;
+};
+export const animateAbtCanvas = abtRef => {
+  const tl = gsap.timeline({
+    defaults: {
+      ease: "expo.out",
+      duration: 1.5,
+    },
+  });
+
+  tl.fromTo(
+    ".canv",
+    { clipPath: "inset(0 0 100% 0)" },
+    {
+      clipPath: "inset(0 0 0% 0)",
+    }
+  );
+
+  tl.fromTo(
+    ".Lword",
+    {
+      y: 5,
+      opacity: 0,
+    },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: "sine.in",
+    },
+    ">"
+  );
+
+  tl.fromTo(
+    ".Rword",
+    {
+      y: -5,
+      opacity: 0,
+    },
+    {
+      y: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: "sine.in",
+    },
+    "<"
+  );
+
+  tl.fromTo(
+    ".type-word",
+    {
+      filter: "blur(2px)",
+      opacity: 0,
+    },
+    {
+      filter: "blur(0px)",
+      opacity: 1,
+      duration: 0.5,
+      ease: "sine.in",
+    },
+    "<"
+  );
+  tl.fromTo(
+    ".canvPrev",
+    {
+      x: -10,
+      opacity: 0,
+    },
+    {
+      x: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: "elastic.out(0.5, 0.25)",
+    },
+    "<"
+  );
+  tl.fromTo(
+    ".canvNext",
+    {
+      x: 10,
+      opacity: 0,
+    },
+    {
+      x: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: "elastic.out(0.5, 0.25)",
+    },
+    "<"
+  );
+
+  tl.fromTo(
+    ".sceneInfo",
+    { clipPath: "inset(0 100% 0 0)" },
+    {
+      clipPath: "inset(0 0% 0 0)",
+    },
+    "-=0.5"
+  );
+
+  return tl;
 };

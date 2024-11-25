@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Loader from "../Component/Loader/Loader";
@@ -21,7 +21,7 @@ const Router = () => {
         <Routes>
           <Route
             index
-            path="/"
+            path='/'
             element={
               <Transitioner>
                 <Main />
@@ -29,7 +29,7 @@ const Router = () => {
             }
           />
           <Route
-            path="/about"
+            path='/about'
             element={
               <Transitioner>
                 <About />
@@ -37,7 +37,7 @@ const Router = () => {
             }
           />
           <Route
-            path="/Project/:id"
+            path='/Project/:id'
             element={
               <Transitioner>
                 <Work />
@@ -49,7 +49,6 @@ const Router = () => {
     </>
   );
 };
-
 
 export default Router;
 

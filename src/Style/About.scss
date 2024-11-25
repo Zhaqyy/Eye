@@ -201,22 +201,26 @@
       z-index: 1;
       display: flex;
       gap: 0.25rem;
-      
-      span{
+
+      span {
         width: 40px;
-          height: 40px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 1.25rem;
-          color: black;
-          border: 1px solid var(--border);
-          border-radius: calc(var(--bRadius) * 4);
-          background-color: white;
-          // font-weight: bolder;
-          vertical-align: middle;
-          // font-size: x-large;
-          line-height: 1;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.25rem;
+        color: black;
+        border: 1px solid var(--border);
+        border-radius: calc(var(--bRadius) * 4);
+        background-color: white;
+        // font-weight: bolder;
+        vertical-align: middle;
+        // font-size: x-large;
+        line-height: 1;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }
@@ -308,7 +312,7 @@
   .abt {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
-  .abtCanvas .canv .canvIcon span{
+  .abtCanvas .canv .canvIcon span {
     font-weight: bolder;
     font-size: x-large;
   }

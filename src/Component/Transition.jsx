@@ -12,7 +12,7 @@ const Transitioner = ({ children }) => {
 
   const animateOverlayEnter = overlay => {
     if (!overlay) return;
-    gsap.set(overlay, { clipPath: "inset(0 0 0 0)", opacity: 1, display: "block" });
+    gsap.set(overlay, { clipPath: "inset(0 0 0% 0)", opacity: 1, display: "block" });
     return gsap.to(overlay, {
       clipPath: "inset(0 0 100% 0)",
       duration: 1.0,
