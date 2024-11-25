@@ -25,6 +25,10 @@
   background: inherit;
 }
 
+[data-hidden] {
+  opacity: 0;
+}
+
 .split {
   display: inline-block;
   text-transform: none;

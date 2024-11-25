@@ -493,7 +493,7 @@ const AbtCanvas = () => {
         </p>
       </span>
 
-      <div className='canv' onWheel={handleWheel}>
+      <div className='canv' onWheel={handleWheel} data-hidden>
         <div className={"canvIcon"}>
           <span
             id='ctrlBtn'
@@ -514,7 +514,7 @@ const AbtCanvas = () => {
         </div>
         {React.createElement(activeScene.component)}
       </div>
-      <div className='sceneInfo'>
+      <div className='sceneInfo' data-hidden>
         <div className='sceneInfoTitle'>
           <div>
             <strong>
@@ -588,10 +588,26 @@ export const animateAbtCanvas = abtRef => {
 
   tl.fromTo(
     ".canv",
-    { clipPath: "inset(0 0 100% 0)" },
+    { clipPath: "inset(0 0 100% 0)",autoAlpha:0 },
     {
       clipPath: "inset(0 0 0% 0)",
+      autoAlpha:1
     }
+  );
+
+  tl.fromTo(
+    ".type p",
+    {
+      // x: -5,
+      opacity: 0,
+    },
+    {
+      // x: 0,
+      opacity: 1,
+      duration: 0.5,
+      ease: "sine.in",
+    },
+    ">"
   );
 
   tl.fromTo(
@@ -606,7 +622,7 @@ export const animateAbtCanvas = abtRef => {
       duration: 0.5,
       ease: "sine.in",
     },
-    ">"
+    "<"
   );
 
   tl.fromTo(
@@ -650,7 +666,7 @@ export const animateAbtCanvas = abtRef => {
       duration: 0.5,
       ease: "elastic.out(0.5, 0.25)",
     },
-    "<"
+    "+=0.25"
   );
   tl.fromTo(
     ".canvNext",
@@ -669,9 +685,10 @@ export const animateAbtCanvas = abtRef => {
 
   tl.fromTo(
     ".sceneInfo",
-    { clipPath: "inset(0 100% 0 0)" },
+    { clipPath: "inset(0 100% 0 0)",autoAlpha:0 },
     {
       clipPath: "inset(0 0% 0 0)",
+      autoAlpha:1
     },
     "-=0.5"
   );

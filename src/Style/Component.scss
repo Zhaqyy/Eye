@@ -19,6 +19,10 @@ height: 5px;
 background: inherit;
 }
 
+[data-hidden] {
+  opacity: 0;
+}
+
 // .splitWrap:hover {
 //   letter-spacing: -2px;
 // }
