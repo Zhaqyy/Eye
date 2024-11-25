@@ -15,9 +15,9 @@ const Router = () => {
 
   return (
     <>
-      {!loaderFinished ? (
+      {/* {!loaderFinished ? (
         <Loader onComplete={() => setLoaderFinished(true)} />
-      ) : (
+      ) : ( */}
         <Routes>
           <Route
             index
@@ -45,7 +45,7 @@ const Router = () => {
             }
           />
         </Routes>
-      )}
+      {/* )} */}
     </>
   );
 };

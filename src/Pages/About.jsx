@@ -257,7 +257,7 @@ const About = () => {
       const tl = gsap.timeline();
 
       // animation for abt elements
-      tl.add(animateAbtElements(abtRef),'abtSection');
+      tl.add(animateAbtElements(abtRef),'abtSection', 1);
 
       // callback to reset slides after animation completes
       tl.call(
@@ -280,11 +280,11 @@ const About = () => {
       <section className='abtInfo' ref={infoSlider} onWheel={handleWheel}>
         <div className='abtHeader'>
           <div className='abtTitle'>
-            <h1>Shuaib</h1>
-            <h5>Creative Developer</h5>
-            <h1>Abdulrazaq</h1>
+            <h1 data-hidden>Shuaib</h1>
+            <h5 data-hidden>Creative Developer</h5>
+            <h1 data-hidden>Abdulrazaq</h1>
           </div>
-          <p>
+          <p data-hidden>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam optio qui voluptas iusto? Obcaecati delectus ipsam, excepturi a
             ea suscipit autem voluptatum tempore, incidunt et veritatis eius dolor sit minima.
           </p>
@@ -486,7 +486,7 @@ const AbtCanvas = () => {
 
   return (
     <section className='abtCanvas' ref={abtCanvas}>
-      <span className='type'>
+      <span className='type' data-hidden>
         <p>
           I <strong className='Lword'>{lWord}</strong> <em className='Rword'>{rWord}</em>{" "}
           <span className='type-word'>{activeScene.type}</span>
@@ -542,9 +542,10 @@ export const animateAbtElements = abtRef => {
   // Staggered clipPath animation for h1 elements
   tl.fromTo(
     abtRef.current.querySelectorAll(".abtTitle h1"),
-    { clipPath: "inset(0 0 100% 0)" },
+    { clipPath: "inset(0 0 100% 0)",autoAlpha:0 },
     {
       clipPath: "inset(0 0 0% 0)",
+      autoAlpha:1,
       duration: 1.5,
       stagger: 0.5,
       ease: "expo.out",
@@ -554,10 +555,10 @@ export const animateAbtElements = abtRef => {
   // ClipPath animation for h5 (from left to right)
   tl.fromTo(
     abtRef.current.querySelector(".abtTitle h5"),
-    { clipPath: "inset(0 100% 0 0)" },
+    { clipPath: "inset(0 100% 0 0)",autoAlpha:0 },
     {
       clipPath: "inset(0 0% 0 0)",
-      // autoAlpha: 1,
+      autoAlpha: 1,
       duration: 0.5,
       ease: "expo.in",
     },
@@ -578,6 +579,7 @@ export const animateAbtElements = abtRef => {
 
   return tl;
 };
+
 export const animateAbtCanvas = abtRef => {
   const tl = gsap.timeline({
     defaults: {
@@ -596,14 +598,14 @@ export const animateAbtCanvas = abtRef => {
   );
 
   tl.fromTo(
-    ".type p",
+    ".type",
     {
       // x: -5,
-      opacity: 0,
+      autoAlpha: 0,
     },
     {
       // x: 0,
-      opacity: 1,
+      autoAlpha: 1,
       duration: 0.5,
       ease: "sine.in",
     },
@@ -614,11 +616,11 @@ export const animateAbtCanvas = abtRef => {
     ".Lword",
     {
       y: 5,
-      opacity: 0,
+      autoAlpha: 0,
     },
     {
       y: 0,
-      opacity: 1,
+      autoAlpha: 1,
       duration: 0.5,
       ease: "sine.in",
     },
@@ -629,11 +631,11 @@ export const animateAbtCanvas = abtRef => {
     ".Rword",
     {
       y: -5,
-      opacity: 0,
+      autoAlpha: 0,
     },
     {
       y: 0,
-      opacity: 1,
+      autoAlpha: 1,
       duration: 0.5,
       ease: "sine.in",
     },
@@ -644,11 +646,11 @@ export const animateAbtCanvas = abtRef => {
     ".type-word",
     {
       filter: "blur(2px)",
-      opacity: 0,
+      autoAlpha: 0,
     },
     {
       filter: "blur(0px)",
-      opacity: 1,
+      autoAlpha: 1,
       duration: 0.5,
       ease: "sine.in",
     },
@@ -658,11 +660,11 @@ export const animateAbtCanvas = abtRef => {
     ".canvPrev",
     {
       x: -10,
-      opacity: 0,
+      autoAlpha: 0,
     },
     {
       x: 0,
-      opacity: 1,
+      autoAlpha: 1,
       duration: 0.5,
       ease: "elastic.out(0.5, 0.25)",
     },
@@ -672,11 +674,11 @@ export const animateAbtCanvas = abtRef => {
     ".canvNext",
     {
       x: 10,
-      opacity: 0,
+      autoAlpha: 0,
     },
     {
       x: 0,
-      opacity: 1,
+      autoAlpha: 1,
       duration: 0.5,
       ease: "elastic.out(0.5, 0.25)",
     },
