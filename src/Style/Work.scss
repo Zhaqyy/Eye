@@ -128,7 +128,33 @@
             background: white;
             scale: 1;
             opacity: 1;
-            animation: eye 5s linear(0 0%, 0 1.8%, 0.01 3.6%, 0.03 6.35%, 0.07 9.1%, 0.13 11.4%, 0.19 13.4%, 0.27 15%, 0.34 16.1%, 0.54 18.35%, 0.66 20.6%, 0.72 22.4%, 0.77 24.6%, 0.81 27.3%, 0.85 30.4%, 0.88 35.1%, 0.92 40.6%, 0.94 47.2%, 0.96 55%, 0.98 64%, 0.99 74.4%, 1 86.4%, 1 100%) forwards infinite alternate ;
+            animation: eye 5s
+              linear(
+                0 0%,
+                0 1.8%,
+                0.01 3.6%,
+                0.03 6.35%,
+                0.07 9.1%,
+                0.13 11.4%,
+                0.19 13.4%,
+                0.27 15%,
+                0.34 16.1%,
+                0.54 18.35%,
+                0.66 20.6%,
+                0.72 22.4%,
+                0.77 24.6%,
+                0.81 27.3%,
+                0.85 30.4%,
+                0.88 35.1%,
+                0.92 40.6%,
+                0.94 47.2%,
+                0.96 55%,
+                0.98 64%,
+                0.99 74.4%,
+                1 86.4%,
+                1 100%
+              )
+              forwards infinite alternate;
             animation-composition: accumulate;
           }
         }
@@ -215,14 +241,33 @@
   gap: 5vh;
   // scroll-snap-type: y mandatory;
 
-  .image-slide:first-of-type {
+  .imgWrap:first-of-type {
     margin-top: 10vh;
+  }
+  .imgWrap {
+    position: relative;
+    border-radius: var(--bRadius);
+    --opac: 1;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: var(--accent);
+      opacity: var(--opac);
+      border-radius: inherit;
+      z-index: 1;
+    }
   }
 }
 
 .image-slide {
   // height: 100vh; /* Full height */
   width: 60vw; /* Full width */
+  position: relative;
   // position: absolute;
   // top: 0;
   // left: 0;
@@ -272,8 +317,10 @@
     padding-inline: 0.25rem;
     background-color: rgb(175, 175, 175);
     border-radius: var(--bRadius);
-    // border: red 1px solid;
-
+    transition: all 0.5s ease;
+    &:hover {
+      box-shadow: inset 0px 10px 10px rgb(162 162 162 / 80%);
+    }
     .drag {
       height: 40px;
       width: 65px;

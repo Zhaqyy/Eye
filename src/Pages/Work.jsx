@@ -20,6 +20,7 @@ const Work = () => {
   const workRef = useRef(null);
   const serviceRef = useRef(null);
   const imageRefs = useRef([]);
+  const imageWrapRefs = useRef([]);
   const containerRef = useRef(null);
   const drag = useRef(null);
   const hit = useRef(null);
@@ -109,7 +110,7 @@ const Work = () => {
                 toggleActions: "play none none reverse", // Rewind on exit
                 scrub: true,
                 // markers: true,
-                invalidateOnRefresh:true,
+                invalidateOnRefresh: true,
               },
             }
           );
@@ -135,15 +136,11 @@ const Work = () => {
                 toggleActions: "play none none reverse", // Rewind on entry
                 scrub: true,
                 // markers: { startColor: "white", endColor: "blue" },
-                invalidateOnRefresh:true,
+                invalidateOnRefresh: true,
               },
             }
           );
         });
-        // if (slides) {
-        //   // Set transform origin for the skew animation to improve performance
-        //   gsap.set(slides, { transformOrigin: "center", force3D: true });
-        // }
 
         // Drag to route logic
         const dragtoroute = Draggable.create(drag.current, {
@@ -181,6 +178,9 @@ const Work = () => {
           onPress: () => {
             gsap.to(drag.current, { duration: 0.1, scale: 0.95 });
           },
+          onRelease: () => {
+            gsap.to(drag.current, { duration: 0.25, scale: 1, ease: "elastic.out(.5, .15)" });
+          },
         });
 
         return () => {
@@ -201,6 +201,21 @@ const Work = () => {
     { dependencies: [nextProject, navigate], revertOnUpdate: true }
   );
 
+  useEffect(() => {
+    const context = gsap.context(() => {
+      const tl = gsap.timeline();
+
+      // Animate work section
+      tl.add(animateWork(workRef));
+
+      // Animate images with staggered timeline
+      tl.add(animateImageIn(imageWrapRefs), "<");
+      tl.add(animateImage(imageWrapRefs), "-=1");
+    }, workRef);
+
+    return () => context.revert(); // Cleanup on unmount
+  }, []);
+
   return (
     <div>
       <div className='work-wrap' ref={workRef}>
@@ -209,14 +224,14 @@ const Work = () => {
             <h6>
               {data?.client} - {data?.year}
             </h6>
-            <h1>{data?.title}</h1>
+            <h1 data-hidden>{data?.title}</h1>
           </div>
           <div className='detail'>
             <div className='desc'>
               <p>{data?.detail}</p>
             </div>
             <div className='service' ref={serviceRef}>
-              <div>
+              <div className='serviceList'>
                 <h4>Services</h4>
                 <ul>
                   {data?.role?.map((roleItem, index) => (
@@ -246,7 +261,9 @@ const Work = () => {
         {/* Gallery Section */}
         <section className='gallery' ref={containerRef}>
           {data?.gallery?.map((image, index) => (
-            <img src={image} key={index} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
+            <span className='imgWrap' key={index} ref={el => (imageWrapRefs.current[index] = el)}>
+              <img src={image} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
+            </span>
           ))}
 
           <div className='next'>
@@ -268,6 +285,138 @@ const Work = () => {
 };
 
 export default Work;
+
+// Animation function
+export const animateWork = workRef => {
+  const tl = gsap.timeline();
+
+  // ClipPath animation for h5 (from left to right)
+  tl.fromTo(
+    workRef.current.querySelector(".work .title h6"),
+    { clipPath: "inset(0 100% 0 0)", autoAlpha: 0 },
+    {
+      clipPath: "inset(0 0% 0 0)",
+      autoAlpha: 1,
+      duration: 0.5,
+      ease: "expo.in",
+    }
+  );
+
+  // Staggered clipPath animation for h1 elements
+  tl.fromTo(
+    workRef.current.querySelectorAll(".work .title h1"),
+    { clipPath: "inset(0 0 100% 0)", autoAlpha: 0 },
+    {
+      clipPath: "inset(0 0 0% 0)",
+      autoAlpha: 1,
+      duration: 1.5,
+      stagger: 0.5,
+      ease: "expo.out",
+    },
+    "+=0.25"
+  );
+
+  // Fade-in animation for paragraph
+  tl.fromTo(
+    workRef.current.querySelector(".work .detail p"),
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      duration: 1.5,
+      ease: "expo.out",
+    },
+    "<"
+  );
+
+  tl.fromTo(
+    workRef.current.querySelector(".work .serviceList"),
+    { autoAlpha: 0, y: 10 },
+    {
+      autoAlpha: 1,
+      y: 0,
+      duration: 1.5,
+      ease: "expo.out",
+    },
+    "<"
+  );
+  tl.fromTo(
+    workRef.current.querySelector(".work .stack"),
+    { autoAlpha: 0, y: 10 },
+    {
+      autoAlpha: 1,
+      y: 0,
+      duration: 1.5,
+      ease: "expo.out",
+    },
+    "<"
+  );
+
+  tl.fromTo(
+    workRef.current.querySelector(".work .liveBtn"),
+    { autoAlpha: 0, y: 10, rotate: 5 },
+    {
+      autoAlpha: 1,
+      y: 0,
+      rotate: 0,
+      duration: 1.5,
+      ease: "expo.out",
+    },
+    "-=1"
+  );
+
+  return tl;
+};
+
+export const animateImageIn = imageWrapRefs => {
+  const tl = gsap.timeline({
+    defaults: {
+      ease: "power1.out",
+      duration: 0.5,
+    },
+  });
+
+  imageWrapRefs.current.forEach((imageWrap, index) => {
+    tl.fromTo(
+      imageWrap,
+      {
+        autoAlpha: 0,
+      },
+      {
+        autoAlpha: 1,
+      }
+    );
+  });
+
+  return tl;
+};
+
+export const animateImage = imageWrapRefs => {
+  const tl = gsap.timeline({
+    defaults: {
+      ease: "sine.in",
+    },
+  });
+
+  imageWrapRefs.current.forEach((imageWrap, index) => {
+    tl.to(imageWrap, {
+      "--opac": 0,
+      duration:0.35
+    })
+    .fromTo(imageWrap, {
+      filter: "blur(2px)",
+      // filter: "grayscale(100%)",
+    },
+    {
+      filter: "blur(0px)",
+      // filter: "grayscale(0%)",
+      duration:0.5
+    },'<'
+    )
+    
+  });
+
+  return tl;
+};
 
 // export const VerticalGallery = ({ images }) => {
 //   const containerRef = useRef(null);
