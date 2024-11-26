@@ -27,7 +27,7 @@ const Word = ({ word, url = "#" }) => {
             duration: 0.25,
             x: (index) => (index > 0 ? (numLetters - index) * 2 : 0),
             y: (index) => (index > 0 ? -(numLetters - index) * 0.25 : 0),
-            rotation: (index) => (index > 0 ? Math.random() * 50 - 5 : 0),
+            rotation: (index) => (index > 0 ? Math.random() * 35 - 5 : 0),
             stagger: 0.05,
             ease: "back.out(1.7)",
           },

@@ -13,26 +13,15 @@ function Home({ activeIndex, setActiveIndex }) {
   return (
     <section className='hero'>
       <div className='main-hero'>
-        <nav className='nav'>
-          <ul>
-            <li className='nav-item'>
-              <Word word={"Overview"} url='/' />
-            </li>
-            <li className='nav-item'>
-              <Word word={"About"} url='/About' />
-            </li>
-            <li className='nav-item'>
-              <Word word={"Lab"} />
-            </li>
-          </ul>
-        </nav>
+
+        
         <div className='detail'>
           <div className='name'>
             <h1>Shuaib Abdulrazaq</h1>
             <h2>Creative Developer</h2>
           </div>
           <div className='project'>
-            <h3>Project List</h3>
+            <h3>Selected Project</h3>
             <ul>
               {projectData.map((item, index) => (
                 <li key={index} className={index === activeIndex ? "active" : ""}>
@@ -87,13 +76,13 @@ function Home({ activeIndex, setActiveIndex }) {
         <Breadcrumbs activeIndex={activeIndex} setActiveIndex={setActiveIndex} ref={containerRef} />
         <ul className='contact'>
           <li>
-            <a href='#'>LinkedIn</a>
+          <Word word={"LinkedIn"} url="https://www.linkedin.com/in/abdulrazaq-shuaib-72a827263/" />
           </li>
           <li>
-            <a href='#'>Codepen</a>
+          <Word word={"Codepen"} url="https://codepen.io/zhaqyy"/>
           </li>
           <li>
-            <a href='#'>Email</a>
+          <Word word={"Email"} url="mailto:zaqrashyy7@gmail.com" />
           </li>
         </ul>
       </div>

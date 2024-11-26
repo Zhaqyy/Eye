@@ -31,7 +31,7 @@
 
 .split {
   display: inline-block;
-  text-transform: none;
+  text-transform: inherit;
 }
 
 .header {
