@@ -1,17 +1,32 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Word from "../Component/SplitWord";
 import "../Style/Home.css";
 import { projectData } from "../Component/ProjectData";
 import Breadcrumbs from "../Component/Breadcrumbs";
 import { useSoundEffects } from "../Component/SoundEffects";
 import { Link } from "react-router-dom";
+import gsap from "gsap";
 
 function Home({ activeIndex, setActiveIndex }) {
+  const homeRef = useRef();
   const containerRef = useRef(null);
 
   const { toggleMute } = useSoundEffects();
+
+  useEffect(() => {
+    const context = gsap.context(() => {
+      const tl = gsap.timeline();
+
+      tl.add(animateHome(homeRef));
+      tl.add(animateHomeFoot(containerRef), "-=90%");
+
+    }, homeRef);
+
+    return () => context.revert(); // Cleanup on unmount
+  }, []);
+
   return (
-    <section className='hero'>
+    <section className='hero' ref={homeRef}>
       <div className='main-hero'>
 
         
@@ -91,3 +106,112 @@ function Home({ activeIndex, setActiveIndex }) {
 }
 
 export default Home;
+
+
+// Animation function
+export const animateHome = homeRef => {
+  const tl = gsap.timeline();
+
+  // Staggered clipPath animation for h1 elements
+  tl.fromTo(
+    homeRef.current.querySelector(".main-hero .name h1"),
+    { clipPath: "inset(0 0 100% 0)",autoAlpha:0 },
+    {
+      clipPath: "inset(0 0 0% 0)",
+      autoAlpha:1,
+      duration: 1.5,
+      ease: "expo.in",
+    }
+  );
+  tl.fromTo(
+    homeRef.current.querySelector(".main-hero .name h2"),
+    { clipPath: "inset(0 0 100% 0)",autoAlpha:0 },
+    {
+      clipPath: "inset(0 0 0% 0)",
+      autoAlpha:1,
+      duration: 1.5,
+      ease: "expo.in",
+    },
+    '-=1'
+  );
+
+  tl.fromTo(
+    homeRef.current.querySelector(".main-hero .project h3"),
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      duration: 0.5,
+      ease: "expo.out",
+    },
+    ">"
+  );
+
+  tl.fromTo(
+    homeRef.current.querySelectorAll(".main-hero .project li"),
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      stagger: 0.25,
+      duration: 1,
+      ease: "expo.out",
+    },
+    ">"
+  );
+  tl.fromTo(
+    homeRef.current.querySelector(".main-hero .detail h5"),
+    { clipPath: "inset(0 100% 0 0)",autoAlpha:0 },
+    {
+      clipPath: "inset(0 0% 0 0)",
+      autoAlpha: 1,
+      duration: 1,
+      ease: "expo.out",
+    },
+    ">"
+  );
+
+
+
+  return tl;
+};
+export const animateHomeFoot = containerRef => {
+  const tl = gsap.timeline();
+
+  tl.fromTo(
+    containerRef.current.querySelector(".sound"),
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      duration: 0.5,
+      ease: "expo.out",
+    },
+  );
+
+  tl.fromTo(
+    containerRef.current.querySelectorAll(".bCrumb li"),
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      stagger: 0.25,
+      duration: 1,
+      ease: "expo.out",
+    },
+    ">"
+  );
+
+  tl.fromTo(
+    containerRef.current.querySelectorAll(".contact li"),
+    { clipPath: "inset(0 100% 0 0)",autoAlpha:0 },
+    {
+      clipPath: "inset(0 0% 0 0)",
+      autoAlpha: 1,
+      stagger: 0.25,
+      duration: 1,
+      ease: "expo.out",
+    },
+    ">"
+  );
+
+
+
+  return tl;
+};
