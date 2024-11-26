@@ -725,7 +725,7 @@ const Griddy = () => {
 
   return (
     <Canvas camera={{ position: [0, 0, 10], fov: 90 }}>
-      <Perf position='top-right' />
+      {/* <Perf position='top-right' minimal={true} /> */}
       {/* <Environment preset='city' environmentIntensity={2.5} /> */}
       <Environment resolution={32} 
       // background
