@@ -52,6 +52,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
         uImageResolution: { value: { x: tex.source.data.width, y: tex.source.data.height } },
         uGrid: { value: new THREE.Vector4() },
         uTime: { value: 0 },
+        uOpacity: { value: 0 },
         uEdgeSplitStrength: { value: 0.1 },
         uEdgeSplitLerp: { value: isMobile ? 0.35 : 1 }, // lerp uniform
       },
@@ -107,6 +108,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
       uniform float uDisplacement;
       uniform vec2 uImageResolution;
       uniform float uEdgeSplitLerp;
+      uniform float uOpacity;
       
       vec2 coverUvs(vec2 imageRes, vec2 containerRes) {
           float imageAspectX = imageRes.x / imageRes.y;
@@ -191,7 +193,8 @@ const Plane = ({ texture, width, height, active, ...props }) => {
           // Mix the original image with chromatic aberration effect based on displacement strength
           vec4 finalImage = mix(image, chromaticAberrationImage, finalDisplacementStrength);
       
-          gl_FragColor = finalImage;
+          // gl_FragColor = finalImage;
+          gl_FragColor = vec4(finalImage.rgb, finalImage.a * uOpacity); 
 
     //  cool effect
     //  finalImage -= mix(finalImage, chromaticAberrationImage, finalDisplacementStrength);
@@ -266,9 +269,9 @@ const Plane = ({ texture, width, height, active, ...props }) => {
   });
 
   return (
-    <mesh ref={$mesh} {...props} onPointerMove={handlePointerMove} onPointerEnter={handlePointerEnter} onPointerLeave={handlePointerLeave}>
+    <mesh ref={$mesh} name="carousel" {...props} onPointerMove={handlePointerMove} onPointerEnter={handlePointerEnter} onPointerLeave={handlePointerLeave}>
       <planeGeometry args={[width, height, 30, 30]} />
-      <shaderMaterial args={[shaderArgs]} />
+      <shaderMaterial args={[shaderArgs]} transparent={true}/>
     </mesh>
   );
 };

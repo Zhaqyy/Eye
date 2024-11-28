@@ -1,7 +1,6 @@
 import { Cloud, Clouds, Environment, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Suspense, useEffect, useRef, useState } from "react";
-import * as THREE from "three";
 
 import { Perf } from "r3f-perf";
 import Carousel from "./Carousel/Carousel";
@@ -12,7 +11,34 @@ import VolLight from "./Helper/VolumetricLight";
 import gsap from "gsap";
 
 const Scene = ({ activeIndex, setActiveIndex }) => {
-  const [showCarousel, setShowCarousel] = useState(false); // Toggle for Carousel rendering
+  const carouselRef = useRef();
+
+  const fadeInCarousel = () => {
+    if (carouselRef.current) {
+      // Traverse to find the "carousel" mesh
+      let carouselMesh = null;
+      carouselRef.current.traverse(child => {
+        if (child.name === "carousel") {
+          carouselMesh = child;
+        }
+      });
+
+      if (carouselMesh && carouselMesh.material) {
+        // Ensure material is transparent and set initial opacity
+
+        // Animate opacity to 1
+        gsap.to(carouselMesh.material.uniforms.uOpacity, {
+          value: 1,
+          duration: 1.5,
+          ease: "power2.out",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    fadeInCarousel();
+  }, []);
 
   return (
     <div id='gl'>
@@ -28,7 +54,12 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <Suspense fallback={null}> */}
 
         {/* Lights */}
-        <LightHandler onTimelineComplete={() => setShowCarousel(true)} />
+        <LightHandler
+          onTimelineComplete={() => {
+            // Trigger carousel fade-in after timeline completes
+            gsap.delayedCall(0.2, fadeInCarousel);
+          }}
+        />
 
         <Clouds>
           <Cloud
@@ -47,9 +78,9 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         </Clouds>
 
         {/* Main Scene */}
-        <group position={[0, 0, -1]}>
+        <group ref={carouselRef} position={[0, 0, -1]}>
           <Pillars />
-          {showCarousel && <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />}
+          <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
         </group>
 
         <Grass />
@@ -63,39 +94,54 @@ export default Scene;
 export const LightHandler = ({ onTimelineComplete }) => {
   const ambientLightRef = useRef();
   const pointLightRef = useRef();
-
-
-  const [volLightOpacity, setVolLightOpacity] = useState(0); // Opacity variable
+  const volLightRef = useRef();
 
   useEffect(() => {
     if (ambientLightRef.current && pointLightRef.current) {
-      const tl = gsap.timeline({
-        onComplete: () => {
-          if (onTimelineComplete) {
-            onTimelineComplete(); // Notify parent when animation is complete
-          }
-        },
-      });
+      const tl = gsap.timeline({});
 
-      // Animate ambient light intensity
-      tl.to(ambientLightRef.current, { intensity: 1, duration: 5, ease: "expo.in" });
+      // Traverse the group to find the child (VolLight)
+      const volLightChild = volLightRef.current.children[0]; // Assuming only one child
+      if (volLightChild && volLightChild.material) {
+        const { material } = volLightChild;
+        if (material.uniforms.color) material.uniforms.glowColor.value.set("#000000");
 
-      // Animate point light intensity
-      tl.to(pointLightRef.current, { intensity: 50, duration: 2, ease: "expo.in" }, "-=4");
+        // Animate ambient light intensity
+        tl.to(ambientLightRef.current, { intensity: 0.5, duration: 5, ease: "expo.in" });
 
-      // Animating a variable for VolLight opacity
-      tl.to(
-        { value: 0 },
-        {
-          value: 0.9,
-          duration: 1,
-          ease: "sine.in",
-          onUpdate: function () {
-            setVolLightOpacity(this.targets()[0].value);
+        // Animate point light intensity
+        tl.to(
+          pointLightRef.current,
+          {
+            intensity: 10,
+            duration: 2,
+            ease: "expo.in",
+            onComplete: () => {
+              if (onTimelineComplete) {
+                onTimelineComplete(); // Notify parent when animation is complete
+              }
+            },
           },
-        },
-        "<"
-      );
+          "-=4"
+        );
+
+        tl.fromTo(
+          material.uniforms.glowColor.value,
+          {
+            r: 0.0,
+            g: 0.0,
+            b: 0.0,
+          },
+          {
+            r: 0.435, // Target color's RGB values (e.g., #6f95a2)
+            g: 0.584,
+            b: 0.635,
+            duration: 1.5,
+            ease: "expo.out",
+          },
+          "+=0.5"
+        );
+      }
     }
   }, [onTimelineComplete]);
 
@@ -107,76 +153,14 @@ export const LightHandler = ({ onTimelineComplete }) => {
     if (pointLightRef.current) {
       pointLightRef.current.intensity = pointLightRef.current.intensity;
     }
-
   });
-// console.log(volLightColorRef.current);
   return (
     <>
       <ambientLight ref={ambientLightRef} intensity={0} />
       <pointLight ref={pointLightRef} position={[0, 5, 0]} color='white' intensity={0} />
-      <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color='#6f95a2'  opacity={volLightOpacity} length={15} />
+      <group ref={volLightRef}>
+        <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color='#000000' opacity={0.6} length={15} />
+      </group>
     </>
   );
 };
-// export const LightHandler = ({ onTimelineComplete }) => {
-//   const ambientLightRef = useRef();
-//   const pointLightRef = useRef();
-
-
-//   const volLightColorRef = useRef(new THREE.Color("#000000")); // Directly use THREE.Color
-
-//   useEffect(() => {
-//     if (ambientLightRef.current && pointLightRef.current) {
-//       const tl = gsap.timeline({
-//         onComplete: () => {
-//           if (onTimelineComplete) {
-//             onTimelineComplete(); // Notify parent when animation is complete
-//           }
-//         },
-//       });
-
-//       // Animate ambient light intensity
-//       tl.to(ambientLightRef.current, { intensity: 1, duration: 3, ease: "expo.in" });
-
-//       // Animate point light intensity
-//       tl.to(pointLightRef.current, { intensity: 50, duration: 2, ease: "expo.inOut" }, ">");
-
-//       // Use GSAP to lerp the VolLight color directly
-//       const startColor = new THREE.Color("#000000");
-//       const endColor = new THREE.Color("#6f95a2");
-//       tl.to(
-//         { progress: 0 },
-//         {
-//           progress: 1,
-//           duration: 2,
-//           ease: "expo.inOut",
-//           onUpdate: function () {
-//             volLightColorRef.current.copy(startColor).lerp(endColor, this.targets()[0].progress);
-//           },
-//         },
-//         "<"
-//       );
-//     }
-//   }, [onTimelineComplete]);
-
-//   useFrame(() => {
-//     // Keeps lights updated dynamically if needed
-//     if (ambientLightRef.current) {
-//       ambientLightRef.current.intensity = ambientLightRef.current.intensity;
-//     }
-//     if (pointLightRef.current) {
-//       pointLightRef.current.intensity = pointLightRef.current.intensity;
-//     }
-//     if (volLightColorRef.current) {
-//       if (pointLightRef.current) pointLightRef.current.color.copy(volLightColorRef.current); // Sync point light color
-//     }
-//   });
-// // console.log(volLightColorRef.current);
-//   return (
-//     <>
-//       <ambientLight ref={ambientLightRef} intensity={0} />
-//       <pointLight ref={pointLightRef} position={[0, 5, 0]} color='white' intensity={0} />
-//       <VolLight position={[0, 7, -1.5]} rotation={[Math.PI / 15, 0, Math.PI]} color={`${volLightColorRef.current}`}  opacity={0.9} length={15} />
-//     </>
-//   );
-// };
