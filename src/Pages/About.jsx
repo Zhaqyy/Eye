@@ -255,7 +255,7 @@ const About = () => {
   useEffect(() => {
     const context = gsap.context(() => {
       // timeline for the animation
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({delay:1.25});
 
       // animation for abt elements
       tl.add(animateAbtElements(abtRef),'abtSection', 1);
@@ -476,7 +476,7 @@ const AbtCanvas = () => {
   useEffect(() => {
     const context = gsap.context(() => {
       // timeline for the animation
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({delay:1.25});
 
       // animation for abt cancas
       tl.add(animateAbtCanvas(abtCanvas),'abtSection');

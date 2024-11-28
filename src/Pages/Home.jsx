@@ -16,7 +16,7 @@ function Home({ activeIndex, setActiveIndex }) {
 
   useEffect(() => {
     const context = gsap.context(() => {
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({delay:0.5});
 
       tl.add(animateHome(homeRef));
       tl.add(animateHomeFoot(containerRef), "-=90%");

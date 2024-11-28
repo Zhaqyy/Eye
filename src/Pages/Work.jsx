@@ -203,7 +203,7 @@ const Work = () => {
 
   useEffect(() => {
     const context = gsap.context(() => {
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({delay:1});
 
       // Animate work section
       tl.add(animateWork(workRef));
