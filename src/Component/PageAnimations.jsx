@@ -281,11 +281,12 @@ export const animateWork = workRef => {
     });
   
     imageWrapRefs.current.forEach((imageWrap, index) => {
+      // console.log(imageWrap);
       tl.to(imageWrap, {
         "--opac": 0,
         duration:0.35
       })
-      .fromTo(imageWrap, {
+      .fromTo(imageWrap.querySelector(".image-slide"), {
         filter: "blur(2px)",
         // filter: "grayscale(100%)",
       },
