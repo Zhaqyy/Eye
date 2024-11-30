@@ -42,6 +42,14 @@
   align-items: flex-start;
   gap: 2.5vh;
 }
+.work .detail .service .serviceList ul {
+  list-style: none;
+  padding: 0px;
+  font-size: 0.8rem;
+}
+.work .detail .service .serviceList ul li {
+  text-transform: capitalize;
+}
 .work .detail .service .stack ul {
   display: inline;
   list-style: none;
@@ -167,12 +175,12 @@
   z-index: 1;
 }
 
-.image-slide {
+.media-slide {
   width: 60vw; /* Full width */
   position: relative;
   border-radius: var(--bRadius);
-  -o-object-fit: cover;
-     object-fit: cover;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
   transition: transform 1s ease-out;
   transform-origin: center;
   height: auto;
@@ -266,7 +274,7 @@
     align-items: center;
     width: 100%;
   }
-  .gallery .image-slide {
+  .gallery .media-slide {
     width: 90%;
   }
 }

@@ -203,7 +203,7 @@ const Work = () => {
 
   useEffect(() => {
     const context = gsap.context(() => {
-      const tl = gsap.timeline({delay:1});
+      const tl = gsap.timeline({ delay: 1 });
 
       // Animate work section
       tl.add(animateWork(workRef));
@@ -260,11 +260,45 @@ const Work = () => {
 
         {/* Gallery Section */}
         <section className='gallery' ref={containerRef}>
-          {data?.gallery?.map((image, index) => (
-            <span className='imgWrap' key={index} ref={el => (imageWrapRefs.current[index] = el)}>
-              <img src={image} className='image-slide' alt={`Slide ${index}`} ref={el => (imageRefs.current[index] = el)} />
-            </span>
-          ))}
+          {data?.gallery?.map((media, index) => {
+            const isVideo = /\.(mp4|webm|ogg)$/i.test(media);
+
+            // Get the preceding image as a poster, or fallback to the default poster from data
+            const poster =
+              isVideo &&
+              (index > 0 && /\.(jpg|jpeg|png|gif|webp)$/i.test(data?.gallery[index - 1]) ? data?.gallery[index - 1] : data?.poster || ""); 
+
+            // Set preload attribute based on whether the video is the first in the gallery
+            const preload = index === 0 && isVideo ? "auto" : "none";
+
+            return (
+              <span className='imgWrap' key={index} ref={el => (imageWrapRefs.current[index] = el)}>
+                {isVideo ? (
+                  // Render video tag for video files
+                  <video
+                    className='media-slide'
+                    autoPlay
+                    loop
+                    muted
+                    preload={preload}
+                    poster={poster}
+                    ref={el => (imageRefs.current[index] = el)}
+                  >
+                    <source src={media} type={`video/${media.split(".").pop()}`} />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  // Render image tag for image files
+                  <img
+                    src={media}
+                    className='media-slide'
+                    alt={`${data?.title} Slide ${index}`}
+                    ref={el => (imageRefs.current[index] = el)}
+                  />
+                )}
+              </span>
+            );
+          })}
 
           <div className='next'>
             <div className='pTitle'>
