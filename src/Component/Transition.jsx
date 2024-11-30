@@ -1,14 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { SwitchTransition, Transition } from "react-transition-group";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { useSoundEffects } from "./SoundEffects";
 
-const Transitioner = ({ children }) => {
+const Transitioner = ({ children, delayNavigation = false }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { fadeOutSound, fadeInSound } = useSoundEffects();
   const header = document.getElementById("header");
   const overlayRef = useRef(null);
+  const [isNavigating, setIsNavigating] = useState(false); // Prevent double navigation
 
   const animateOverlayEnter = overlay => {
     if (!overlay) return;
@@ -46,7 +48,7 @@ const Transitioner = ({ children }) => {
 
   const handleExitTransition = () => {
     fadeOutSound();
-    if (header) header.style.pointerEvents = "none";
+    // if (header) header.style.pointerEvents = "none";
   };
 
   useEffect(() => {
@@ -55,11 +57,16 @@ const Transitioner = ({ children }) => {
     return () => ctx.revert(); // Clean up animations on unmount
   }, []);
 
+  const isProject = location.pathname.includes("/Project/");
+
   return (
     <SwitchTransition>
       <Transition
         key={location.pathname}
-        timeout={1000}
+            timeout={{
+          enter: 1000,
+          exit: isProject ? 0 : 1000,
+         }}
         onEnter={node => {
           const overlay = overlayRef.current;
 
@@ -74,6 +81,7 @@ const Transitioner = ({ children }) => {
 
           handleExitTransition();
         }}
+        // unmountOnExit
       >
         <>
           <div

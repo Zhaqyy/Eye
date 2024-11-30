@@ -216,6 +216,9 @@ const Work = () => {
     return () => context.revert(); // Cleanup on unmount
   }, []);
 
+  if (!data) {
+    return null;
+  }
   return (
     <div>
       <div className='work-wrap' ref={workRef}>
