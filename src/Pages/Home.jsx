@@ -61,7 +61,7 @@ function Home({ activeIndex, setActiveIndex }) {
         {/* Previous button */}
         <span
           id='ctrlBtn'
-          className={"titleCtrl"}
+          className={"titleCtrl titlePrev"}
           onClick={e => {
             e.preventDefault();
             setActiveIndex(prevIndex => (prevIndex - 1 + projectData.length) % projectData.length); // Decrement index with wrap-around
@@ -75,7 +75,7 @@ function Home({ activeIndex, setActiveIndex }) {
         {/* Next button */}
         <span
           id='ctrlBtn'
-          className={"titleCtrl"}
+          className={"titleCtrl titleNext"}
           onClick={e => {
             e.preventDefault();
             setActiveIndex(prevIndex => (prevIndex + 1) % projectData.length); // Increment index with wrap-around

@@ -377,6 +377,45 @@ export const animateHome = homeRef => {
     },
     ">"
   );
+  tl.fromTo(
+    homeRef.current.querySelectorAll(".titleMobile"),
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      duration: 1,
+      ease: "expo.out",
+    },
+    ">"
+  );
+  tl.fromTo(
+    homeRef.current.querySelectorAll(".titleMobile .titlePrev"),
+    {
+      x: -10,
+      autoAlpha: 0,
+    },
+    {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.5,
+      ease: "elastic.out(0.5, 0.25)",
+    },
+    ">"
+  );
+  tl.fromTo(
+    homeRef.current.querySelectorAll(".titleMobile .titleNext"),
+    {
+      x: 10,
+      autoAlpha: 0,
+    },
+    {
+      x: 0,
+      autoAlpha: 1,
+      duration: 0.5,
+      ease: "elastic.out(0.5, 0.25)",
+    },
+    "<"
+  );
+
 
   return tl;
 };

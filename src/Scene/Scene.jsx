@@ -1,6 +1,6 @@
 import { Cloud, Clouds, Environment, OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 
 import { Perf } from "r3f-perf";
 import Carousel from "./Carousel/Carousel";
@@ -12,34 +12,8 @@ import gsap from "gsap";
 
 const Scene = ({ activeIndex, setActiveIndex }) => {
   const carouselRef = useRef();
-
-  const fadeInCarousel = () => {
-    if (carouselRef.current) {
-      // Traverse to find the "carousel" mesh
-      let carouselMesh = null;
-      carouselRef.current.traverse(child => {
-        if (child.name === "carousel") {
-          carouselMesh = child;
-        }
-      });
-
-      if (carouselMesh && carouselMesh.material) {
-        // Ensure material is transparent and set initial opacity
-
-        // Animate opacity to 1
-        gsap.to(carouselMesh.material.uniforms.uOpacity, {
-          value: 1,
-          duration: 1.5,
-          ease: "power2.out",
-        });
-      }
-    }
-  };
-
-  useEffect(() => {
-    fadeInCarousel();
-  }, []);
-
+  const [showCarousel, setShowCarousel] = useState(false);
+ 
   return (
     <div id='gl'>
       <Canvas camera={{ fov: 70, position: [0, 0, 5], far: 15 }} resize={{ debounce: 0 }} shadows={false}>
@@ -54,12 +28,7 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* <Suspense fallback={null}> */}
 
         {/* Lights */}
-        <LightHandler
-          onTimelineComplete={() => {
-            // Trigger carousel fade-in after timeline completes
-            gsap.delayedCall(0.2, fadeInCarousel);
-          }}
-        />
+        <LightHandler onTimelineComplete={() => setShowCarousel(true)} />
 
         <Clouds>
           <Cloud
@@ -80,7 +49,14 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
         {/* Main Scene */}
         <group ref={carouselRef} position={[0, 0, -1]}>
           <Pillars />
-          <Carousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+          {/* <CarouselMeshHandler carouselRef={carouselRef} /> */}
+          {showCarousel && (
+            <Carousel
+              activeIndex={activeIndex}
+              setActiveIndex={setActiveIndex}
+              name="carousel" // Add a name for identification
+            />
+          )}
         </group>
 
         <Grass />
@@ -91,12 +67,17 @@ const Scene = ({ activeIndex, setActiveIndex }) => {
 };
 export default Scene;
 
-export const LightHandler = ({ onTimelineComplete }) => {
+
+export const LightHandler = React.memo(({ onTimelineComplete }) => {
   const ambientLightRef = useRef();
   const pointLightRef = useRef();
   const volLightRef = useRef();
+  const hasPlayed = useRef(false); // Ref to track if the animation has already run
 
   useEffect(() => {
+    if (hasPlayed.current) return; // Skip if the animation has already run
+    hasPlayed.current = true; // Mark as played
+
     if (ambientLightRef.current && pointLightRef.current) {
       const tl = gsap.timeline({});
 
@@ -143,17 +124,8 @@ export const LightHandler = ({ onTimelineComplete }) => {
         );
       }
     }
-  }, [onTimelineComplete]);
+  }, [onTimelineComplete]); // Only runs once after mounting
 
-  useFrame(() => {
-    // Keeps lights updated dynamically if needed
-    if (ambientLightRef.current) {
-      ambientLightRef.current.intensity = ambientLightRef.current.intensity;
-    }
-    if (pointLightRef.current) {
-      pointLightRef.current.intensity = pointLightRef.current.intensity;
-    }
-  });
   return (
     <>
       <ambientLight ref={ambientLightRef} intensity={0} />
@@ -163,4 +135,5 @@ export const LightHandler = ({ onTimelineComplete }) => {
       </group>
     </>
   );
-};
+});
+

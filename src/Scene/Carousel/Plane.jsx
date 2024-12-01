@@ -52,7 +52,7 @@ const Plane = ({ texture, width, height, active, ...props }) => {
         uImageResolution: { value: { x: tex.source.data.width, y: tex.source.data.height } },
         uGrid: { value: new THREE.Vector4() },
         uTime: { value: 0 },
-        uOpacity: { value: 0 },
+        uOpacity: { value: 1 },
         uEdgeSplitStrength: { value: 0.1 },
         uEdgeSplitLerp: { value: isMobile ? 0.35 : 1 }, // lerp uniform
       },

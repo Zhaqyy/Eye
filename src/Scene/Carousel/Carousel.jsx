@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 // import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
-import PostProcessing from "./PostProcessing";
 import { projectData } from "../../Component/ProjectData";
 import Plane from "./Plane";
 import useIsMobile from "../../Component/isMobile";
@@ -42,7 +41,7 @@ const Carousel = ({ activeIndex, setActiveIndex }) => {
   /*------------------------------
 Mobile Resp
 ------------------------------*/
-const isMobile = useIsMobile();
+  const isMobile = useIsMobile();
 
   /*--------------------
   Handle click navigation
@@ -81,7 +80,7 @@ const isMobile = useIsMobile();
     let threshhold = isMobile ? 150 : 50;
 
     if (Math.abs(deltaX) > threshhold) {
-      if (deltaX < 0) nextSlide()
+      if (deltaX < 0) nextSlide();
       else prevSlide();
 
       startX.current = x; // Reset startX after moving one slide
@@ -147,9 +146,10 @@ const isMobile = useIsMobile();
   Render Slider
   --------------------*/
   const renderSlider = () => {
+    
     /*------------------------------
-Plane Settings
-------------------------------*/
+    Plane Settings
+    ------------------------------*/
 
     const planeSettings = {
       width: isMobile ? viewport.width * 0.9 : 5.5,
@@ -172,8 +172,6 @@ Plane Settings
     <group>
       {renderPlaneEvents()}
       {renderSlider()}
-
-      {/* <PostProcessing ref={$post} /> */}
     </group>
   );
 };
