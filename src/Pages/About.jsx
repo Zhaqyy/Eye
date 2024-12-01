@@ -291,7 +291,7 @@ const About = () => {
           </p>
         </div>
 
-        <div className='infoSlider'>
+        <div className='infoSlider' data-hidden>
           {data.map((item, index) => (
             <div
               className='slide'

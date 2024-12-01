@@ -293,6 +293,7 @@
     flex-direction: column;
   }
   .abt .abtInfo .infoSlider .slide {
+    height: 70px;
     flex-direction: row;
     justify-content: space-between;
   }

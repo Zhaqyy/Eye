@@ -34,7 +34,7 @@ export const animateAbtElements = abtRef => {
 
   // Fade-in animation for paragraph
   tl.fromTo(
-    abtRef.current.querySelector(".abtHeader p"),
+    abtRef.current.querySelector(".abtInfo .infoSlider"),
     { autoAlpha: 0 },
     {
       autoAlpha: 1,
@@ -42,6 +42,17 @@ export const animateAbtElements = abtRef => {
       ease: "expo.out",
     },
     "-=0.5"
+  );
+  // Fade-in animation for paragraph
+  tl.fromTo(
+    abtRef.current.querySelector(".abtHeader p"),
+    { autoAlpha: 0 },
+    {
+      autoAlpha: 1,
+      duration: 1.5,
+      ease: "expo.out",
+    },
+    "<"
   );
 
   return tl;
@@ -200,11 +211,12 @@ export const animateWork = workRef => {
 
   // Fade-in animation for paragraph
   tl.fromTo(
-    workRef.current.querySelector(".work .detail p"),
+    workRef.current.querySelectorAll(".work .detail .desc p,.work .detail .desc ul "),
     { autoAlpha: 0 },
     {
       autoAlpha: 1,
       duration: 1.5,
+      stagger:0.15,
       ease: "expo.out",
     },
     "<"

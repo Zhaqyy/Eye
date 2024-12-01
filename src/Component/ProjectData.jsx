@@ -57,12 +57,12 @@ export const projectData = [
       <>
         <p>Where bold fashion meets bolder opinions (and yes, we argued a lot).</p>
         <p>
-          This WebGL-powered e-commerce platform thrives on weirdness and GLSL shaders. <br /> Check these previous iterations -
+          This WebGL-powered e-commerce platform thrives on weirdness and GLSL shaders. <br /> Check out these previous iterations -
         </p>
         <ul>
           <li>
             <a href='https://grumbslight.netlify.app/' target='_blank' rel='noopener noreferrer'>
-              First Iteration(Unpolished)
+              First Iteration (Unpolished)
             </a>
           </li>
           <li>
@@ -71,7 +71,7 @@ export const projectData = [
             </a>
           </li>
         </ul>
-        <p>(Yes, I remade and deployed them outta spite).</p>
+        <p>(Also yes, I remade and deployed them outta spite).</p>
       </>
     ),
     role: ["Web Design", "Creative Developer"],

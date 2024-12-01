@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .work-wrap {
   width: 100vw;
   height: auto;
@@ -40,8 +41,14 @@
   margin-block: 5px;
 }
 .work .detail .desc ul {
-  list-style: disc;
   list-style-position: inside;
+}
+.work .detail .desc ul li::before {
+  content: counter(list-item) "› ";
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0.5rem;
+  margin-right: 1rem;
 }
 .work .detail .service {
   display: flex;
@@ -282,11 +289,21 @@
     align-items: center;
     width: 100%;
   }
+  .gallery .imgWrap {
+    width: 100%;
+  }
+  .gallery .imgWrap::before {
+    height: 100%;
+    width: 100%;
+  }
   .gallery .media-slide {
-    width: 90%;
+    width: 100%;
   }
 }
 @media (width <= 600px) {
+  .work-wrap {
+    touch-action: auto;
+  }
   .work-wrap .work {
     flex-wrap: wrap;
     justify-content: flex-start;

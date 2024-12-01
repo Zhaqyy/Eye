@@ -41,14 +41,23 @@
     min-height: 200px;
     gap: 1.5rem;
 
-    .desc{
+    .desc {
       font-size: 0.9rem;
-      p{
+      p {
         margin-block: 5px;
       }
-      ul{
-        list-style: disc;
+      ul {
         list-style-position: inside;
+
+        li {
+          &::before {
+            content: counter(list-item) "› ";
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 0.5rem;
+            margin-right: 1rem;
+          }
+        }
       }
     }
     .service {
@@ -420,19 +429,28 @@
   .gallery {
     align-items: center;
     width: 100%;
-
+    .imgWrap {
+      width: 100%;
+      &::before {
+        height: 100%;
+        width: 100%;
+      }
+    }
     .media-slide {
-      width: 90%;
+      width: 100%;
     }
   }
 }
 @media (width <= 600px) {
-  .work-wrap .work {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+  .work-wrap {
+    touch-action: auto;
+    .work {
+      flex-wrap: wrap;
+      justify-content: flex-start;
 
-    h1 {
-      font-size: clamp(2.5rem, 5.333vw + 0.333rem, 3rem);
+      h1 {
+        font-size: clamp(2.5rem, 5.333vw + 0.333rem, 3rem);
+      }
     }
   }
   .next {
