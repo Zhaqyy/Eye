@@ -33,9 +33,17 @@
   min-height: 200px;
   gap: 1.5rem;
 }
-.work .detail .desc,
+.work .detail .desc {
+  font-size: 0.9rem;
+}
+.work .detail .desc p {
+  margin-block: 5px;
+}
+.work .detail .desc ul {
+  list-style: disc;
+  list-style-position: inside;
+}
 .work .detail .service {
-  max-width: 300px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

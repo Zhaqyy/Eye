@@ -72,11 +72,12 @@ const Work = () => {
 
           let proxy = { skew: 0 },
             skewSetter = gsap.quickSetter(slide, "skewY", "deg"), // fast setter
-            clamp = gsap.utils.clamp(-20, 20); // limit the skew range
+            clamp = gsap.utils.clamp(-20, 20),
+            vel = isMobile ? -250 : -850; // limit the skew range
           // Scroll velocity-based skew effect
           ScrollTrigger.create({
             onUpdate: self => {
-              let skew = clamp(self.getVelocity() / -250);
+              let skew = clamp(self.getVelocity() / vel);
               if (Math.abs(skew) > Math.abs(proxy.skew)) {
                 proxy.skew = skew;
                 gsap.to(proxy, {
@@ -230,9 +231,7 @@ const Work = () => {
             <h1 data-hidden>{data?.title}</h1>
           </div>
           <div className='detail'>
-            <div className='desc'>
-              <p>{data?.detail}</p>
-            </div>
+            <div className='desc'>{data?.detail}</div>
             <div className='service' ref={serviceRef}>
               <div className='serviceList'>
                 <h4>Services</h4>
@@ -269,7 +268,7 @@ const Work = () => {
             // Get the preceding image as a poster, or fallback to the default poster from data
             const poster =
               isVideo &&
-              (index > 0 && /\.(jpg|jpeg|png|gif|webp)$/i.test(data?.gallery[index - 1]) ? data?.gallery[index - 1] : data?.poster || ""); 
+              (index > 0 && /\.(jpg|jpeg|png|gif|webp)$/i.test(data?.gallery[index - 1]) ? data?.gallery[index - 1] : data?.poster || "");
 
             // Set preload attribute based on whether the video is the first in the gallery
             const preload = index === 0 && isVideo ? "auto" : "none";
