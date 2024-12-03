@@ -4,24 +4,23 @@ import { useLocation, useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { useSoundEffects } from "./SoundEffects";
 
-const Transitioner = ({ children, delayNavigation = false }) => {
+const Transitioner = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { fadeOutSound, fadeInSound } = useSoundEffects();
   const header = document.getElementById("header");
   const overlayRef = useRef(null);
-  const [isNavigating, setIsNavigating] = useState(false); // Prevent double navigation
 
   const animateOverlayEnter = overlay => {
     if (!overlay) return;
-    gsap.set(overlay, { clipPath: "inset(0 0 0% 0)", opacity: 1, display: "block" });
+    gsap.set(overlay, { clipPath: "inset(0 0 0% 0)", opacity: 1, display: "block", rotate: 180, transformOrigin: "center" });
     return gsap.to(overlay, {
       clipPath: "inset(0 0 100% 0)",
       duration: 1.0,
       ease: "expo.inOut",
       delay: 0.5,
       onComplete: () => {
-        gsap.set(overlay, { opacity: 0, display: "none" });
+        gsap.set(overlay, { opacity: 0, display: "none",rotate: 0, });
       },
     });
   };
@@ -48,7 +47,7 @@ const Transitioner = ({ children, delayNavigation = false }) => {
 
   const handleExitTransition = () => {
     fadeOutSound();
-    // if (header) header.style.pointerEvents = "none";
+    if (header) header.style.pointerEvents = "none";
   };
 
   useEffect(() => {
@@ -63,10 +62,10 @@ const Transitioner = ({ children, delayNavigation = false }) => {
     <SwitchTransition>
       <Transition
         key={location.pathname}
-            timeout={{
-          enter: 1000,
+        timeout={{
+          enter: 0,
           exit: isProject ? 0 : 1000,
-         }}
+        }}
         onEnter={node => {
           const overlay = overlayRef.current;
 
@@ -81,7 +80,6 @@ const Transitioner = ({ children, delayNavigation = false }) => {
 
           handleExitTransition();
         }}
-        // unmountOnExit
       >
         <>
           <div
@@ -97,7 +95,7 @@ const Transitioner = ({ children, delayNavigation = false }) => {
               display: "none",
               zIndex: 999,
               transformOrigin: "top center",
-              // pointerEvents: 'none',
+              pointerEvents: 'none',
             }}
           />
           {children}

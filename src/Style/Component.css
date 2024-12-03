@@ -141,14 +141,10 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-}
-.loaderProgressWrapper {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 5vh;
-  width: 100%;
-  z-index: 3;
+  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%);
+          clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%);
+  background: var(--accent);
+  z-index: 1000;
 }
 .loaderProgress {
   height: 100%;
@@ -159,11 +155,21 @@
 }
 .loaderProgressNumber {
   position: absolute;
-  left: -5vw;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   z-index: 4;
   white-space: nowrap;
   color: white;
-  font-size: 3.2rem;
+  font-size: clamp(4rem, 5.333vw + 0.333rem, 7.5rem);
+}
+.loaderGlow {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  background-color: black;
 }/*# sourceMappingURL=Component.css.map */
