@@ -109,11 +109,6 @@ export const progressAnimation = (
         scaleX:1,
         duration: 0.5,
         ease: "expo.out",
-        onComplete: () => {
-          gsap.set(glowRef.current, {
-           display: 'none'
-          });
-        },
       },
       "-=0.25"
     )
@@ -144,6 +139,9 @@ export const progressAnimation = (
           gsap.set(loaderRef.current, {
            display: 'none'
           });
+          gsap.set(glowRef.current, {
+            display: 'none'
+           });
         },
       },
       "+=0.5"

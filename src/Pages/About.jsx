@@ -143,11 +143,11 @@ const About = () => {
             duration: isMobile ? 0 : 0.25,
             onComplete: () => {
               const orienttitleProps = isMobile
-                ? { writingMode: "horizontal-tb", textOrientation: "initial", letterSpacing: 0 }
-                : { writingMode: "vertical-rl", textOrientation: "upright", letterSpacing: -5 };
+                ? { writingMode: "horizontal-tb", textOrientation: "initial", letterSpacing: 0, width: '100%', }
+                : { writingMode: "vertical-rl", textOrientation: "upright", letterSpacing: -5, width: 'auto', };
 
               gsap.set(slide.querySelector(".title"), {
-                width: 'auto',
+               
                 textAlign: 'center',
                 ...orienttitleProps,
               });
@@ -337,7 +337,7 @@ const scenesData = [
   {
     name: "Pool",
     description:
-      "Dive into the depths of serenity with 'Pool'. This scene is an oasis of calm where shimmering waters meet reflective skies. It’s designed to show how fluidity and tranquility can transform digital spaces into something truly immersive. If you’re looking for a place to float in your thoughts, this is it!",
+      "Dive into the depths of serenity with 'Pool'. It’s designed to show how fluidity and tranquility can transform digital spaces into something truly immersive.",
     component: Pool, // This refers to the <Pool /> component
     type: "Experiences",
     mobile: true, // Visible on mobile
@@ -353,7 +353,7 @@ const scenesData = [
   {
     name: "Griddy",
     description:
-      "Welcome to the grid, where sharp lines and bold edges create a world of control and precision. 'Griddy' is a showcase of structure and clarity, balancing creativity with order. It’s the perfect way to demonstrate how organized chaos can form something beautifully intricate.",
+      "Welcome to the grid, where sharp lines and bold edges create a world of control and precision. It’s the perfect way to demonstrate how organized chaos can form something beautifully intricate.",
     component: Griddy,
     type: "3D Animations",
     mobile: false,
@@ -497,7 +497,7 @@ const AbtCanvas = () => {
     }, abtCanvas);
 
     return () => context.revert(); // Cleanup on unmount
-  }, [activeSceneIndex]);
+  }, []);
 
   return (
     <section className='abtCanvas' ref={abtCanvas}>
