@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .abt {
   width: 100vw;
   height: 100vh;
@@ -26,7 +27,7 @@
   width: -webkit-fill-available;
 }
 .abtInfo .abtHeader p {
-  width: clamp(45ch, 50%, 75ch);
+  width: clamp(55ch, 5.333vw + 0.333rem, 75ch);
 }
 .abtInfo .abtTitle {
   display: flex;
@@ -119,11 +120,31 @@
   letter-spacing: -5px;
 }
 .abtInfo .infoSlider .slide .content {
+  width: 100%;
   color: white;
   margin-top: 1rem;
-  text-align: center;
+  font-size: 0.9rem;
   opacity: 0;
   display: none;
+}
+.abtInfo .infoSlider .slide .content .abtCont {
+  text-transform: uppercase;
+}
+.abtInfo .infoSlider .slide .content .abtCont li a {
+  transition: all 0.5s ease;
+}
+.abtInfo .infoSlider .slide .content .abtCont li a:hover {
+  color: var(--secAccent);
+}
+.abtInfo .infoSlider .slide .content .abtCont li a::before {
+  content: "🔗";
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+}
+.abtInfo .infoSlider .slide .content li {
+  margin-block: 10px;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.5);
 }
 
 .abtCanvas {

@@ -44,6 +44,7 @@ body,
   margin: 0;
   padding: 0;
   --accent: #141414;
+  --secAccent: #f1ccba;
   --dot: #3c3c3c;
   --bg: #0d0d0d;
   --border: rgba(128, 128, 128, 0.25);
@@ -157,7 +158,7 @@ touch-action: none;
         &.active a,
         a:hover {
           opacity: 1;
-          color: brown;
+          color: var(--secAccent);
         }
 
         a,
@@ -200,21 +201,6 @@ touch-action: none;
     padding-block: 1rem;
     font-size: 0.75rem;
     // border: 1px solid var(--border);
-
-    .sound {
-      pointer-events: all;
-      cursor: pointer;
-
-      span {
-        display: block;
-        width: 30px;
-        height: 30px;
-        align-content: center;
-        text-align: -webkit-center;
-        border: 1px gray outset;
-        border-radius: 100px;
-      }
-    }
 
     .bCrumb {
       display: flex;

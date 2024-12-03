@@ -21,6 +21,7 @@ body,
   margin: 0;
   padding: 0;
   --accent: #141414;
+  --secAccent: #f1ccba;
   --dot: #3c3c3c;
   --bg: #0d0d0d;
   --border: rgba(128, 128, 128, 0.25);
@@ -124,7 +125,7 @@ h2 {
 .hero .main-hero .project li p:hover, .hero .main-hero .project li.active a,
 .hero .main-hero .project li a:hover {
   opacity: 1;
-  color: brown;
+  color: var(--secAccent);
 }
 .hero .main-hero .project li a,
 .hero .main-hero .project li p {
@@ -158,19 +159,6 @@ h2 {
   align-items: center;
   padding-block: 1rem;
   font-size: 0.75rem;
-}
-.hero .hero-footer .sound {
-  pointer-events: all;
-  cursor: pointer;
-}
-.hero .hero-footer .sound span {
-  display: block;
-  width: 30px;
-  height: 30px;
-  align-content: center;
-  text-align: -webkit-center;
-  border: 1px gray outset;
-  border-radius: 100px;
 }
 .hero .hero-footer .bCrumb {
   display: flex;

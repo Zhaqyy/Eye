@@ -28,7 +28,7 @@
     width: -webkit-fill-available;
 
     p {
-      width: clamp(45ch, 50%, 75ch);
+      width: clamp(55ch, 5.333vw + 0.333rem, 75ch);
     }
   }
   .abtTitle {
@@ -123,11 +123,34 @@
         letter-spacing: -5px;
       }
       .content {
+        width: 100%;
         color: white;
         margin-top: 1rem;
-        text-align: center;
+        // text-align: center;
+        font-size: 0.9rem;
         opacity: 0;
         display: none;
+        .abtCont {
+          text-transform: uppercase;
+          li a {
+            transition: all 0.5s ease;
+            &:hover {
+              color: var(--secAccent);
+            }
+
+            &::before {
+              content: "🔗";
+              display: inline-block;
+              vertical-align: middle;
+              margin-right: 0.5rem;
+            }
+          }
+        }
+
+        li {
+          margin-block: 10px;
+          border-bottom: 1px solid rgba(128, 128, 128, 0.5);
+        }
       }
     }
   }

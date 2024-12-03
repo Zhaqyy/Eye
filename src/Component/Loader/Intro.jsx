@@ -5,7 +5,6 @@ import gsap from "gsap";
 const Intro = ({ timeline, onComplete }) => {
   const loaderRef = useRef(null);
   const glowRef = useRef(null);
-  const progressRef = useRef(null);
   const progressNumberRef = useRef(null);
 
   useEffect(() => {
@@ -25,7 +24,6 @@ const Intro = ({ timeline, onComplete }) => {
   return (
     <div className={"loaderWrapper"} ref={loaderRef}>
       <div className={"loaderProgressWrapper"}>
-        {/* <div className={"loaderProgress"} ref={progressRef}></div> */}
         <span className={"loaderProgressNumber"} ref={progressNumberRef}>
           0%
         </span>
@@ -38,7 +36,6 @@ const Intro = ({ timeline, onComplete }) => {
 export default Intro;
 
 export const progressAnimation = (
-  // progressRef,
   loaderRef,
   glowRef,
   progressNumberRef,
@@ -46,20 +43,11 @@ export const progressAnimation = (
 ) => {
   const tl = gsap.timeline();
 
-  // tl.to(progressRef.current, {
-  //   scaleX: 1,
-  //   duration: 5,
-  //   ease: "power3.inOut",
-  // })
-  // .to(
-  //   progressNumberRef.current,
-  //   {
-  //     x: "100vw",
-  //     duration: 5,
-  //     ease: "power3.inOut",
-  //   },
-  //   "<"
-  // )
+
+  gsap.set([progressNumberRef.current, glowRef.current, loaderRef.current], {
+    display: 'block'
+   });
+
   tl.fromTo(
     progressNumberRef.current,
     {
@@ -99,6 +87,11 @@ export const progressAnimation = (
       clipPath: "polygon(0% 50%,100% 50%,100% 50%,0% 50%,0% 50%,100% 50%,100% 50%,0% 50%)",
       duration: 1,
       ease: "expo.out",
+      onComplete: () => {
+        gsap.set(progressNumberRef.current, {
+         display: 'none'
+        });
+      },
     },
     ">"
   )
@@ -116,6 +109,11 @@ export const progressAnimation = (
         scaleX:1,
         duration: 0.5,
         ease: "expo.out",
+        onComplete: () => {
+          gsap.set(glowRef.current, {
+           display: 'none'
+          });
+        },
       },
       "-=0.25"
     )
@@ -133,7 +131,7 @@ export const progressAnimation = (
     //   ">"
     // )
 
-    .call(onComplete, null, "-=0.5")
+    .call(onComplete, null, "-=0.25")
 
     .to(
       loaderRef.current,
@@ -142,6 +140,11 @@ export const progressAnimation = (
         clipPath: "polygon(0% 0%,100% 0%,100% 0%,0% 0%,0% 100%,100% 100%,100% 100%,0% 100%)",
         duration: 1,
         ease: "expo.in",
+        onComplete: () => {
+          gsap.set(loaderRef.current, {
+           display: 'none'
+          });
+        },
       },
       "+=0.5"
     );

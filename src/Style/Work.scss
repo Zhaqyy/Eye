@@ -50,12 +50,25 @@
         list-style-position: inside;
 
         li {
+          a {
+            transition: all 0.5s ease;
+            &:hover {
+              color: var(--secAccent);
+            }
+          }
+
           &::before {
             content: counter(list-item) "› ";
             display: inline-block;
             vertical-align: middle;
             font-size: 0.5rem;
             margin-right: 1rem;
+          }
+          &::after {
+            content: "🔗";
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 0.5rem;
           }
         }
       }
@@ -200,6 +213,10 @@
         border: 2px solid var(--border);
         border-radius: var(--bRadius);
         transition: all 0.5s ease-in-out;
+        
+      }
+      &:hover {
+        color: var(--secAccent);
       }
     }
   }

@@ -14,32 +14,41 @@ const data = [
     content: (
       <ul>
         <li>Web Development</li>
-        <li>Mobile Apps</li>
-        <li>Cloud Solutions</li>
+        <li>3D Web Experiences</li>
+        <li>UI/Design Protopying</li>
+        <li>Creative Consulting</li>
       </ul>
     ),
   },
   {
     title: "Tools",
-    content: <p>We use cutting-edge tools like React, GSAP, and more for building dynamic applications.</p>,
+    content: (
+      <ul>
+        <li>ReactJS</li>
+        <li>GSAP, Framer Motion, React-Spring</li>
+        <li>Three.js, R3F, WebGL, Shader Development (GLSL)</li>
+        <li>Blender, Figma, AfterEffect, Illustrator</li>
+      </ul>
+    ),
   },
   {
     title: "Awards",
     content: (
-      <div>
-        <h4>Best Design 2023</h4>
-        <p>Awarded for exceptional UI/UX design in global competition.</p>
-      </div>
+    <ul>
+      <li>Good Boy - My Mum</li>
+      <li>Nice Shirt! - Random guy on a bus 4 years ago</li>
+      <li>Nothing Yet Sadly, But hey, I got some cool recognitions above</li>
+    </ul>
     ),
   },
   {
     title: "Contact",
     content: (
-      <ul>
-        <li>LinkedIn</li>
-        <li>Twitter</li>
-        <li>Codepen</li>
-        <li>GitHub</li>
+      <ul className="abtCont">
+        <li><a href="https://www.linkedin.com/in/abdulrazaq-shuaib-72a827263" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+        <li><a href="https://x.com/Zharqyy" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+        <li><a href="https://codepen.io/zhaqyy" target="_blank" rel="noopener noreferrer">Codepen</a></li>
+        <li><a href="https://github.com/Zhaqyy" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       </ul>
     ),
   },
@@ -87,6 +96,8 @@ const About = () => {
                   writingMode: "horizontal-tb",
                   textOrientation: "initial",
                   letterSpacing: 0,
+                  width: '100%',
+                  textAlign: 'left',
                 });
                 gsap.fromTo(
                   slide.querySelector(".title"),
@@ -136,6 +147,8 @@ const About = () => {
                 : { writingMode: "vertical-rl", textOrientation: "upright", letterSpacing: -5 };
 
               gsap.set(slide.querySelector(".title"), {
+                width: 'auto',
+                textAlign: 'center',
                 ...orienttitleProps,
               });
               const fromtitleProps = isMobile ? { y: -25 } : { x: 25 };
@@ -286,8 +299,9 @@ const About = () => {
             <h1 data-hidden>Abdulrazaq</h1>
           </div>
           <p data-hidden>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam optio qui voluptas iusto? Obcaecati delectus ipsam, excepturi a
-            ea suscipit autem voluptatum tempore, incidunt et veritatis eius dolor sit minima.
+          Hi there! I'm a creative developer hopelessly addicted to design, animation, and turning everything interactive (show me an element, and I'll give you 10 ways to make it irresistible). 
+          <br/>
+          With 3+ years of crafting immersive digital experiences and an unhealthy Pinterest habit (seriously, send help)—I can’t stop, won’t stop. Whether it's a jaw-dropping website or a button so satisfying you’ll click it twice, I’m your go-to code wizard.
           </p>
         </div>
 

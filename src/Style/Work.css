@@ -43,12 +43,24 @@
 .work .detail .desc ul {
   list-style-position: inside;
 }
+.work .detail .desc ul li a {
+  transition: all 0.5s ease;
+}
+.work .detail .desc ul li a:hover {
+  color: var(--secAccent);
+}
 .work .detail .desc ul li::before {
   content: counter(list-item) "› ";
   display: inline-block;
   vertical-align: middle;
   font-size: 0.5rem;
   margin-right: 1rem;
+}
+.work .detail .desc ul li::after {
+  content: "🔗";
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0.5rem;
 }
 .work .detail .service {
   display: flex;
@@ -138,6 +150,9 @@
   border: 2px solid var(--border);
   border-radius: var(--bRadius);
   transition: all 0.5s ease-in-out;
+}
+.work .detail .liveBtn:hover {
+  color: var(--secAccent);
 }
 
 @keyframes eye {

@@ -22,9 +22,13 @@
   opacity: 0;
 }
 
-// .splitWrap:hover {
-//   letter-spacing: -2px;
-// }
+.splitWrap{
+  transition: all 0.5s ease;
+  &:hover {
+    color: var(--secAccent);
+  }
+}
+
 .split {
   display: inline-block;
   text-transform: inherit;
@@ -183,6 +187,8 @@
     white-space: nowrap;
     color: white;
     font-size: clamp(4rem, 5.333vw + 0.333rem, 7.5rem);
+    text-align: center;
+    width: 100%;
   }
   &Glow {
     position: absolute;
@@ -194,5 +200,29 @@
     z-index: 4;
     background-color: black;
     // opacity: 0;
+  }
+}
+
+
+//Sound Button
+
+.sound {
+  pointer-events: all;
+  cursor: pointer;
+
+  span {
+    display: block;
+    width: 30px;
+    height: 30px;
+    align-content: center;
+    text-align: -webkit-center;
+    outline: 1px gray solid;
+    border-radius: 100px;
+
+    svg{
+      width: 50%;
+      height: 50%;
+      vertical-align: middle;
+    }
   }
 }

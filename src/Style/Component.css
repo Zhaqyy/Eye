@@ -29,6 +29,13 @@
   opacity: 0;
 }
 
+.splitWrap {
+  transition: all 0.5s ease;
+}
+.splitWrap:hover {
+  color: var(--secAccent);
+}
+
 .split {
   display: inline-block;
   text-transform: inherit;
@@ -162,6 +169,8 @@
   white-space: nowrap;
   color: white;
   font-size: clamp(4rem, 5.333vw + 0.333rem, 7.5rem);
+  text-align: center;
+  width: 100%;
 }
 .loaderGlow {
   position: absolute;
@@ -172,4 +181,23 @@
   transform: translate(-50%, -50%);
   z-index: 4;
   background-color: black;
+}
+
+.sound {
+  pointer-events: all;
+  cursor: pointer;
+}
+.sound span {
+  display: block;
+  width: 30px;
+  height: 30px;
+  align-content: center;
+  text-align: -webkit-center;
+  outline: 1px gray solid;
+  border-radius: 100px;
+}
+.sound span svg {
+  width: 50%;
+  height: 50%;
+  vertical-align: middle;
 }/*# sourceMappingURL=Component.css.map */
