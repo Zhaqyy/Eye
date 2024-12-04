@@ -6,6 +6,7 @@ import Transitioner from "../Component/Transition";
 
 import Home from "../Pages/Home";
 import Scene from "../Scene/Scene";
+import Gridder from "../Scene/Showcase/Gridder";
 
 import Work from "../Pages/Work";
 import About from "../Pages/About";
@@ -15,10 +16,10 @@ const Router = () => {
 
   return (
     <>
-      <Loader onComplete={() => setLoaderFinished(true)} />
+      {/* <Loader onComplete={() => setLoaderFinished(true)} /> */}
 
       {/* Render routes only after the loader signals completion */}
-      {loaderFinished && (
+      {/* {loaderFinished && ( */}
         <Routes>
           <Route
             index
@@ -38,6 +39,14 @@ const Router = () => {
             }
           />
           <Route
+            path='/show'
+            element={
+              <Transitioner>
+                <Gridder />
+              </Transitioner>
+            }
+          />
+          <Route
             path='/Project/:id'
             element={
               <Transitioner>
@@ -46,7 +55,7 @@ const Router = () => {
             }
           />
         </Routes>
-      )}
+      {/* )} */}
     </>
   );
 };

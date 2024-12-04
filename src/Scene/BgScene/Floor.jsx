@@ -5,7 +5,6 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { cnoise } from "../Helper/cNoise.jsx";
 import { MeshReflectorMaterial, Sparkles, useTexture, useTrailTexture } from "@react-three/drei";
 import CustomSparkles from "../Helper/SampledParticles.jsx";
-import SimplePointCloud from "../Helper/SampledParticles.jsx";
 import useIsMobile from "../../Component/isMobile.jsx";
 
 const Grass = () => {
@@ -223,71 +222,4 @@ function Ground() {
       />
     </mesh>
   );
-}
-
-function WaterNormalMap() {
-  const { gl, size } = useThree();
-  const renderTarget = useMemo(() => new THREE.WebGLRenderTarget(size.width, size.height), [size]);
-
-  const shaderMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        time: { value: 0 },
-        resolution: { value: new THREE.Vector2(size.width, size.height) },
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        varying vec2 vUv;
-        uniform float time;
-        uniform vec2 resolution;
-
-        vec2 random2(vec2 st){
-          st = vec2( dot(st,vec2(127.1,311.7)),
-                    dot(st,vec2(269.5,183.3)) );
-          return -1.0 + 2.0*fract(sin(st)*43758.5453123);
-      }
-      
-      // Gradient Noise by Inigo Quilez - iq/2013
-      // https://www.shadertoy.com/view/XdXGW8
-      float noise(vec2 st) {
-          vec2 i = floor(st);
-          vec2 f = fract(st);
-      
-          vec2 u = f*f*(3.0-2.0*f);
-      
-          return mix( mix( dot( random2(i + vec2(0.0,0.0) ), f - vec2(0.0,0.0) ),
-                           dot( random2(i + vec2(1.0,0.0) ), f - vec2(1.0,0.0) ), u.x),
-                      mix( dot( random2(i + vec2(0.0,1.0) ), f - vec2(0.0,1.0) ),
-                           dot( random2(i + vec2(1.0,1.0) ), f - vec2(1.0,1.0) ), u.x), u.y);
-      }
-      
-
-        void main() {
-          vec2 uv = vUv * 2.0 - 1.0;
-          uv *= resolution.x / resolution.y;
-
-          // Create animated water noise
-          float n = noise(uv * 8.0 + time * 0.5) * 0.7 + noise(uv * 0.9 + time * 0.2) * 0.5;
-          // n = smoothstep(0.2, 0.7, n); // Map values to smooth waves
-
-          gl_FragColor = vec4(vec3(n), 1.0); // Output as grayscale for normal map
-        }
-      `,
-    });
-  }, [size]);
-
-  useFrame((state, delta) => {
-    shaderMaterial.uniforms.time.value += delta;
-    gl.setRenderTarget(renderTarget);
-    gl.render(new THREE.Mesh(new THREE.PlaneGeometry(), shaderMaterial), new THREE.Camera());
-    gl.setRenderTarget(null);
-  });
-
-  return renderTarget.texture;
 }
