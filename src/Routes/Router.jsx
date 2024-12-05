@@ -10,7 +10,7 @@ import Scene from "../Scene/Scene";
 import Work from "../Pages/Work";
 import About from "../Pages/About";
 
-// import BallPress from "../Scene/Showcase/BallPress";
+import Showcase from "../Pages/Showcase";
 
 const Router = () => {
   const [loaderFinished, setLoaderFinished] = useState(false);
@@ -39,14 +39,6 @@ const Router = () => {
               </Transitioner>
             }
           />
-          {/* <Route
-            path='/show'
-            element={
-              <Transitioner>
-                <BallPress />
-              </Transitioner>
-            }
-          /> */}
           <Route
             path='/Project/:id'
             element={
@@ -56,7 +48,17 @@ const Router = () => {
             }
           />
         </Routes>
-      )} 
+      )}
+      <Routes>
+        <Route
+          path='/show'
+          element={
+            <Transitioner>
+              <Showcase />
+            </Transitioner>
+          }
+        />
+      </Routes>
     </>
   );
 };
