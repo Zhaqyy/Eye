@@ -346,7 +346,7 @@ const scenesData = [
   {
     name: "BallPress",
     description:
-      "I apologize, I couldn’t come up with a better name but I always loved balls...uhm optical illusions. Here’s one I created: follow the balls with your eyes, and watch the scene become brighter and blurrier. Enjoy the mesmerizing effect, and... my balls!",
+      "I apologize, I couldn’t come up with a better name but I always loved balls...errr I mean optical illusions. Here’s one I created: follow the balls with your eyes, and watch the scene become brighter and blurrier. Enjoy the mesmerizing effect, and... my balls!",
     component: BallPress,
     type: "3D Experiences / Interaction",
     mobile: true,

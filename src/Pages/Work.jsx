@@ -255,7 +255,7 @@ const Work = () => {
             <div className='liveBtn'>
               <span></span>
               {/* <Word url={data?.url} word={'Live View'} /> */}
-              <Link to={data?.url}>Live View</Link>
+              <Link to={data?.url} target="_blank" rel="noopener noreferrer" >Live View</Link>
             </div>
           </div>
         </section>
