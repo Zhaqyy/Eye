@@ -6,20 +6,21 @@ import Transitioner from "../Component/Transition";
 
 import Home from "../Pages/Home";
 import Scene from "../Scene/Scene";
-import Gridder from "../Scene/Showcase/Gridder";
 
 import Work from "../Pages/Work";
 import About from "../Pages/About";
+
+// import BallPress from "../Scene/Showcase/BallPress";
 
 const Router = () => {
   const [loaderFinished, setLoaderFinished] = useState(false);
 
   return (
     <>
-      {/* <Loader onComplete={() => setLoaderFinished(true)} /> */}
+      <Loader onComplete={() => setLoaderFinished(true)} />
 
       {/* Render routes only after the loader signals completion */}
-      {/* {loaderFinished && ( */}
+      {loaderFinished && (
         <Routes>
           <Route
             index
@@ -38,14 +39,14 @@ const Router = () => {
               </Transitioner>
             }
           />
-          <Route
+          {/* <Route
             path='/show'
             element={
               <Transitioner>
-                <Gridder />
+                <BallPress />
               </Transitioner>
             }
-          />
+          /> */}
           <Route
             path='/Project/:id'
             element={
@@ -55,7 +56,7 @@ const Router = () => {
             }
           />
         </Routes>
-      {/* )} */}
+      )} 
     </>
   );
 };

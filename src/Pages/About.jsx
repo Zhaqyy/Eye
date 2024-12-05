@@ -7,6 +7,7 @@ import Pool from "../Scene/Showcase/Pool";
 import { useSoundEffects } from "../Component/SoundEffects";
 import useIsMobile from "../Component/isMobile";
 import { animateAbtCanvas, animateAbtElements } from "../Component/PageAnimations";
+import BallPress from "../Scene/Showcase/BallPress";
 
 const data = [
   {
@@ -343,11 +344,11 @@ const scenesData = [
     mobile: true, // Visible on mobile
   },
   {
-    name: "Angel",
+    name: "BallPress",
     description:
-      "Dive into the depths of serenity with 'Pool'. This scene is an oasis of calm where shimmering waters meet reflective skies.",
-    component: Pool,
-    type: "UI Prototypes",
+      "I apologize, I couldn’t come up with a better name but I always loved balls...uhm optical illusions. Here’s one I created: follow the balls with your eyes, and watch the scene become brighter and blurrier. Enjoy the mesmerizing effect, and... my balls!",
+    component: BallPress,
+    type: "3D Experiences/Interaction",
     mobile: true,
   },
   {
