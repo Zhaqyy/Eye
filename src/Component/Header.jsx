@@ -3,17 +3,13 @@ import gsap from "gsap";
 import "../Style/Component.css";
 import { Link } from "react-router-dom";
 import { useSoundEffects } from "./SoundEffects";
-
+import logo from "/Logo.svg";
+import Logo from "./Logo";
 const Header = () => {
   const headerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false); // To track menu open state
 
-  const {
-    updateProximityRate,
-    setInProximity,
-    currentAmbient,
-  } = useSoundEffects();
-
+  const { updateProximityRate, setInProximity, currentAmbient } = useSoundEffects();
 
   // Toggle menu open state on click
   const toggleMenu = () => {
@@ -105,16 +101,18 @@ const Header = () => {
   const handleHeaderHover = () => {
     if (!isOpen) {
       // Play interaction sound only when menu is closed
-      document.querySelector('#header').dispatchEvent(new MouseEvent('mouseenter'));
+      document.querySelector("#header").dispatchEvent(new MouseEvent("mouseenter"));
     }
   };
 
   return (
-    <section className='header' >
+    <section className='header'>
       {/* Radial gradient underlay */}
       <div className='underlay'></div>
-      <h1>Z</h1>
-      <ul id="header" className='menu' ref={headerRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover}>
+      <div className='logo'>
+        <Logo/>
+      </div>
+      <ul id='header' className='menu' ref={headerRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover}>
         <li className='menu-item'>
           <div>
             <Link to={"/Project/1"}>Lab</Link>

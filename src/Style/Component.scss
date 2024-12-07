@@ -22,7 +22,7 @@
   opacity: 0;
 }
 
-.splitWrap{
+.splitWrap {
   transition: all 0.5s ease;
   &:hover {
     color: var(--secAccent);
@@ -44,10 +44,19 @@
   align-items: center;
   justify-content: center;
   z-index: 6969;
-  & > h1 {
+  mix-blend-mode: difference;
+  & .logo {
     position: absolute;
     z-index: 1;
     pointer-events: none;
+    svg {
+      width: 50px;
+      height: 50px;
+      // aspect-ratio: 2/1;
+      &*{
+        mix-blend-mode: difference;
+      }
+    }
   }
   .menu {
     position: relative;
@@ -203,7 +212,6 @@
   }
 }
 
-
 //Sound Button
 
 .sound {
@@ -219,7 +227,7 @@
     outline: 1px gray solid;
     border-radius: 100px;
 
-    svg{
+    svg {
       width: 50%;
       height: 50%;
       vertical-align: middle;
