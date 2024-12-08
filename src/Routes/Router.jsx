@@ -11,6 +11,7 @@ import Work from "../Pages/Work";
 import About from "../Pages/About";
 
 import Showcase from "../Pages/Showcase";
+import Header from "../Component/Header";
 
 const Router = () => {
   const [loaderFinished, setLoaderFinished] = useState(false);
@@ -21,33 +22,37 @@ const Router = () => {
 
       {/* Render routes only after the loader signals completion */}
       {loaderFinished && (
-        <Routes>
-          <Route
-            index
-            path='/'
-            element={
-              <Transitioner>
-                <Main />
-              </Transitioner>
-            }
-          />
-          <Route
-            path='/about'
-            element={
-              <Transitioner>
-                <About />
-              </Transitioner>
-            }
-          />
-          <Route
-            path='/Project/:id'
-            element={
-              <Transitioner>
-                <Work />
-              </Transitioner>
-            }
-          />
-        </Routes>
+        <>
+          <Header />
+
+          <Routes>
+            <Route
+              index
+              path='/'
+              element={
+                <Transitioner>
+                  <Main />
+                </Transitioner>
+              }
+            />
+            <Route
+              path='/about'
+              element={
+                <Transitioner>
+                  <About />
+                </Transitioner>
+              }
+            />
+            <Route
+              path='/Project/:id'
+              element={
+                <Transitioner>
+                  <Work />
+                </Transitioner>
+              }
+            />
+          </Routes>
+        </>
       )}
       <Routes>
         <Route

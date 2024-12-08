@@ -89,6 +89,13 @@ export function Model(props) {
     bbox.getCenter(center); // Center of the key
     return [center.x, 0.1, -3]; // Slight offset above the key
   };
+  const computeSparkPosition = mesh => {
+    if (!mesh) return [0, -9, 0];
+    const bbox = new Box3().setFromObject(mesh);
+    const center = new Vector3();
+    bbox.getCenter(center); // Center of the key
+    return [center.x, 0.1, -3]; // Slight offset above the key
+  };
 
   // Gradient ShaderMaterial
   const gradientShader = new ShaderMaterial({
@@ -118,30 +125,13 @@ export function Model(props) {
     `,
   });
 
-  // const playNote = (keyName) => {
-  //   const keyRef = keyRefs.current[keyName];
-  //   if (!keyRef) return;
-
-  //   // Animate key press
-  //   gsap.to(keyRef.position, { y: -0.1, duration: 0.1 });
-  //   gsap.to(keyRef.position, { y: 0, duration: 0.25, delay: 0.1 });
-
-  //   // Add sparkles
-  //   setSparkles((prev) => [
-  //     ...prev,
-  //     { id: Date.now(), position: keyRef.position.clone() },
-  //   ]);
-
-  //   // Play sound
-  //   sounds[keyName]?.stop();
-  //   sounds[keyName]?.play();
-  // };
 
   useFrame(() => {
     // Remove sparkles after a timeout
     setSparkles((prev) =>
       prev.filter((sparkle) => Date.now() - sparkle.id < 1000)
     );
+    gradientShader.uniforms.uGradient = gradientShader.uniforms.uGradient
     gradientShader.needsUpdate = true;
   });
 
@@ -150,7 +140,7 @@ export function Model(props) {
       {keyNames.map(keyName => {
         const node = nodes[keyName];
         if (!node) return null;
-
+console.log(gradientShader.uniforms.uGradient);
         return (
           <group
             key={keyName}
@@ -192,7 +182,7 @@ export function Model(props) {
                 key={id}
                 count={10}
                 size={2}
-                position={computeTextPosition(keyRef)}
+                position={computeSparkPosition(keyRef)}
                 color={'#ff0000'}
                 speed={0.1}
                 scale={1}

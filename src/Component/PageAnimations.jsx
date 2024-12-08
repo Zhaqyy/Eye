@@ -216,7 +216,7 @@ export const animateWork = workRef => {
     {
       autoAlpha: 1,
       duration: 1.5,
-      stagger:0.15,
+      stagger: 0.15,
       ease: "expo.out",
     },
     "<"
@@ -416,7 +416,6 @@ export const animateHome = homeRef => {
     "<"
   );
 
-
   return tl;
 };
 export const animateHomeFoot = containerRef => {
@@ -459,3 +458,93 @@ export const animateHomeFoot = containerRef => {
 
   return tl;
 };
+
+/*--------------------
+  Header Animation
+  --------------------*/
+
+export const animateHeader = headerRef => {
+  const tl = gsap.timeline();
+
+  tl.set(headerRef.current, { autoAlpha: 1 });
+  return tl;
+};
+export const animateNav = navRef => {
+  const tl = gsap.timeline();
+
+  // Animate Logo parts
+  tl.fromTo(navRef.current, { y: "-100%", autoAlpha: 0 }, { y: "0%", autoAlpha: 1, duration: 1, ease: "power2.in" });
+  return tl;
+};
+
+export const animateLogoWipe = logoRef => {
+  const tl = gsap.timeline();
+
+  // Animate Logo parts
+  tl.set(logoRef.current, { width: 30, height: 30 })
+    .to(logoRef.current, { opacity: 1, duration: 0.5, ease: "power3.in" })
+    .fromTo("#bow1", { strokeDasharray: "500", strokeDashoffset: "500" }, { strokeDashoffset: "0", duration: 2, ease: "sine.in" }, "+=0.5")
+    .fromTo("#bow2", { strokeDasharray: "500", strokeDashoffset: "500" }, { strokeDashoffset: "0", duration: 2, ease: "sine.in" }, "<")
+    .fromTo("#dot1", { scale: 0, transformOrigin: "center" }, { scale: 1, duration: 1, ease: "back.out(1.7)" }, "-=0.5")
+    .fromTo("#dot2", { scale: 0, transformOrigin: "center" }, { scale: 1, duration: 1, ease: "back.out(1.7)" }, "<");
+  return tl;
+};
+export const animateLogoRot = logoRef => {
+  const tl = gsap.timeline();
+
+  // Animate Logo parts
+  // tl.set(logoRef.current, { width: 30, height: 30 })
+  //   .to(logoRef.current, { opacity: 1, duration: 0.5, ease: "power3.in" })
+  tl.fromTo("#bow1", { y: "0%" }, { y: "-100%", duration: 0.5, ease: "elastic.out(.5)" }, "+=0.5").fromTo(
+    "#bow2",
+    { y: "0%" },
+    { y: "100%", duration: 0.5, ease: "elastic.out(.5)" },
+    "<"
+  );
+
+  return tl;
+};
+export const animateLogoRot2 = logoRef => {
+  const tl = gsap.timeline({ repeat: -1, repeatDelay: 1, yoyo: true });
+
+  // Animate Logo parts 2
+  tl.to("#dot1", { y: "-100%", duration: 1, ease: "elastic.inOut(.75)" })
+    .to("#dot2", { y: "100%", duration: 1, ease: "elastic.inOut(.75)" }, "<")
+
+    .to("#dot1", { x: "100%", duration: 1, ease: "elastic.inOut(.75)" }, ">")
+    .to("#dot2", { x: "-100%", duration: 1, ease: "elastic.inOut(.75)" }, "<")
+
+    .to("#dot1", { y: "50%", duration: 1, ease: "elastic.inOut(.5)" }, ">")
+    .to("#dot2", { y: "-50%", duration: 1, ease: "elastic.inOut(.5)" }, "<")
+
+    .to("#dot1", { x: "-100%", duration: 1.5, ease: "elastic.out(.5)" }, ">")
+    .to("#dot2", { x: "100%", duration: 1.5, ease: "elastic.out(.5)" }, "<");
+
+  return tl;
+};
+export const animateLogoMenu = logoRef => {
+  const tl = gsap.timeline({});
+
+  tl.to(logoRef.current, { opacity: 1, duration: 0.5, ease: "power3.in" })
+    .to("#dot1", { y: "-25%", x: "-50%",scaleX:2, duration: 1, ease: "elastic.inOut(.5)" }, "+=0.5")
+    .to("#dot2", { y: "25%", x: "50%",scaleX:2, duration: 1, ease: "elastic.inOut(.5)" }, "<");
+
+  return tl;
+};
+
+
+export const animateLogoSpiral = logoRef => {
+  const tl = gsap.timeline({ repeat: -1 });
+  tl.to("#dot1", { rotation: 360, scale: 0.5, duration: 1, ease: "power2.inOut" })
+    .to("#dot2", { rotation: -360,  scale: 0.5, duration: 1, ease: "power2.inOut" }, "<")
+    .to("#dot1, #dot2", { scale: 1, x: 0, y: 0, rotation: 0, duration: 1, ease: "power2.inOut" });
+  return tl;
+};
+
+export const animateLogoOrbit = logoRef => {
+  const tl = gsap.timeline({ repeat: -1 });
+  tl.to("#dot1", { motionPath: { path: "#bow1", align: "#bow1", alignOrigin: [0.5, 0.5] }, duration: 3, ease: "linear" })
+    .to("#dot2", { motionPath: { path: "#bow2", align: "#bow2", alignOrigin: [0.5, 0.5] }, duration: 3, ease: "linear" }, "<");
+  return tl;
+};
+

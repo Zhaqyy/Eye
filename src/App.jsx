@@ -6,7 +6,6 @@ import gsap from "gsap";
 
 import CursorLottie from "./Component/CursorLottie";
 import Router from "./Routes/Router";
-import Header from "./Component/Header";
 import { useSoundEffects } from './Component/SoundEffects';
 
 const App = () => {
@@ -45,7 +44,6 @@ const App = () => {
       >
         {/* Conditionally render CursorLottie based on the route */}
         {/* {!excludedRoutes.includes(location.pathname) && <CursorLottie />} */}
-        <Header />
         <Router />
       </ReactLenis>
     </>

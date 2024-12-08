@@ -3,12 +3,15 @@ import gsap from "gsap";
 import "../Style/Component.css";
 import { Link } from "react-router-dom";
 import { useSoundEffects } from "./SoundEffects";
-import logo from "/Logo.svg";
+import { animateHeader, animateLogoMenu, animateLogoOrbit, animateLogoRot, animateLogoRot2, animateLogoSpiral, animateLogoWipe, animateNav } from "./PageAnimations";
 import Logo from "./Logo";
-const Header = () => {
-  const headerRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(false); // To track menu open state
 
+const Header = () => {
+  const navRef = useRef(null);
+  const headerRef = useRef(null);
+  const logoRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false); // To track menu open state
+  const proximityTimeline = useRef(null);
   const { updateProximityRate, setInProximity, currentAmbient } = useSoundEffects();
 
   // Toggle menu open state on click
@@ -42,9 +45,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const element = headerRef.current;
+    const element = navRef.current;
     const minRange = 50; // Minimum range for maximum scale (closest distance)
     const maxRange = 100; // Maximum range for minimum scale (furthest distance)
+
+    // Create the proximity animation timeline
+    // proximityTimeline.current = animateLogoMenu(logoRef).pause();
 
     const onMouseMove = e => {
       // Only animate proximity if the menu is closed
@@ -70,13 +76,24 @@ const Header = () => {
           ease: "power1.out",
         });
 
+        // Scrub through animateLogoMenu based on proximity
+        // proximityTimeline.current.progress(proximity);
+
+        // Optionally, pause conflicting animations
+        // if (proximity > 0.1) {
+        //   gsap.globalTimeline.pause(); // Pause all other animations
+        //   proximityTimeline.current.play(); // Ensure this timeline runs
+        // } else {
+        //   gsap.globalTimeline.resume(); // Resume other animations
+        // }
+
         updateProximityRate(proximity);
         setInProximity(proximity > 0); // Set proximity state
       }
     };
 
     const handleOutsideClick = e => {
-      if (headerRef.current && !headerRef.current.contains(e.target)) {
+      if (navRef.current && !navRef.current.contains(e.target)) {
         setIsOpen(false);
         gsap.to(".menu-item", { opacity: 0, display: "none", duration: 0.35, ease: "power1.out", stagger: 0.1 });
         gsap.to(".underlay", {
@@ -105,14 +122,43 @@ const Header = () => {
     }
   };
 
+  useEffect(() => {
+    const context = gsap.context(() => {
+      const tl = gsap.timeline({
+        delay: 2.25,
+        // repeat:-1,repeatDelay:1,
+      });
+
+      // animation for header
+      tl.add(animateHeader(headerRef), "nav");
+      tl.add(animateNav(navRef), "nav");
+      tl.add(animateLogoWipe(logoRef), "intro", "nav>");
+      tl.add(animateLogoRot(logoRef), "logo", "intro>");
+      tl.add(animateLogoRot2(logoRef), "logo+=1")
+        // .addPause("intro>")
+        // .add(() => {
+        //   if (proximityTimeline.current && proximityTimeline.current.isActive()) {
+        //     tl.pause();
+        //   } else {
+        //     tl.resume();
+        //   }
+        // });
+      // tl.add(animateLogoSpiral(logoRef), "intro", "nav>");
+      // tl.add(animateLogoOrbit(logoRef), "intro", "nav>");
+
+    }, headerRef);
+
+    return () => context.revert(); // Cleanup on unmount
+  }, []);
+
   return (
-    <section className='header'>
+    <section className='header' ref={headerRef} data-hidden>
       {/* Radial gradient underlay */}
       <div className='underlay'></div>
       <div className='logo'>
-        <Logo/>
+        <Logo ref={logoRef} />
       </div>
-      <ul id='header' className='menu' ref={headerRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover}>
+      <ul id='header' className='menu' ref={navRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover}>
         <li className='menu-item'>
           <div>
             <Link to={"/Project/1"}>Lab</Link>
