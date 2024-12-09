@@ -10,7 +10,7 @@ const Logo = forwardRef((props, ref) => {
         stroke="#fff"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="5"
+        strokeWidth="10"
       />
       <circle id="dot2" cx="77.58" cy="20" r="17.5" strokeWidth="0" fill="#fff" />
       <path
@@ -20,7 +20,7 @@ const Logo = forwardRef((props, ref) => {
         stroke="#fff"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="5"
+        strokeWidth="10"
       />
       <circle id="dot1" cx="77.58" cy="39.99" r="17.5" strokeWidth="0" fill="#fff" />
     </svg>

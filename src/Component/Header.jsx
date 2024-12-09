@@ -3,15 +3,25 @@ import gsap from "gsap";
 import "../Style/Component.css";
 import { Link } from "react-router-dom";
 import { useSoundEffects } from "./SoundEffects";
-import { animateHeader, animateLogoMenu, animateLogoOrbit, animateLogoRot, animateLogoRot2, animateLogoSpiral, animateLogoWipe, animateNav } from "./PageAnimations";
+import {
+  animateBars,
+  animateHeader,
+  animateLogoRot,
+  animateLogoRot2,
+  animateLogoRotVariant2,
+  animateLogoRotVariant3,
+  animateLogoRotVariant4,
+  animateLogoWipe,
+  animateNav,
+} from "./PageAnimations";
 import Logo from "./Logo";
 
 const Header = () => {
   const navRef = useRef(null);
   const headerRef = useRef(null);
   const logoRef = useRef(null);
+  const MenuTlRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false); // To track menu open state
-  const proximityTimeline = useRef(null);
   const { updateProximityRate, setInProximity, currentAmbient } = useSoundEffects();
 
   // Toggle menu open state on click
@@ -44,13 +54,11 @@ const Header = () => {
     }
   };
 
+  // Proximity Logic
   useEffect(() => {
     const element = navRef.current;
     const minRange = 50; // Minimum range for maximum scale (closest distance)
     const maxRange = 100; // Maximum range for minimum scale (furthest distance)
-
-    // Create the proximity animation timeline
-    // proximityTimeline.current = animateLogoMenu(logoRef).pause();
 
     const onMouseMove = e => {
       // Only animate proximity if the menu is closed
@@ -75,17 +83,6 @@ const Header = () => {
           duration: 0.25, // Duration for a smooth animation
           ease: "power1.out",
         });
-
-        // Scrub through animateLogoMenu based on proximity
-        // proximityTimeline.current.progress(proximity);
-
-        // Optionally, pause conflicting animations
-        // if (proximity > 0.1) {
-        //   gsap.globalTimeline.pause(); // Pause all other animations
-        //   proximityTimeline.current.play(); // Ensure this timeline runs
-        // } else {
-        //   gsap.globalTimeline.resume(); // Resume other animations
-        // }
 
         updateProximityRate(proximity);
         setInProximity(proximity > 0); // Set proximity state
@@ -115,36 +112,64 @@ const Header = () => {
     };
   }, [isOpen, updateProximityRate, currentAmbient]);
 
+  //Menu Hover logic
+  MenuTlRef.current = animateBars(logoRef)
+
   const handleHeaderHover = () => {
     if (!isOpen) {
-      // Play interaction sound only when menu is closed
+      MenuTlRef.current.play(); 
+      // Dispatch interaction sound only when menu is closed
       document.querySelector("#header").dispatchEvent(new MouseEvent("mouseenter"));
+    } else {
+      MenuTlRef.current.reverse().pause(); 
     }
   };
 
+  const handleHeaderLeave = () => {
+    MenuTlRef.current.reverse();
+
+  };
+
+//Logo animation randomizer
+const logoRotations = [
+  { animation: animateLogoRot, weight: 50 }, // 50% chance
+  { animation: animateLogoRotVariant2, weight: 50 },
+  { animation: animateLogoRotVariant3, weight: 25 },
+  { animation: animateLogoRotVariant4, weight: 25 },
+];
+
+const pickWeightedAnimation = (animations) => {
+  const totalWeight = animations.reduce((sum, item) => sum + item.weight, 0);
+  let random = Math.random() * totalWeight;
+
+  for (const item of animations) {
+    if (random < item.weight) {
+      return item.animation;
+    }
+    random -= item.weight;
+  }
+
+  return animations[0].animation; // Fallback in case of edge cases
+};
+
+
+  //Intro Animation Logic
   useEffect(() => {
     const context = gsap.context(() => {
       const tl = gsap.timeline({
-        delay: 2.25,
-        // repeat:-1,repeatDelay:1,
+        delay: 2,
       });
 
       // animation for header
       tl.add(animateHeader(headerRef), "nav");
       tl.add(animateNav(navRef), "nav");
       tl.add(animateLogoWipe(logoRef), "intro", "nav>");
-      tl.add(animateLogoRot(logoRef), "logo", "intro>");
-      tl.add(animateLogoRot2(logoRef), "logo+=1")
-        // .addPause("intro>")
-        // .add(() => {
-        //   if (proximityTimeline.current && proximityTimeline.current.isActive()) {
-        //     tl.pause();
-        //   } else {
-        //     tl.resume();
-        //   }
-        // });
-      // tl.add(animateLogoSpiral(logoRef), "intro", "nav>");
-      // tl.add(animateLogoOrbit(logoRef), "intro", "nav>");
+
+      // Randomize and add one of the logo rotation animations
+    const randomLogoRot = pickWeightedAnimation(logoRotations);
+    tl.add(randomLogoRot(headerRef), "logo", "intro>");
+
+      tl.add(animateLogoRot2(logoRef), "logo+=1");
 
     }, headerRef);
 
@@ -158,7 +183,7 @@ const Header = () => {
       <div className='logo'>
         <Logo ref={logoRef} />
       </div>
-      <ul id='header' className='menu' ref={navRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover}>
+      <ul id='header' className='menu' ref={navRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover} onMouseLeave={handleHeaderLeave}>
         <li className='menu-item'>
           <div>
             <Link to={"/Project/1"}>Lab</Link>

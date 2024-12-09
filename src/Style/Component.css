@@ -50,12 +50,13 @@
   align-items: center;
   justify-content: center;
   z-index: 6969;
-  mix-blend-mode: difference;
+  pointer-events: none;
 }
 .header .logo {
   position: absolute;
   z-index: 1;
   pointer-events: none;
+  transform-origin: center;
 }
 .header .logo svg {
   width: 50px;
