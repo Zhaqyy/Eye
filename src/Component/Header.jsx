@@ -6,13 +6,16 @@ import { useSoundEffects } from "./SoundEffects";
 import {
   animateBars,
   animateHeader,
-  animateLogoRot,
+  animateLogoRot1,
   animateLogoRot2,
-  animateLogoRotVariant2,
-  animateLogoRotVariant3,
-  animateLogoRotVariant4,
-  animateLogoWipe,
+  animateLogo1,
+  animateLogo2,
+  animateLogo3,
+  animateLogo4,
+  animateLogoIntro,
   animateNav,
+  animateLogoDot,
+  animateLogo5,
 } from "./PageAnimations";
 import Logo from "./Logo";
 
@@ -114,47 +117,67 @@ const Header = () => {
 
   //Menu Hover logic
   if (logoRef.current) {
-    MenuTlRef.current = animateBars(logoRef)
+    MenuTlRef.current = animateBars(logoRef);
   }
 
   const handleHeaderHover = () => {
     if (!isOpen) {
-      MenuTlRef.current.play(); 
+      MenuTlRef.current.play();
       // Dispatch interaction sound only when menu is closed
       document.querySelector("#header").dispatchEvent(new MouseEvent("mouseenter"));
     } else {
-      MenuTlRef.current.reverse().pause(); 
+      MenuTlRef.current.reverse().pause();
     }
   };
 
   const handleHeaderLeave = () => {
     MenuTlRef.current.reverse();
-
   };
 
-//Logo animation randomizer
-const logoRotations = [
-  { animation: animateLogoRot, weight: 50 }, // 50% chance
-  { animation: animateLogoRotVariant2, weight: 50 },
-  { animation: animateLogoRotVariant3, weight: 25 },
-  { animation: animateLogoRotVariant4, weight: 25 },
-];
+  //Logo animation randomizer
+  //with weight
+  // const logoRotations = [
+  //   { animation: animateLogoRot1, weight: 50 }, // 50% chance
+  //   { animation: animateLogoRot2, weight: 50 },
+  // ];
 
-const pickWeightedAnimation = (animations) => {
-  const totalWeight = animations.reduce((sum, item) => sum + item.weight, 0);
-  let random = Math.random() * totalWeight;
-
-  for (const item of animations) {
-    if (random < item.weight) {
-      return item.animation;
-    }
-    random -= item.weight;
-  }
-
-  return animations[0].animation; // Fallback in case of edge cases
-};
-
-
+  const logoRotations = [
+    { animation: animateLogoRot1 }, 
+    { animation: animateLogoRot2 }
+  ];
+  const logoAnimations = [
+    { animation: animateLogo1 },
+    { animation: animateLogo2 },
+    { animation: animateLogo3 },
+    { animation: animateLogo4 },
+    { animation: animateLogo5 },
+  ];
+// Weighted Logic
+  // const pickAnimation = (animations, useWeights = true) => {
+  //   if (!useWeights || animations.every(item => item.weight === undefined)) {
+  //     // Simple randomizer for equal chances
+  //     const randomIndex = Math.floor(Math.random() * animations.length);
+  //     return animations[randomIndex].animation;
+  //   }
+  
+  //   // Original weighted logic
+  //   const totalWeight = animations.reduce((sum, item) => sum + (item.weight || 0), 0);
+  //   let random = Math.random() * totalWeight;
+  
+  //   for (const item of animations) {
+  //     if (random < (item.weight || 0)) {
+  //       return item.animation;
+  //     }
+  //     random -= (item.weight || 0);
+  //   }
+  
+  //   return animations[0].animation; // Fallback in case of edge cases
+  // };
+  // non-Weighted Logic
+  const pickAnimation = animations => {
+    const randomIndex = Math.floor(Math.random() * animations.length);
+    return animations[randomIndex].animation;
+  };
   //Intro Animation Logic
   useEffect(() => {
     const context = gsap.context(() => {
@@ -165,14 +188,16 @@ const pickWeightedAnimation = (animations) => {
       // animation for header
       tl.add(animateHeader(headerRef), "nav");
       tl.add(animateNav(navRef), "nav");
-      tl.add(animateLogoWipe(logoRef), "intro", "nav>");
+      tl.add(animateLogoIntro(logoRef), "intro", "nav>");
 
       // Randomize and add one of the logo rotation animations
-    const randomLogoRot = pickWeightedAnimation(logoRotations);
-    tl.add(randomLogoRot(headerRef), "logo", "intro>");
+      const randomLogoRot = pickAnimation(logoRotations);
+      tl.add(randomLogoRot(headerRef), "logo", "intro>");
 
-      tl.add(animateLogoRot2(logoRef), "logo+=1");
+      const randomLogoAnim = pickAnimation(logoAnimations);
+      tl.add(randomLogoAnim(headerRef), "logo", "intro>");
 
+      tl.add(animateLogoDot(logoRef), "logo+=1");
     }, headerRef);
 
     return () => context.revert(); // Cleanup on unmount

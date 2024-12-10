@@ -477,7 +477,8 @@ export const animateNav = navRef => {
   return tl;
 };
 
-export const animateLogoWipe = logoRef => {
+//logo intro
+export const animateLogoIntro = logoRef => {
   const tl = gsap.timeline();
 
   // Animate Logo parts
@@ -489,7 +490,9 @@ export const animateLogoWipe = logoRef => {
     .fromTo("#dot2", { scale: 0, transformOrigin: "center" }, { scale: 1, duration: 1, ease: "back.out(1.7)" }, "<");
   return tl;
 };
-export const animateLogoRot = headerRef => {
+
+// to rot or not to rot
+export const animateLogoRot1 = headerRef => {
   const tl = gsap.timeline({
     onComplete: () => {
       tl.set(headerRef.current, {
@@ -498,6 +501,41 @@ export const animateLogoRot = headerRef => {
       });
     },
   });
+
+
+  tl.to(
+    "#logo",
+    {
+      rotate:0,duration: 0.25, ease: "elastic.out(.5)"
+    }
+  )
+
+  return tl;
+};
+export const animateLogoRot2 = headerRef => {
+  const tl = gsap.timeline({
+    onComplete: () => {
+      tl.set(headerRef.current, {
+        pointerEvents: "auto",
+        delay: 1,
+      });
+    },
+  });
+
+
+  tl.to(
+    "#logo",
+    {
+      rotate:90,duration: 0.25, ease: "elastic.out(.5)"
+    }
+  )
+
+  return tl;
+};
+
+// bow animation types
+export const animateLogo1 = headerRef => {
+  const tl = gsap.timeline();
 
   // Animate Logo parts
 
@@ -510,81 +548,48 @@ export const animateLogoRot = headerRef => {
 
   return tl;
 };
-export const animateLogoRotVariant2 = headerRef => {
-  const tl = gsap.timeline({
-    onComplete: () => {
-      tl.set(headerRef.current, {
-        pointerEvents: "auto",
-        delay: 1,
-      });
-    },
-  });
+export const animateLogo2 = headerRef => {
+  const tl = gsap.timeline();
 
   // Animate Logo parts
 
-  tl.to(
-    "#logo",
-    {
-      rotate:90,duration: 0.25, ease: "elastic.out(.5)"
-    }
-  )
-  .fromTo(
+  tl.fromTo(
     "#bow1", 
   { y: "0%" }, 
-  { y: "-100%", duration: 0.5, ease: "elastic.out(.5)" },
+  { y: "-100%",x: "50%", duration: 0.5, ease: "elastic.out(.5)" },
    "+=0.5")
    
    .fromTo(
     "#bow2",
     { y: "0%" },
-    { y: "100%", duration: 0.5, ease: "elastic.out(.5)" },
+    { y: "100%",x: "-50%", duration: 0.5, ease: "elastic.out(.5)" },
     "<"
   );
 
   return tl;
 };
-export const animateLogoRotVariant3 = headerRef => {
-  const tl = gsap.timeline({
-    onComplete: () => {
-      tl.set(headerRef.current, {
-        pointerEvents: "auto",
-        delay: 1,
-      });
-    },
-  });
+export const animateLogo3 = headerRef => {
+  const tl = gsap.timeline();
 
   // Animate Logo parts
 
-  tl.to(
-    "#logo",
-    {
-      rotate:90, duration: 0.5, ease: "elastic.out(.5)"
-    }
-  )
-  .fromTo(
+  tl.fromTo(
     "#bow1", 
   { y: "0%" }, 
-  { y: "50%", duration: 0.5, ease: "elastic.out(.5)" },
+  { y: "-100%",x: "-50%", duration: 0.5, ease: "elastic.out(.5)" },
    "+=0.5")
    
    .fromTo(
     "#bow2",
     { y: "0%" },
-    { y: "-50%", duration: 0.5, ease: "elastic.out(.5)" },
+    { y: "100%",x: "50%", duration: 0.5, ease: "elastic.out(.5)" },
     "<"
   );
 
   return tl;
 };
-export const animateLogoRotVariant4 = headerRef => {
-  const tl = gsap.timeline({
-    onComplete: () => {
-      tl.set(headerRef.current, {
-        pointerEvents: "auto",
-        delay: 1,
-      });
-    },
-  });
+export const animateLogo4 = headerRef => {
+  const tl = gsap.timeline();
 
   // Animate Logo parts
 
@@ -603,7 +608,27 @@ export const animateLogoRotVariant4 = headerRef => {
 
   return tl;
 };
-export const animateLogoRot2 = logoRef => {
+export const animateLogo5 = headerRef => {
+  const tl = gsap.timeline();
+
+  // Animate Logo parts
+
+  tl.fromTo(
+    "#bow1", 
+  { y: "0%" }, 
+  { y: "100%", duration: 0.5, ease: "elastic.out(.5)" },
+   "+=0.5")
+   
+   .fromTo(
+    "#bow2",
+    { y: "0%" },
+    { y: "-100%", duration: 0.5, ease: "elastic.out(.5)" },
+    "<"
+  );
+
+  return tl;
+};
+export const animateLogoDot = logoRef => {
   const tl = gsap.timeline({ repeat: -1, repeatDelay: 1, yoyo: true });
 
   // Animate Logo parts 2

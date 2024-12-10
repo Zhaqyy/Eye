@@ -2,18 +2,20 @@ import React, { useEffect, useRef } from "react";
 import "../../Style/Component.css";
 import gsap from "gsap";
 import Logo from "../Logo";
+import useIsMobile from "../isMobile";
 
 const Intro = ({ timeline, onComplete }) => {
   const loaderRef = useRef(null);
   const glowRef = useRef(null);
   const eyeRef = useRef(null);
   const progressNumberRef = useRef(null);
+  const isMobile = useIsMobile(800);
 
 
   useEffect(() => {
     const context = gsap.context(() => {
       if (timeline) {
-        timeline.add(progressAnimation(loaderRef, glowRef, progressNumberRef, eyeRef, onComplete), 0);
+        timeline.add(progressAnimation(loaderRef, glowRef, progressNumberRef, eyeRef, onComplete,isMobile), 0);
       }
     }, loaderRef);
 
@@ -34,9 +36,9 @@ const Intro = ({ timeline, onComplete }) => {
 
 export default Intro;
 
-export const progressAnimation = (loaderRef, glowRef, progressNumberRef, eyeRef, onComplete) => {
+export const progressAnimation = (loaderRef, glowRef, progressNumberRef, eyeRef, onComplete, isMobile) => {
   const tl = gsap.timeline();
-
+ 
   gsap.set([progressNumberRef.current, glowRef.current, loaderRef.current, eyeRef.current], {
     display: "block",
   });
@@ -84,12 +86,12 @@ export const progressAnimation = (loaderRef, glowRef, progressNumberRef, eyeRef,
     {
       // autoAlpha: 1,
       // filter: "blur(0px)",
-      clipPath: "polygon(50% 0%,0% 0%,0% 100%,50% 100%,50% 0%,100% 0%,100% 100%,50% 100%)",
+      clipPath: isMobile ? 'polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%)' : "polygon(50% 0%,0% 0%,0% 100%,50% 100%,50% 0%,100% 0%,100% 100%,50% 100%)",
     },
     {
       // autoAlpha: 0,
       // filter: "blur(3px)",
-      clipPath: "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%, 50% 0%, 50% 0%, 50% 100%, 50% 100%)",
+      clipPath: isMobile ? 'polygon(0% 50%,100% 50%,100% 50%,0% 50%,0% 50%,100% 50%,100% 50%,0% 50%)' : "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%, 50% 0%, 50% 0%, 50% 100%, 50% 100%)",
       duration: 1.5,
       ease: "expo.out",
       onComplete: () => {
@@ -100,8 +102,8 @@ export const progressAnimation = (loaderRef, glowRef, progressNumberRef, eyeRef,
     },
     ">"
   )
-    .to("#dot1", { y: "-30%", duration: 1, ease: "back.inOut(.95)" }, "<")
-    .to("#dot2", { y: "30%", duration: 1, ease: "back.inOut(.95)" }, "<")
+    .to("#dot1", { y: "-30%", duration: 1, ease: isMobile?"expo.out":'back.inOut(.95)' }, "<")
+    .to("#dot2", { y: "30%", duration: 1, ease: isMobile?"expo.out":'back.inOut(.95)' }, "<")
 
     .call(onComplete, null, "-=0.25")
 
@@ -120,9 +122,6 @@ export const progressAnimation = (loaderRef, glowRef, progressNumberRef, eyeRef,
         ease: "sine.in",
         onComplete: () => {
           gsap.set(loaderRef.current, {
-            display: "none",
-          });
-          gsap.set(glowRef.current, {
             display: "none",
           });
           gsap.set(eyeRef.current, {

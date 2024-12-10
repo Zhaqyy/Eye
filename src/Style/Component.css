@@ -166,7 +166,7 @@
   padding: 10vh;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
 }
 .loaderText .loaderProgressText {
   display: flex;
@@ -182,11 +182,6 @@
   rotate: 90deg;
   opacity: 0;
 }
-.loaderText .tag {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-}
 .loaderProgressNumber {
   position: absolute;
   left: 50%;
@@ -201,17 +196,21 @@
   -webkit-clip-path: polygon(50% 0%, 0% 0%, 0% 100%, 50% 100%, 50% 0%, 100% 0%, 100% 100%, 50% 100%);
           clip-path: polygon(50% 0%, 0% 0%, 0% 100%, 50% 100%, 50% 0%, 100% 0%, 100% 100%, 50% 100%);
 }
-.loaderGlow {
-  position: absolute;
-  width: 100%;
-  height: 1px;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 4;
-  background-color: black;
-}
 
+@media (width <= 800px) {
+  .loaderText svg {
+    max-width: 50%;
+    rotate: 0deg;
+  }
+}
+@media (width <= 500px) {
+  .loaderText {
+    padding: 0;
+  }
+  .loaderProgressNumber {
+    font-size: clamp(2.5rem, 5.333vw + 0.333rem, 3.5rem);
+  }
+}
 .sound {
   pointer-events: all;
   cursor: pointer;
