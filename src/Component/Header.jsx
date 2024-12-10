@@ -113,7 +113,9 @@ const Header = () => {
   }, [isOpen, updateProximityRate, currentAmbient]);
 
   //Menu Hover logic
-  MenuTlRef.current = animateBars(logoRef)
+  if (logoRef.current) {
+    MenuTlRef.current = animateBars(logoRef)
+  }
 
   const handleHeaderHover = () => {
     if (!isOpen) {

@@ -523,9 +523,9 @@ export const animateLogoRotVariant2 = headerRef => {
   // Animate Logo parts
 
   tl.to(
-    ".logo",
+    "#logo",
     {
-      rotate:90, duration: 0.5, ease: "elastic.out(.5)"
+      rotate:90,duration: 0.25, ease: "elastic.out(.5)"
     }
   )
   .fromTo(
@@ -556,7 +556,7 @@ export const animateLogoRotVariant3 = headerRef => {
   // Animate Logo parts
 
   tl.to(
-    ".logo",
+    "#logo",
     {
       rotate:90, duration: 0.5, ease: "elastic.out(.5)"
     }
@@ -621,7 +621,7 @@ export const animateLogoRot2 = logoRef => {
 
   return tl;
 };
-export const animateBars = () => {
+export const animateBars = logoRef => {
   const tl = gsap.timeline({ paused: true });
 
   tl.fromTo(

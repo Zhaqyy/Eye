@@ -157,17 +157,35 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%);
-          clip-path: polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%);
   background: var(--accent);
   z-index: 1000;
 }
-.loaderProgress {
+.loaderText {
   height: 100%;
   width: 100%;
-  background-color: black;
-  transform: scaleX(0);
-  transform-origin: left center;
+  padding: 10vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.loaderText .loaderProgressText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.loaderText h1 {
+  font-size: clamp(8rem, 5.333vw + 0.333rem, 10rem);
+}
+.loaderText svg {
+  max-width: 30%;
+  overflow: visible;
+  rotate: 90deg;
+  opacity: 0;
+}
+.loaderText .tag {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
 }
 .loaderProgressNumber {
   position: absolute;
@@ -180,6 +198,8 @@
   font-size: clamp(4rem, 5.333vw + 0.333rem, 7.5rem);
   text-align: center;
   width: 100%;
+  -webkit-clip-path: polygon(50% 0%, 0% 0%, 0% 100%, 50% 100%, 50% 0%, 100% 0%, 100% 100%, 50% 100%);
+          clip-path: polygon(50% 0%, 0% 0%, 0% 100%, 50% 100%, 50% 0%, 100% 0%, 100% 100%, 50% 100%);
 }
 .loaderGlow {
   position: absolute;
