@@ -140,7 +140,7 @@ export function Model(props) {
       {keyNames.map(keyName => {
         const node = nodes[keyName];
         if (!node) return null;
-console.log(gradientShader.uniforms.uGradient);
+// console.log(gradientShader.uniforms.uGradient);
         return (
           <group
             key={keyName}
@@ -177,7 +177,7 @@ console.log(gradientShader.uniforms.uGradient);
               {keyName}
             </Text>
             {/* Sparkles */}
-            {sparkles.map(({ id, keyRef }) => (
+            {/* {sparkles.map(({ id, keyRef }) => (
               <Sparkles
                 key={id}
                 count={10}
@@ -187,7 +187,7 @@ console.log(gradientShader.uniforms.uGradient);
                 speed={0.1}
                 scale={1}
               />
-            ))}
+            ))} */}
           </group>
         );
       })}

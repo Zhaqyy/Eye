@@ -134,13 +134,6 @@ const Header = () => {
     MenuTlRef.current.reverse();
   };
 
-  //Logo animation randomizer
-  //with weight
-  // const logoRotations = [
-  //   { animation: animateLogoRot1, weight: 50 }, // 50% chance
-  //   { animation: animateLogoRot2, weight: 50 },
-  // ];
-
   const logoRotations = [
     { animation: animateLogoRot1 }, 
     { animation: animateLogoRot2 }
@@ -152,27 +145,7 @@ const Header = () => {
     { animation: animateLogo4 },
     { animation: animateLogo5 },
   ];
-// Weighted Logic
-  // const pickAnimation = (animations, useWeights = true) => {
-  //   if (!useWeights || animations.every(item => item.weight === undefined)) {
-  //     // Simple randomizer for equal chances
-  //     const randomIndex = Math.floor(Math.random() * animations.length);
-  //     return animations[randomIndex].animation;
-  //   }
-  
-  //   // Original weighted logic
-  //   const totalWeight = animations.reduce((sum, item) => sum + (item.weight || 0), 0);
-  //   let random = Math.random() * totalWeight;
-  
-  //   for (const item of animations) {
-  //     if (random < (item.weight || 0)) {
-  //       return item.animation;
-  //     }
-  //     random -= (item.weight || 0);
-  //   }
-  
-  //   return animations[0].animation; // Fallback in case of edge cases
-  // };
+
   // non-Weighted Logic
   const pickAnimation = animations => {
     const randomIndex = Math.floor(Math.random() * animations.length);
