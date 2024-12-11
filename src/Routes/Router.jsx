@@ -18,7 +18,7 @@ const Router = () => {
 
   return (
     <>
-      {/* <Loader onComplete={() => setLoaderFinished(true)} /> */}
+      <Loader onComplete={() => setLoaderFinished(true)} />
 
       {/* Render routes only after the loader signals completion */}
       {loaderFinished && (
@@ -54,7 +54,7 @@ const Router = () => {
           </Routes>
         </>
       )}
-      <Routes>
+      {/* <Routes>
         <Route
           path='/show'
           element={
@@ -63,7 +63,7 @@ const Router = () => {
             </Transitioner>
           }
         />
-      </Routes>
+      </Routes> */}
     </>
   );
 };
