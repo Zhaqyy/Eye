@@ -54,7 +54,7 @@ const Router = () => {
           </Routes>
         </>
       )}
-      <Routes>
+      {/* <Routes>
         <Route
           path='/show'
           element={
@@ -63,7 +63,7 @@ const Router = () => {
             </Transitioner>
           }
         />
-      </Routes>
+      </Routes> */}
     </>
   );
 };

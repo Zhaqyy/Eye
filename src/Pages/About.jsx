@@ -8,6 +8,7 @@ import { useSoundEffects } from "../Component/SoundEffects";
 import useIsMobile from "../Component/isMobile";
 import { animateAbtCanvas, animateAbtElements } from "../Component/PageAnimations";
 import BallPress from "../Scene/Showcase/BallPress";
+import Ribbons from "../Scene/Showcase/Ribbons";
 
 const data = [
   {
@@ -336,18 +337,18 @@ export default About;
 
 const scenesData = [
   {
-    name: "Pool",
-    description:
-      "Dive into the depths of serenity with 'Pool'. It’s designed to show how fluidity and tranquility can transform digital spaces into something truly immersive.",
-    component: Pool, // This refers to the <Pool /> component
-    type: "Experiences",
-    mobile: true, // Visible on mobile
-  },
-  {
     name: "BallPress",
     description:
       "I apologize, I couldn’t come up with a better name but I always loved balls...errr I mean optical illusions. Here’s one I created: follow the balls with your eyes, and watch the scene become brighter and blurrier. Enjoy the mesmerizing effect, and... my balls!",
     component: BallPress,
+    type: "3D Experiences / Interaction",
+    mobile: true,
+  },
+  {
+    name: "Ribbons",
+    description:
+      "A vibrant scene of colorful ribbons that dance to your touch. It’s like petting digital spaghetti or like a group of acrobatic tapeworms at a rave - oddly satisfying, endlessly mesmerizing, and completely calorie-free if you enjoy eating tapeworms.",
+    component: Ribbons,
     type: "3D Experiences / Interaction",
     mobile: true,
   },
@@ -359,6 +360,22 @@ const scenesData = [
     type: "3D Animations",
     mobile: false,
   },
+  {
+    name: "Nothing",
+    description:
+      "Dive into the depths of Nothing. It’s designed to show how basic fluidity and tranquility can transform digital...Naah, Just kidding, I just use this one as control test and got too lazy to remove it.",
+    component: Pool, // This refers to the <Pool /> component
+    type: "Experiences",
+    mobile: true, // Visible on mobile
+  },
+  // {
+  //   name: "Pool",
+  //   description:
+  //     "Dive into the depths of serenity with 'Pool'. It’s designed to show how fluidity and tranquility can transform digital spaces into something truly immersive.",
+  //   component: Pool, // This refers to the <Pool /> component
+  //   type: "Experiences",
+  //   mobile: true, // Visible on mobile
+  // },
 ];
 
 const AbtCanvas = () => {
