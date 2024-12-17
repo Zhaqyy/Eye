@@ -13,7 +13,7 @@ const Ribbons = () => {
   const isMobile = useIsMobile(600);
 
   return (
-    <Canvas camera={{ position: [0, 0, 5] }}>
+    <Canvas camera={{ position: [0, 0, 5] }} >
       {/* <Perf
         position='top-right'
         // minimal={true}

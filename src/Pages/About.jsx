@@ -36,21 +36,37 @@ const data = [
   {
     title: "Awards",
     content: (
-    <ul>
-      <li>Good Boy - My Mum</li>
-      <li>Nice Shirt! - Random guy on a bus 4 years ago</li>
-      <li>Nothing Yet Sadly, But hey, I got some cool recognitions above</li>
-    </ul>
+      <ul>
+        <li>Good Boy - My Mum</li>
+        <li>Nice Shirt! - Random guy on a bus 4 years ago</li>
+        <li>Nothing Yet Sadly, But hey, I got some cool recognitions above</li>
+      </ul>
     ),
   },
   {
     title: "Contact",
     content: (
-      <ul className="abtCont">
-        <li><a href="https://www.linkedin.com/in/abdulrazaq-shuaib-72a827263" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-        <li><a href="https://x.com/Zharqyy" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-        <li><a href="https://codepen.io/zhaqyy" target="_blank" rel="noopener noreferrer">Codepen</a></li>
-        <li><a href="https://github.com/Zhaqyy" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <ul className='abtCont'>
+        <li>
+          <a href='https://www.linkedin.com/in/abdulrazaq-shuaib-72a827263' target='_blank' rel='noopener noreferrer'>
+            LinkedIn
+          </a>
+        </li>
+        <li>
+          <a href='https://x.com/Zharqyy' target='_blank' rel='noopener noreferrer'>
+            Twitter
+          </a>
+        </li>
+        <li>
+          <a href='https://codepen.io/zhaqyy' target='_blank' rel='noopener noreferrer'>
+            Codepen
+          </a>
+        </li>
+        <li>
+          <a href='https://github.com/Zhaqyy' target='_blank' rel='noopener noreferrer'>
+            GitHub
+          </a>
+        </li>
       </ul>
     ),
   },
@@ -98,8 +114,8 @@ const About = () => {
                   writingMode: "horizontal-tb",
                   textOrientation: "initial",
                   letterSpacing: 0,
-                  width: '100%',
-                  textAlign: 'left',
+                  width: "100%",
+                  textAlign: "left",
                 });
                 gsap.fromTo(
                   slide.querySelector(".title"),
@@ -145,12 +161,11 @@ const About = () => {
             duration: isMobile ? 0 : 0.25,
             onComplete: () => {
               const orienttitleProps = isMobile
-                ? { writingMode: "horizontal-tb", textOrientation: "initial", letterSpacing: 0, width: '100%', }
-                : { writingMode: "vertical-rl", textOrientation: "upright", letterSpacing: -5, width: 'auto', };
+                ? { writingMode: "horizontal-tb", textOrientation: "initial", letterSpacing: 0, width: "100%" }
+                : { writingMode: "vertical-rl", textOrientation: "upright", letterSpacing: -5, width: "auto" };
 
               gsap.set(slide.querySelector(".title"), {
-               
-                textAlign: 'center',
+                textAlign: "center",
                 ...orienttitleProps,
               });
               const fromtitleProps = isMobile ? { y: -25 } : { x: 25 };
@@ -270,10 +285,10 @@ const About = () => {
   useEffect(() => {
     const context = gsap.context(() => {
       // timeline for the animation
-      const tl = gsap.timeline({delay:1.25});
+      const tl = gsap.timeline({ delay: 1.25 });
 
       // animation for abt elements
-      tl.add(animateAbtElements(abtRef),'abtSection', 1);
+      tl.add(animateAbtElements(abtRef), "abtSection", 1);
 
       // callback to reset slides after animation completes
       tl.call(
@@ -301,9 +316,11 @@ const About = () => {
             <h1 data-hidden>Abdulrazaq</h1>
           </div>
           <p data-hidden>
-          Hi there! I'm a creative developer hopelessly addicted to design, animation, and turning everything interactive (show me an element, and I'll give you 10 ways to make it irresistible). 
-          <br/>
-          With 3+ years of crafting immersive digital experiences and an unhealthy Pinterest habit (seriously, send help)—I can’t stop, won’t stop. Whether it's a jaw-dropping website or a button so satisfying you’ll click it twice, I’m your go-to code wizard.
+            Hi there! I'm a creative developer hopelessly addicted to design, animation, and turning everything interactive (show me an
+            element, and I'll give you 10 ways to make it irresistible).
+            <br />
+            With 3+ years of crafting immersive digital experiences and an unhealthy Pinterest habit (seriously, send help)—I can’t stop,
+            won’t stop. Whether it's a jaw-dropping website or a button so satisfying you’ll click it twice, I’m your go-to code wizard.
           </p>
         </div>
 
@@ -486,9 +503,9 @@ const AbtCanvas = () => {
     switchScene(direction);
   });
 
-  const handleHoverEnter = contextSafe((e) => {
+  const handleHoverEnter = contextSafe(e => {
     const target = e.currentTarget;
-  
+
     // Squash and stretch effect
     gsap.to(target, {
       scaleX: 1.1,
@@ -508,10 +525,10 @@ const AbtCanvas = () => {
   useEffect(() => {
     const context = gsap.context(() => {
       // timeline for the animation
-      const tl = gsap.timeline({delay:1.25});
+      const tl = gsap.timeline({ delay: 1.25 });
 
       // animation for abt cancas
-      tl.add(animateAbtCanvas(abtCanvas),'abtSection');
+      tl.add(animateAbtCanvas(abtCanvas), "abtSection");
     }, abtCanvas);
 
     return () => context.revert(); // Cleanup on unmount
@@ -531,7 +548,7 @@ const AbtCanvas = () => {
           <span
             id='ctrlBtn'
             className={"canvPrev"}
-           onMouseEnter={handleHoverEnter}
+            onMouseEnter={handleHoverEnter}
             onClick={() => switchScene(-1)} // Trigger previous scene
           >
             ⥒
@@ -539,13 +556,13 @@ const AbtCanvas = () => {
           <span
             id='ctrlBtn'
             className={"canvNext"}
-           onMouseEnter={handleHoverEnter}
+            onMouseEnter={handleHoverEnter}
             onClick={() => switchScene(1)} // Trigger next scene
           >
             ⥓
           </span>
         </div>
-        {React.createElement(activeScene.component)}
+        <div style={{ width: "100%", height: "100%", touchAction: "none" }}>{React.createElement(activeScene.component)}</div>
       </div>
       <div className='sceneInfo' data-hidden>
         <div className='sceneInfoTitle'>

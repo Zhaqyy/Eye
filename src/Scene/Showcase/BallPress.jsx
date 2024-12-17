@@ -149,7 +149,6 @@ const BallPress = () => {
   };
 
   return (
-    <div id='grid' style={{ width: "100%", height: "100%", touchAction: 'none' }}>
       <Canvas>
         <color attach='background' args={["#606060"]} />
         <OrthographicCamera makeDefault zoom={40} position={[10, 90, 20]} />
@@ -166,7 +165,6 @@ const BallPress = () => {
         <DynamicGrid />
         <OrbitControls enabled={false} enableZoom={false} enablePan={false} enableRotate={false} />
       </Canvas>
-    </div>
   );
 };
 export default BallPress;
