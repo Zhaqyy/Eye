@@ -62,7 +62,7 @@ export const Ribs = () => {
             <group
               key={index}
               position={[-8.5, Math.random() * 8 - 4, isMobile ? -4 : 0]}
-              rotation={[(Math.PI / Math.random()) * 1 - 0.5, 0, -Math.PI / 2]}
+              rotation={[(Math.PI / Math.random()) * 1, 0, -Math.PI / 2]}
             >
               <Model key={index} />
             </group>

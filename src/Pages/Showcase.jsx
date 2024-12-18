@@ -5,8 +5,8 @@ import Ribbons from "../Scene/Showcase/Ribbons";
 const Showcase = () => {
   return (
     <div id='show' style={{ width: "100%", height: "100vh", touchAction: "none" }}>
-      {/* <Piano /> */}
-      <Ribbons/>
+      <Piano />
+      {/* <Ribbons/> */}
     </div>
   );
 };

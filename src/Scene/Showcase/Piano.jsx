@@ -42,13 +42,13 @@ export function Model(props) {
 
   // Sound setup
   const sounds = {
-    C: new Howl({ src: ["/Sounds/click.mp3"] }),
-    D: new Howl({ src: ["/Sounds/click.mp3"] }),
-    E: new Howl({ src: ["/Sounds/click.mp3"] }),
-    F: new Howl({ src: ["/Sounds/click.mp3"] }),
-    G: new Howl({ src: ["/Sounds/click.mp3"] }),
-    ZA: new Howl({ src: ["/Sounds/click.mp3"] }),
-    ZB: new Howl({ src: ["/Sounds/click.mp3"] }),
+    C: new Howl({ src: ["/Sounds/Piano/Cdo.mp3"] }),
+    D: new Howl({ src: ["/Sounds/Piano/Dre.mp3"] }),
+    E: new Howl({ src: ["/Sounds/Piano/Emi.mp3"] }),
+    F: new Howl({ src: ["/Sounds/Piano/Ffa.mp3"] }),
+    G: new Howl({ src: ["/Sounds/Piano/Gsol.mp3"] }),
+    ZA: new Howl({ src: ["/Sounds/Piano/Ala.mp3"] }),
+    ZB: new Howl({ src: ["/Sounds/Piano/B.mp3"] }),
   };
 
   const keyNames = ["C", "D", "E", "F", "G", "ZA", "ZB"]; // List of key meshes
@@ -56,7 +56,9 @@ export function Model(props) {
   const handleKeyPress = (event) => {
     const keyMap = { 1: "C", 2: "D", 3: "E", 4: "F", 5: "G", 6: "ZA", 7: "ZB" };
     const keyName = keyMap[event.key];
-    if (keyName) playNote(keyName);
+  setTimeout(() => {
+      if (keyName) playNote(keyName);
+  }, 500);
   };
 
   useEffect(() => {
