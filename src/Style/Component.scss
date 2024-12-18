@@ -143,7 +143,6 @@
 
 // Loader
 .loader {
-
   height: 100%;
   width: 100%;
 
@@ -162,7 +161,7 @@
     position: fixed;
     inset: 0;
     overflow: hidden;
-    
+
     // horizontal
     // clip-path: polygon(50% 0%,0% 0%,0% 100%,50% 100%,50% 0%,100% 0%,100% 100%,50% 100%);
 
@@ -198,7 +197,6 @@
       rotate: 90deg;
       opacity: 0;
     }
-
   }
 
   &ProgressNumber {
@@ -212,12 +210,11 @@
     font-size: clamp(4rem, 5.333vw + 0.333rem, 7.5rem);
     text-align: center;
     width: 100%;
-    clip-path: polygon(50% 0%,0% 0%,0% 100%,50% 100%,50% 0%,100% 0%,100% 100%,50% 100%);
+    clip-path: polygon(50% 0%, 0% 0%, 0% 100%, 50% 100%, 50% 0%, 100% 0%, 100% 100%, 50% 100%);
   }
-
 }
 @media (width <= 800px) {
-  .loaderText{
+  .loaderText {
     svg {
       max-width: 50%;
       rotate: 0deg;
@@ -225,15 +222,13 @@
   }
 }
 @media (width <= 500px) {
-  .loaderText{
+  .loaderText {
     padding: 0;
-
   }
-  .loaderProgressNumber{
+  .loaderProgressNumber {
     font-size: clamp(2.5rem, 5.333vw + 0.333rem, 3.5rem);
   }
 }
-
 
 //Sound Button
 
@@ -254,6 +249,59 @@
       width: 50%;
       height: 50%;
       vertical-align: middle;
+    }
+  }
+}
+
+//Showcase style
+
+//contactcard
+.contactCard {
+  width: 70vw;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 24px;
+  // translate: -50% -50%;
+  aspect-ratio: 2/1;
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+  align-items: center;
+  color: black;
+
+  .contCanv {
+    width: 50%;
+    height: 100%;
+    text-transform: uppercase;
+  }
+  .contDetail {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+
+    .header {
+      all: unset;
+    }
+    .radialMenu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .menu {
+        width: 200px;
+        height: 100px;
+        border-radius: 50%;
+        border: none;
+
+        .menu-item {
+          opacity: 1;
+          display: unset;
+        }
+      }
     }
   }
 }
