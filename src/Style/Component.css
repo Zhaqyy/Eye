@@ -100,6 +100,15 @@
 .header .menu .menu-item:nth-child(3) {
   transform: rotate(-90deg) skewY(30deg);
 }
+.header .menu .menu-item:nth-child(4) {
+  transform: rotate(-30deg) skewY(30deg);
+}
+.header .menu .menu-item:nth-child(5) {
+  transform: rotate(30deg) skewY(30deg);
+}
+.header .menu .menu-item:nth-child(6) {
+  transform: rotate(90deg) skewY(30deg);
+}
 .header .menu .menu-item > div {
   width: 200%;
   height: 200%;
@@ -232,7 +241,7 @@
 
 .contactCard {
   width: 70vw;
-  background-color: white;
+  background-color: #d8d8d8;
   padding: 2rem;
   border-radius: 24px;
   aspect-ratio: 2/1;
@@ -247,14 +256,21 @@
   height: 100%;
   text-transform: uppercase;
 }
+.contactCard .contCanv .luxo {
+  width: 100%;
+  height: 100%;
+}
 .contactCard .contDetail {
   width: 50%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   text-transform: uppercase;
+}
+.contactCard .contDetail h2 {
+  font-size: clamp(1.5rem, 5.333vw + 0.333rem, 2.5rem);
 }
 .contactCard .contDetail .header {
   all: unset;
@@ -263,10 +279,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: auto;
 }
 .contactCard .contDetail .radialMenu .menu {
-  width: 200px;
-  height: 100px;
+  width: 150px;
+  height: 75px;
   border-radius: 50%;
   border: none;
 }
