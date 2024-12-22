@@ -267,7 +267,7 @@
 //contactcard
 .contactCard {
   width: 70vw;
-  background-color: #d8d8d8;
+  background-color: #ececec;
   padding: 2rem;
   border-radius: 24px;
   // translate: -50% -50%;
@@ -283,9 +283,12 @@
     height: 100%;
     text-transform: uppercase;
 
-    .luxo{
+    // & svg *{
+    //   fill: #867899;
+    // }
+    .luxo {
       width: 100%;
-    height: 100%;
+      height: 100%;
     }
   }
   .contDetail {
@@ -320,12 +323,21 @@
           opacity: 1;
           display: unset;
 
-          // & > div {
-          //   transition: all 0.5s ease;
-          //   &:hover {
-          //     background-image: radial-gradient(75% 75% at 50% 50%, rgba(255, 255, 255, 0) 50%, rgba(248, 156, 156, 0.5) 100%);
-          //   }
-          // }
+          & > div {
+            transition: all 0.5s ease;
+            & > * {
+              transform: scale(0.15);
+              padding: 0rem;
+              margin: -3rem;
+              transition: all 0.5s ease;
+            }
+            // &:hover {
+            //   // background-image: radial-gradient(75% 75% at 50% 50%, rgba(255, 255, 255, 0) 50%, rgba(248, 156, 156, 0.5) 100%);
+            //   & > * {
+            //     // transform: scale(0.7);
+            //   }
+            // }
+          }
         }
       }
     }

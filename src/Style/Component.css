@@ -241,7 +241,7 @@
 
 .contactCard {
   width: 70vw;
-  background-color: #d8d8d8;
+  background-color: #ececec;
   padding: 2rem;
   border-radius: 24px;
   aspect-ratio: 2/1;
@@ -290,4 +290,13 @@
 .contactCard .contDetail .radialMenu .menu .menu-item {
   opacity: 1;
   display: unset;
+}
+.contactCard .contDetail .radialMenu .menu .menu-item > div {
+  transition: all 0.5s ease;
+}
+.contactCard .contDetail .radialMenu .menu .menu-item > div > * {
+  transform: scale(0.15);
+  padding: 0rem;
+  margin: -3rem;
+  transition: all 0.5s ease;
 }/*# sourceMappingURL=Component.css.map */

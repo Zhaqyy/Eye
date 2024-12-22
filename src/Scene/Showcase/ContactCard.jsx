@@ -1,4 +1,4 @@
-import { Center, Html, OrbitControls, Text, View, useTexture } from "@react-three/drei";
+import { Center, Grid, Html, OrbitControls, Text, View, useTexture } from "@react-three/drei";
 import { Canvas, extend, useFrame } from "@react-three/fiber";
 import React, { useRef } from "react";
 import * as THREE from "three";
@@ -8,21 +8,34 @@ import Lottie from "lottie-react";
 import gsap from "gsap";
 import "../../Style/Component.css";
 import luxo from "../../Component/Lottie/luxo.json";
+import { Icon } from "../../Component/icon";
+import { Link } from "react-router-dom";
 
 const ContactCard = () => {
   const lottieRef = useRef();
   return (
-    <Canvas
-      camera={{ position: [0, 0, 15] }}
-      // eventSource={document.getElementById('show')}
-    >
+    <Canvas camera={{ position: [0, 0, 15] }}>
+      {/* <color attach="background" args={['#867899']} /> */}
       <ambientLight intensity={1} />
       <Perf
         position='top-right'
         // minimal={true}
       />
-      {/* <View.Port /> */}
       <Rig />
+      <Grid
+        position={[0, -9, -1]}
+        rotation={[Math.PI / 2.5, 0, 0]}
+        args={[10, 10]}
+        cellColor='#B6D6F6'
+        sectionColor='#867899'
+        sectionSize={2.5}
+        cellSize={0.5}
+        sectionThickness={2}
+        cellThickness={1}
+        infiniteGrid
+        fadeDistance={35}
+        fadeStrength={1}
+      />
       <Banner scale={[9, 3, 3]} position={[0, -3, 0]} rotation={[Math.PI * 0.15, 0, 0]} />
       <Html center position={[0, 0, 0]} transform occlude='blending'>
         <section className='contactCard'>
@@ -32,27 +45,48 @@ const ContactCard = () => {
           <div className='contDetail'>
             <h2>You can find me Here!</h2>
             <div className='header radialMenu'>
-              <ul
-                className='menu'
-                // ref={navRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover} onMouseLeave={handleHeaderLeave}
-              >
+              <ul className='menu'>
                 <li className='menu-item'>
-                  <div>1</div>
+                  <div>
+                    <a href={"https://codepen.io/zhaqyy"} target='_blank' rel='noopener noreferrer'>
+                      <Icon name={"codepen"} />
+                    </a>
+                  </div>
                 </li>
                 <li className='menu-item'>
-                  <div>1</div>
+                  <div>
+                    <a href={"/"} target='_blank' rel='noopener noreferrer'>
+                      <Icon name={"site"} />
+                    </a>
+                  </div>
                 </li>
                 <li className='menu-item'>
-                  <div>1</div>
+                  <div>
+                    <a href={"https://x.com/Zharqyy"} target='_blank' rel='noopener noreferrer'>
+                      <Icon name={"twitter"} />
+                    </a>
+                  </div>
                 </li>
                 <li className='menu-item'>
-                  <div>1</div>
+                  <div>
+                    <a href={"https://github.com/Zhaqyy"} target='_blank' rel='noopener noreferrer'>
+                      <Icon name={"github"} />
+                    </a>
+                  </div>
                 </li>
                 <li className='menu-item'>
-                  <div>1</div>
+                  <div>
+                    <a href={"mailto:zaqrashyy7@gmail.com"} target='_blank' rel='noopener noreferrer'>
+                      <Icon name={"email"} />
+                    </a>
+                  </div>
                 </li>
                 <li className='menu-item'>
-                  <div>1</div>
+                  <div>
+                    <a href={"https://www.linkedin.com/in/abdulrazaq-shuaib-72a827263"} target='_blank' rel='noopener noreferrer'>
+                      <Icon name={"linkedin"} />
+                    </a>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -72,7 +106,7 @@ function Rig(props) {
   useFrame((state, delta) => {
     // ref.current.rotation.y = (Math.PI * 2) // Rotate contents
     state.events.update(); // Raycasts every frame rather than on pointer-move
-    easing.damp3(state.camera.position, [-state.pointer.x * 0.5, state.pointer.y + 1, 15], 0.95, delta); // Move camera
+    easing.damp3(state.camera.position, [-state.pointer.x * 0.35, state.pointer.y + 0.5, 15], 0.95, delta); // Move camera
     state.camera.lookAt(0, 0, 0); // Look at center
   });
   return <group ref={ref} {...props} />;
@@ -89,7 +123,14 @@ function Banner(props) {
   return (
     <mesh ref={ref} {...props}>
       <cylinderGeometry args={[1.6, 1.6, 0.35, 128, 16, true]} />
-      <meshSineMaterial map={texture} map-anisotropy={16} map-repeat={[10, 1]} side={THREE.DoubleSide} toneMapped={false} />
+      <meshSineMaterial
+        map={texture}
+        map-anisotropy={16}
+        map-repeat={[10, 1]}
+        color={"#B6D6F6"}
+        side={THREE.DoubleSide}
+        toneMapped={false}
+      />
     </mesh>
   );
 }
