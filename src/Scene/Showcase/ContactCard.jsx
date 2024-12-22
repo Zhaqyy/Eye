@@ -3,24 +3,21 @@ import { Canvas, extend, useFrame } from "@react-three/fiber";
 import React, { useRef } from "react";
 import * as THREE from "three";
 import { easing } from "maath";
-import { Perf } from "r3f-perf";
 import Lottie from "lottie-react";
-import gsap from "gsap";
 import "../../Style/Component.css";
 import luxo from "../../Component/Lottie/luxo.json";
 import { Icon } from "../../Component/icon";
-import { Link } from "react-router-dom";
+import useIsMobile from "../../Component/isMobile";
 
 const ContactCard = () => {
   const lottieRef = useRef();
+  const isMobile = useIsMobile(1000);
+  const isSMobile = useIsMobile(800);
+
   return (
-    <Canvas camera={{ position: [0, 0, 15] }}>
+    <Canvas camera={{ position: [0, 0, isMobile ? 10 : 22], fov: 75 }}>
       {/* <color attach="background" args={['#867899']} /> */}
       <ambientLight intensity={1} />
-      <Perf
-        position='top-right'
-        // minimal={true}
-      />
       <Rig />
       <Grid
         position={[0, -9, -1]}
@@ -36,8 +33,8 @@ const ContactCard = () => {
         fadeDistance={35}
         fadeStrength={1}
       />
-      <Banner scale={[9, 3, 3]} position={[0, -3, 0]} rotation={[Math.PI * 0.15, 0, 0]} />
-      <Html center position={[0, 0, 0]} transform occlude='blending'>
+      <Banner scale={isSMobile ? [10, 3, 3] : isMobile ? [8, 3, 3] : [15, 5, 5]} position={[0, -3, 0]} rotation={[Math.PI * 0.15, 0, 0]} />
+      <Html position={[0, 0, 0]} distanceFactor={isSMobile ? 15 : null} transform occlude='blending'>
         <section className='contactCard'>
           <div className='contCanv'>
             <Lottie lottieRef={lottieRef} animationData={luxo} />
@@ -114,7 +111,7 @@ function Rig(props) {
 
 function Banner(props) {
   const ref = useRef();
-  const texture = useTexture("/Texture/text.png");
+  const texture = useTexture("/Texture/cont.png");
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
   useFrame((state, delta) => {
     ref.current.material.time.value += 0.005;
@@ -126,7 +123,7 @@ function Banner(props) {
       <meshSineMaterial
         map={texture}
         map-anisotropy={16}
-        map-repeat={[10, 1]}
+        map-repeat={[30, 1]}
         color={"#B6D6F6"}
         side={THREE.DoubleSide}
         toneMapped={false}

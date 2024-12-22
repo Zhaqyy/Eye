@@ -9,6 +9,7 @@ import useIsMobile from "../Component/isMobile";
 import { animateAbtCanvas, animateAbtElements } from "../Component/PageAnimations";
 import BallPress from "../Scene/Showcase/BallPress";
 import Ribbons from "../Scene/Showcase/Ribbons";
+import ContactCard from "../Scene/Showcase/ContactCard";
 
 const data = [
   {
@@ -17,7 +18,7 @@ const data = [
       <ul>
         <li>Web Development</li>
         <li>3D Web Experiences</li>
-        <li>UI/Design Protopying</li>
+        <li>UI/Design Prototyping</li>
         <li>Creative Consulting</li>
       </ul>
     ),
@@ -367,6 +368,14 @@ const scenesData = [
       "A vibrant scene of colorful ribbons that dance to your touch. It’s like petting digital spaghetti or like a group of acrobatic tapeworms at a rave - oddly satisfying, endlessly mesmerizing, and completely calorie-free if you enjoy eating tapeworms.",
     component: Ribbons,
     type: "3D Experiences / Interaction",
+    mobile: true,
+  },
+  {
+    name: "Contact Card",
+    description:
+      "A contact card with an unorthodox radial menu and a 3D WebGL banner. It’s an scene that says, ‘Call me, You Peasant!.’ It’s a prototype designed to make ordinary contact sections feel insecure.",
+    component: ContactCard,
+    type: "UI+WebGL Prototypes",
     mobile: true,
   },
   {
