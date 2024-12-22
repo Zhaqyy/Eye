@@ -376,7 +376,7 @@ const scenesData = [
       "A contact card with an unorthodox radial menu and a 3D WebGL banner. It’s an scene that says, ‘Call me, You Peasant!.’ It’s a prototype designed to make ordinary contact sections feel insecure.",
     component: ContactCard,
     type: "UI+WebGL Prototypes",
-    mobile: true,
+    mobile: false,
   },
   {
     name: "Griddy",
