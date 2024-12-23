@@ -102,7 +102,7 @@ function Rig(props) {
   const isMobile = useIsMobile(1000);
   useFrame((state, delta) => {
     state.events.update(); // Raycasts every frame rather than on pointer-move
-    easing.damp3(state.camera.position, [-state.pointer.x * 0.35, state.pointer.y + 0.5, isMobile ? 15 : 25], 0.95, delta); // Move camera
+    easing.damp3(state.camera.position, [-state.pointer.x * 0.35, state.pointer.y + 0.5, isMobile ? 18 : 25], 0.95, delta); // Move camera
     state.camera.lookAt(0, 0, 0); // Look at center
   });
   return <group ref={ref} {...props} />;
