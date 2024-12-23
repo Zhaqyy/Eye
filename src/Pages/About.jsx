@@ -10,6 +10,7 @@ import { animateAbtCanvas, animateAbtElements } from "../Component/PageAnimation
 import BallPress from "../Scene/Showcase/BallPress";
 import Ribbons from "../Scene/Showcase/Ribbons";
 import ContactCard from "../Scene/Showcase/ContactCard";
+import InfinityWall from "../Scene/Showcase/InfinityWall";
 
 const data = [
   {
@@ -376,7 +377,15 @@ const scenesData = [
       "A contact card with an unorthodox radial menu and a 3D WebGL banner. It’s an scene that says, ‘Call me, You Peasant!.’ It’s a prototype designed to make ordinary contact sections feel insecure.",
     component: ContactCard,
     type: "UI+WebGL Prototypes",
-    mobile: false,
+    mobile: true,
+  },
+  {
+    name: "Infinity Wall",
+    description:
+      "Be mesmerized and mildly hypnotized; no? alright then... This WebGL experiment proves that words truly have no end. Warning: prolonged staring may result in temporary unstable vision.",
+    component: InfinityWall,
+    type: "WebGL Experiments",
+    mobile: true,
   },
   {
     name: "Griddy",
