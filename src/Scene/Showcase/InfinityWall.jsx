@@ -10,7 +10,7 @@ const InfinityWall = () => {
       <ambientLight intensity={1} />
       <fog attach='fog' args={["#050505", 25, 35]} />
       <Planes />
-      <OrbitControls />
+      {/* <OrbitControls /> */}
     </Canvas>
   );
 };
