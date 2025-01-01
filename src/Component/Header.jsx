@@ -186,7 +186,7 @@ const Header = () => {
       <ul id='header' className='menu' ref={navRef} onClick={toggleMenu} onMouseEnter={handleHeaderHover} onMouseLeave={handleHeaderLeave}>
         <li className='menu-item'>
           <div>
-            <Link to={"/Project/1"}>Lab</Link>
+            <Link to={"/Project/1"}>Project</Link>
           </div>
         </li>
         <li className='menu-item'>

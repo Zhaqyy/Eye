@@ -3,6 +3,8 @@ import Piano from "../Scene/Showcase/Piano";
 import Ribbons from "../Scene/Showcase/Ribbons";
 import ContactCard from "../Scene/Showcase/ContactCard";
 import InfinityWall from "../Scene/Showcase/InfinityWall";
+import SocialCard from "../Scene/Showcase/SocialCard";
+import Smiley from "../Scene/Showcase/Smiley";
 
 const Showcase = () => {
   return (
@@ -10,7 +12,9 @@ const Showcase = () => {
       {/* <Piano /> */}
       {/* <Ribbons/> */}
       {/* <ContactCard /> */}
-      <InfinityWall/>
+      {/* <InfinityWall/> */}
+      {/* <SocialCard/> */}
+      <Smiley/>
     </div>
   );
 };
