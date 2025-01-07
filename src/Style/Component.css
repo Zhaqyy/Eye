@@ -166,6 +166,7 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
+  display: none;
   background: var(--accent);
   z-index: 1000;
 }

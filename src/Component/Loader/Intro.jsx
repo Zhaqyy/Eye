@@ -6,7 +6,6 @@ import useIsMobile from "../isMobile";
 
 const Intro = ({ timeline, onComplete }) => {
   const loaderRef = useRef(null);
-  const glowRef = useRef(null);
   const eyeRef = useRef(null);
   const progressNumberRef = useRef(null);
   const isMobile = useIsMobile(800);
@@ -15,7 +14,7 @@ const Intro = ({ timeline, onComplete }) => {
   useEffect(() => {
     const context = gsap.context(() => {
       if (timeline) {
-        timeline.add(progressAnimation(loaderRef, glowRef, progressNumberRef, eyeRef, onComplete,isMobile), 0);
+        timeline.add(progressAnimation(loaderRef, progressNumberRef, eyeRef, onComplete,isMobile), 0);
       }
     }, loaderRef);
 
@@ -36,13 +35,12 @@ const Intro = ({ timeline, onComplete }) => {
 
 export default Intro;
 
-export const progressAnimation = (loaderRef, glowRef, progressNumberRef, eyeRef, onComplete, isMobile) => {
+export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComplete, isMobile) => {
   const tl = gsap.timeline();
  
-  gsap.set([progressNumberRef.current, glowRef.current, loaderRef.current, eyeRef.current], {
+  gsap.set([progressNumberRef.current, loaderRef.current, eyeRef.current], {
     display: "block",
   });
-
   tl.set("#dot1", { y: "200%", x: "100%", transformOrigin: "center" }).set("#dot2", { y: "-200%", x: "-100%", transformOrigin: "center" });
   tl.set("#bow1", { y: "-270%", transformOrigin: "center" }).set("#bow2", { y: "270%", transformOrigin: "center" });
 
@@ -120,17 +118,21 @@ export const progressAnimation = (loaderRef, glowRef, progressNumberRef, eyeRef,
         mask: "radial-gradient(150vw,#0000 100%,#000) 0 0",
         duration: 1,
         ease: "sine.in",
-        onComplete: () => {
-          gsap.set(loaderRef.current, {
-            display: "none",
-          });
-          gsap.set(eyeRef.current, {
-            display: "none",
-          });
-        },
+        // onComplete: () => {
+          
+        // },
       },
       "+=0.5"
-    );
+    )
+    tl.set(loaderRef.current, {
+      display: "none",
+    });
+    tl.set(progressNumberRef.current, {
+      display: "none",
+    });
+    tl.set(eyeRef.current, {
+      display: "none",
+    });
 
   return tl;
 };

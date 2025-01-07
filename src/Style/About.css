@@ -251,6 +251,9 @@
   font-size: 1rem;
   line-height: 1;
 }
+.abtCanvas .sceneInfo h6 {
+  margin-bottom: 3px;
+}
 .abtCanvas .sceneInfo .sceneInfoTitle {
   display: flex;
   flex-direction: column;

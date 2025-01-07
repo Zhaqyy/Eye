@@ -62,7 +62,7 @@ const Smiley = ({ size = 150 }) => {
       z: 10,
       rotateX: xAngle,
       rotateY: yAngle,
-      duration: 0.3,
+      duration: 0.5,
       ease: "power3.out",
     });
   };
