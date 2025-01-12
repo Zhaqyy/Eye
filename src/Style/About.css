@@ -14,7 +14,7 @@
   background-position: center;
   background-size: 25px 25px;
   -webkit-mask-image: radial-gradient(70% 100%, #151520 70%, transparent 90%);
-          mask-image: radial-gradient(70% 100%, #151520 70%, transparent 90%);
+  mask-image: radial-gradient(70% 100%, #151520 70%, transparent 90%);
 }
 
 .abtInfo {
@@ -34,12 +34,14 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+  width: -webkit-min-content;
   width: -moz-min-content;
   width: min-content;
   -moz-column-gap: 2rem;
-       column-gap: 2rem;
+  column-gap: 2rem;
 }
 .abtInfo .abtTitle h1 {
+  width: -webkit-min-content;
   width: -moz-min-content;
   width: min-content;
   font-size: clamp(4rem, 5.333vw + 0.333rem, 4.5rem);
@@ -47,6 +49,7 @@
   font-weight: 900;
 }
 .abtInfo .abtTitle h5 {
+  max-width: -webkit-min-content;
   max-width: -moz-min-content;
   max-width: min-content;
   text-transform: uppercase;
@@ -83,7 +86,10 @@
   width: 300px;
 }
 .abtInfo .infoSlider .slide.active .title {
+  -webkit-writing-mode: horizontal-tb;
+  -ms-writing-mode: lr-tb;
   writing-mode: horizontal-tb;
+  -webkit-text-orientation: initial;
   text-orientation: initial;
   letter-spacing: 0;
 }
@@ -114,7 +120,10 @@
   line-height: 1;
 }
 .abtInfo .infoSlider .slide .title {
+  -webkit-writing-mode: vertical-rl;
+  -ms-writing-mode: tb-rl;
   writing-mode: vertical-rl;
+  -webkit-text-orientation: upright;
   text-orientation: upright;
   text-transform: uppercase;
   letter-spacing: -5px;
@@ -156,6 +165,7 @@
   gap: 1.25rem;
 }
 .abtCanvas .type {
+  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   position: absolute;
@@ -176,6 +186,7 @@
   gap: 0.3rem;
 }
 .abtCanvas .type span {
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   display: block;
@@ -204,6 +215,7 @@
   position: relative;
 }
 .abtCanvas .canv .canvIcon {
+  height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
   position: absolute;
@@ -225,6 +237,7 @@
   border: 1px solid var(--border);
   border-radius: calc(var(--bRadius) * 4);
   background-color: white;
+  font-weight: bolder;
   vertical-align: middle;
   line-height: 1;
 }
@@ -278,7 +291,7 @@
     padding-block: 10vh;
     background: none;
     -webkit-mask-image: none;
-            mask-image: none;
+    mask-image: none;
     gap: 10vh;
   }
   .abt .abtInfo .abtHeader {
@@ -335,7 +348,10 @@
   }
   .abt .abtInfo .infoSlider .slide .title {
     letter-spacing: 0px;
+    -webkit-text-orientation: initial;
     text-orientation: initial;
+    -webkit-writing-mode: horizontal-tb;
+    -ms-writing-mode: lr-tb;
     writing-mode: horizontal-tb;
     width: 100%;
     text-align: center;

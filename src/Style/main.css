@@ -7,7 +7,8 @@ html.lenis, html.lenis body {
   }
   
   .lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
+    -ms-scroll-chaining: none;
+        overscroll-behavior: contain;
   }
   
   .lenis.lenis-stopped {

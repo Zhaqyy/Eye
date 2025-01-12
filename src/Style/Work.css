@@ -18,6 +18,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 5vh;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
 }
@@ -111,7 +112,7 @@
   transform-origin: right;
   transition: all 0.25s ease;
   -webkit-backdrop-filter: invert(1);
-          backdrop-filter: invert(1);
+  backdrop-filter: invert(1);
   position: absolute;
   left: 100%;
   z-index: 1;
@@ -138,6 +139,7 @@
   background: white;
   scale: 1;
   opacity: 1;
+  -webkit-animation: eye 5s linear(0 0%, 0 1.8%, 0.01 3.6%, 0.03 6.35%, 0.07 9.1%, 0.13 11.4%, 0.19 13.4%, 0.27 15%, 0.34 16.1%, 0.54 18.35%, 0.66 20.6%, 0.72 22.4%, 0.77 24.6%, 0.81 27.3%, 0.85 30.4%, 0.88 35.1%, 0.92 40.6%, 0.94 47.2%, 0.96 55%, 0.98 64%, 0.99 74.4%, 1 86.4%, 1 100%) forwards infinite alternate;
   animation: eye 5s linear(0 0%, 0 1.8%, 0.01 3.6%, 0.03 6.35%, 0.07 9.1%, 0.13 11.4%, 0.19 13.4%, 0.27 15%, 0.34 16.1%, 0.54 18.35%, 0.66 20.6%, 0.72 22.4%, 0.77 24.6%, 0.81 27.3%, 0.85 30.4%, 0.88 35.1%, 0.92 40.6%, 0.94 47.2%, 0.96 55%, 0.98 64%, 0.99 74.4%, 1 86.4%, 1 100%) forwards infinite alternate;
   animation-composition: accumulate;
 }
@@ -155,6 +157,26 @@
   color: var(--secAccent);
 }
 
+@-webkit-keyframes eye {
+  0% {
+    transform: translate(0px, 0px) rotate3d(1, 1, 0, 0deg);
+  }
+  20% {
+    transform: translate(-2px, -2px) rotate3d(-1, 1, 0, -35deg);
+  }
+  40% {
+    transform: translate(2px, -2px) rotate3d(1, 1, 0, 35deg);
+  }
+  60% {
+    transform: translate(-2px, 2px) rotate3d(-1, -1, 0, -35deg);
+  }
+  80% {
+    transform: translate(2px, 2px) rotate3d(-1, 1, 0, 35deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate3d(1, 1, 0, 0deg);
+  }
+}
 @keyframes eye {
   0% {
     transform: translate(0px, 0px) rotate3d(1, 1, 0, 0deg);
@@ -210,11 +232,12 @@
   position: relative;
   border-radius: var(--bRadius);
   -o-object-fit: scale-down;
-     object-fit: scale-down;
+  object-fit: scale-down;
   transition: transform 1s ease-out;
   transform-origin: center;
   height: auto;
   aspect-ratio: 16/9;
+  -webkit-filter: blur(2px);
   filter: blur(2px);
 }
 

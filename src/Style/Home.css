@@ -30,6 +30,7 @@ body,
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   scrollbar-width: none;
 }
@@ -131,6 +132,7 @@ h2 {
 .hero .main-hero .project li p {
   opacity: 0.7;
   transition: all 0.5s ease;
+  width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   pointer-events: all;
@@ -222,6 +224,7 @@ h2 {
     min-width: auto;
     flex-direction: row;
     width: 100%;
+    height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
     padding-block: 10vh;
@@ -271,6 +274,7 @@ h2 {
 }
 @media (width <= 550px) {
   .hero .main-hero .detail h5 {
+    width: -webkit-min-content;
     width: -moz-min-content;
     width: min-content;
   }
