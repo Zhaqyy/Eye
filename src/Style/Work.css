@@ -269,28 +269,63 @@
 .next .dragBounds {
   height: 50px;
   width: 100%;
-  max-width: 400px;
+  max-width: 350px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding-inline: 0.25rem;
-  background-color: rgb(175, 175, 175);
+  background-color: rgba(241, 204, 186, 0.3098039216);
   border-radius: var(--bRadius);
   transition: all 0.5s ease;
 }
 .next .dragBounds:hover {
-  box-shadow: inset 0px 10px 10px rgba(162, 162, 162, 0.8);
+  background: rgba(241, 204, 186, 0.7019607843);
+  box-shadow: inset 8px 8px 16px #debcab, inset -8px -8px 16px #ffdcc9;
+  cursor: pointer;
+}
+.next .dragBounds:hover .drag {
+  box-shadow: 0px 0px 8px 2px rgba(255, 184, 149, 0.5);
+}
+.next .dragBounds .placeholder {
+  opacity: 0.5;
+  -webkit-mask-image: none;
+  mask-image: none;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transition: -webkit-mask-image 0.2s, mask-image 0.2s;
 }
 .next .dragBounds .drag {
   height: 40px;
   width: 65px;
+  position: relative;
   background-color: whitesmoke;
   border-radius: var(--bRadius);
+  transition: box-shadow 0.5s ease;
+}
+.next .dragBounds .drag:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: 20%;
+  height: 60%;
+  background-image: radial-gradient(var(--accent) 1px, transparent 0px);
+  background-repeat: repeat;
+  background-size: 5px 5px;
+  background-position: center;
+  border-radius: inherit;
 }
 .next .dragBounds .hit {
   width: 65px;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-inline: 10px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 .next .nextProjImg {
   height: 100%;

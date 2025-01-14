@@ -145,7 +145,7 @@
 
         -webkit-backdrop-filter: invert(1);
 
-                backdrop-filter: invert(1);
+        backdrop-filter: invert(1);
         position: absolute;
         left: 100%;
         z-index: 1;
@@ -202,7 +202,7 @@
                 1 100%
               )
               forwards infinite alternate;
-                    animation: eye 5s
+            animation: eye 5s
               linear(
                 0 0%,
                 0 1.8%,
@@ -243,7 +243,6 @@
         border: 2px solid var(--border);
         border-radius: var(--bRadius);
         transition: all 0.5s ease-in-out;
-        
       }
       &:hover {
         color: var(--secAccent);
@@ -372,14 +371,14 @@
   // left: 0;
   border-radius: var(--bRadius);
   -o-object-fit: scale-down;
-     object-fit: scale-down;
+  object-fit: scale-down;
   transition: transform 1s ease-out;
   // scroll-snap-align: center;
   transform-origin: center;
   height: auto;
   aspect-ratio: 16 / 9;
   -webkit-filter: blur(2px);
-          filter: blur(2px);
+  filter: blur(2px);
 }
 
 .next {
@@ -411,28 +410,63 @@
   .dragBounds {
     height: 50px;
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding-inline: 0.25rem;
-    background-color: rgb(175, 175, 175);
+    background-color: #f1ccba4f;
     border-radius: var(--bRadius);
     transition: all 0.5s ease;
     &:hover {
-      box-shadow: inset 0px 10px 10px rgb(162 162 162 / 80%);
+      // box-shadow: inset 0px 10px 10px #f1ccba94;
+      background: #f1ccbab3;
+      box-shadow: inset 8px 8px 16px #debcab, inset -8px -8px 16px #ffdcc9;
+      cursor: pointer;
+      .drag {
+        box-shadow: 0px 0px 8px 2px rgb(255 184 149 / 50%);
+      }
+    }
+    .placeholder {
+      opacity: 0.5;
+      -webkit-mask-image: none;
+      mask-image: none;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      transition: -webkit-mask-image 0.2s, mask-image 0.2s;
     }
     .drag {
       height: 40px;
       width: 65px;
+      position: relative;
       background-color: whitesmoke;
       border-radius: var(--bRadius);
-      // border: red 1px solid;
+      transition: box-shadow 0.5s ease;
+      &:after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        translate: -50% -50%;
+        width: 20%;
+        height: 60%;
+        background-image: radial-gradient(var(--accent) 1px, transparent 0px);
+        background-repeat: repeat;
+        background-size: 5px 5px;
+        background-position: center;
+        border-radius: inherit;
+    }
     }
     .hit {
       width: 65px;
       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-inline: 10px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
     }
   }
 

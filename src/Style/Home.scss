@@ -56,6 +56,7 @@ body,
   -ms-user-select: none;
   user-select: none;
   // overflow: hidden;
+  cursor: default;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none; /* Safari and Chrome */

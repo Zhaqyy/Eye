@@ -25,6 +25,7 @@ const Work = () => {
   const drag = useRef(null);
   const hit = useRef(null);
   const dragBounds = useRef(null);
+  const textRef = useRef(null);
 
   const navigate = useNavigate(); // To handle routing
 
@@ -58,6 +59,7 @@ const Work = () => {
 
   useGSAP(
     () => {
+      const textElement = textRef.current;
       if (!containerRef.current || !drag.current || !hit.current || !workRef.current) {
         return;
       }
@@ -152,15 +154,31 @@ const Work = () => {
           // inertia: true,
           snap: {
             x: endX => {
-              if (this.hitTest(hit.current, "50%")) {
+              if (this.hitTest(hit.current, "0%")) {
                 // Snap to the hit element's X position
                 return gsap.getProperty(hit.current, "x");
               }
               return endX; // Otherwise, snap back to original position
             },
           },
+          onDrag: function () {
+            // Calculate the percentage of drag completion
+            const progress = this.x / this.maxX + 0.2;
+            console.log(progress);
+            // Update the mask gradient dynamically
+            const gradientPosition = Math.min(100, progress * 100); // Clamp to 100%
+            textElement.style.maskImage = `linear-gradient(to right, transparent ${gradientPosition}%, black ${gradientPosition + 10}%)`;
+            textElement.style.webkitMaskImage = `linear-gradient(to right, transparent ${gradientPosition}%, black ${
+              gradientPosition + 10
+            }%)`;
+            if (progress > 0.9) {
+              hit.current.style.opacity = 1;
+            } else {
+              hit.current.style.opacity = 0;
+            }
+          },
           onDragEnd: function () {
-            if (this.hitTest(hit.current, "50%")) {
+            if (this.hitTest(hit.current, "0%")) {
               // Trigger routing if hit test is successful
               // navigate(`/Project/${nextProject.id}`);
               dragToRouteTransition();
@@ -174,13 +192,19 @@ const Work = () => {
                 scale: 1,
                 ease: "elastic.out(.45)",
               });
+              textElement.style.maskImage = `none`;
+              textElement.style.webkitMaskImage = `none`;
+
+              hit.current.style.opacity = 0;
             }
           },
           onPress: () => {
             gsap.to(drag.current, { duration: 0.1, scale: 0.95 });
+            // gsap.to(dragBounds.current, { duration: 0.1, boxShadow: "inset 8px 8px 16px #debcab, inset -8px -8px 16px #ffdcc9" });
           },
           onRelease: () => {
             gsap.to(drag.current, { duration: 0.25, scale: 1, ease: "elastic.out(.5, .15)" });
+            // gsap.to(dragBounds.current, { duration: 0.1, boxShadow:'inherit' });
           },
         });
 
@@ -255,7 +279,9 @@ const Work = () => {
             <div className='liveBtn'>
               <span></span>
               {/* <Word url={data?.url} word={'Live View'} /> */}
-              <Link to={data?.url} target="_blank" rel="noopener noreferrer" >Live View</Link>
+              <Link to={data?.url} target='_blank' rel='noopener noreferrer'>
+                Live View
+              </Link>
             </div>
           </div>
         </section>
@@ -309,7 +335,13 @@ const Work = () => {
             </div>
             <div ref={dragBounds} className='dragBounds'>
               <div ref={drag} className='drag'></div>
-              <div ref={hit} className='hit'></div>
+              <p ref={textRef} className='placeholder'>
+                {" "}
+                &gt;&gt; Slide For Next page{" "}
+              </p>
+              <div ref={hit} className='hit'>
+                ➤
+              </div>
             </div>
             <img src={nextProject?.image} className='nextProjImg' alt={`project ${nextProject?.title}`} />
           </div>
