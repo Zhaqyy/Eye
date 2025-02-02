@@ -578,7 +578,7 @@ const AbtCanvas = () => {
             onMouseEnter={handleHoverEnter}
             onClick={() => switchScene(-1)} // Trigger previous scene
           >
-            ⥒
+            ⥒ <p>PREV</p>
           </span>
           <span
             id='ctrlBtn'
@@ -586,7 +586,7 @@ const AbtCanvas = () => {
             onMouseEnter={handleHoverEnter}
             onClick={() => switchScene(1)} // Trigger next scene
           >
-            ⥓
+           <p>NEXT</p> ⥓
           </span>
         </div>
         <div style={{ width: "100%", height: "100%", touchAction: "none"}}>

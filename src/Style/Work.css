@@ -1,4 +1,9 @@
 @charset "UTF-8";
+@supports (height: 100dvh) {
+  .work-wrap {
+    min-height: 100dvh !important;
+  }
+}
 .work-wrap {
   width: 100vw;
   height: auto;
@@ -97,7 +102,13 @@
 .work .detail .liveBtn {
   position: relative;
 }
-.work .detail .liveBtn > span {
+.work .detail .liveBtn a {
+  overflow: hidden;
+}
+.work .detail .liveBtn span {
+  top: 50%;
+  left: 100%;
+  translate: 5% -50%;
   width: 40px;
   height: 40px;
   padding: 0.5rem;
@@ -118,7 +129,7 @@
   z-index: 1;
   mix-blend-mode: difference;
 }
-.work .detail .liveBtn > span::before {
+.work .detail .liveBtn span::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -132,10 +143,10 @@
   opacity: 0;
   transition: all 0.25s ease-in-out, opacity 0s;
 }
-.work .detail .liveBtn:hover > span {
-  translate: -20px 0;
+.work .detail .liveBtn:hover span {
+  translate: -50% -50%;
 }
-.work .detail .liveBtn:hover > span::before {
+.work .detail .liveBtn:hover span::before {
   background: white;
   scale: 1;
   opacity: 1;
@@ -294,6 +305,7 @@
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   transition: -webkit-mask-image 0.2s, mask-image 0.2s;
+  text-align: center;
 }
 .next .dragBounds .drag {
   height: 40px;

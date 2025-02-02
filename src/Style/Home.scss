@@ -112,7 +112,7 @@ touch-action: none;
 }
 @supports(height: 100dvh) {
   #gl{
-    height: 100dvh;
+    height: 100dvh !important;
     }
 }
 

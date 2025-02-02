@@ -1,4 +1,10 @@
 @charset "UTF-8";
+@supports (height: 100dvh) {
+  .abt {
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+  }
+}
 .abt {
   width: 100vw;
   height: 100vh;
@@ -227,8 +233,8 @@
   gap: 0.25rem;
 }
 .abtCanvas .canv .canvIcon span {
-  width: 40px;
   height: 40px;
+  padding: 1rem 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -240,6 +246,11 @@
   font-weight: bolder;
   vertical-align: middle;
   line-height: 1;
+}
+.abtCanvas .canv .canvIcon span p {
+  font-size: 0.8rem;
+  padding: 0.25rem;
+  text-transform: uppercase;
 }
 .abtCanvas .canv .canvIcon span:hover {
   cursor: pointer;
@@ -303,6 +314,7 @@
   }
   .abt .abtInfo .abtTitle {
     justify-content: center;
+    margin: auto;
   }
   .abt .abtInfo .abtTitle h1 {
     font-size: clamp(2.5rem, 5.333vw + 0.333rem, 4.5rem);

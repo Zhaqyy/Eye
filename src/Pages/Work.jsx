@@ -277,9 +277,9 @@ const Work = () => {
               </div>
             </div>
             <div className='liveBtn'>
-              <span></span>
+              
               {/* <Word url={data?.url} word={'Live View'} /> */}
-              <Link to={data?.url} target='_blank' rel='noopener noreferrer'>
+              <Link to={data?.url} target='_blank' rel='noopener noreferrer'><span></span>
                 Live View
               </Link>
             </div>

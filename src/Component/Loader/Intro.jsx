@@ -108,14 +108,16 @@ export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComple
     .fromTo(
       loaderRef.current,
       {
-        mask: "radial-gradient(0vw,#0000 100%,#000) 0 0",
+        webkitMask: "radial-gradient(0vw,#000000 100%,#000000) 0 0",
+        mask: "radial-gradient(0vw,#000000 100%,#000000) 0 0",
       },
       {
         //horizontal
         // clipPath: "polygon(0% 0%,0% 0%,0% 100%,100% 100%,100% 0%,100% 0%,100% 100%,0% 100%)",
         //vertical
         // clipPath: "polygon(0% 0%,100% 0%,100% 0%,0% 0%,0% 100%,100% 100%,100% 100%,0% 100%)",
-        mask: "radial-gradient(150vw,#0000 100%,#000) 0 0",
+        webkitMask: "radial-gradient(150vw,#000000 100%,#000000) 0 0",
+        mask: "radial-gradient(150vw,#000000 100%,#000000) 0 0",
         duration: 1,
         ease: "sine.in",
         // onComplete: () => {
