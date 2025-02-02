@@ -158,6 +158,7 @@
   background-color: white;
   overflow: hidden;
   z-index: 2;
+  --Loadermask: "0vw";
 }
 .loaderWrapper {
   position: relative;
@@ -165,8 +166,16 @@
   width: 100%;
   position: fixed;
   inset: 0;
+  top: 0;
+  left: 0;
   overflow: hidden;
   display: none;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+  -webkit-mask: radial-gradient(var(--Loadermask), rgba(0, 0, 0, 0) 100%, rgb(0, 0, 0)) 0px 0px;
+  mask: radial-gradient(var(--Loadermask), rgba(0, 0, 0, 0) 100%, rgb(0, 0, 0)) 0px 0px;
   background: var(--accent);
   z-index: 1000;
 }

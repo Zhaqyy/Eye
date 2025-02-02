@@ -108,27 +108,19 @@ export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComple
     .fromTo(
       loaderRef.current,
       {
-        webkitMask: "radial-gradient(0vw,#000000 100%,#000000) 0 0",
-        mask: "radial-gradient(0vw,#000000 100%,#000000) 0 0",
+        '--Loadermask': '0vw',
       },
       {
-        //horizontal
-        // clipPath: "polygon(0% 0%,0% 0%,0% 100%,100% 100%,100% 0%,100% 0%,100% 100%,0% 100%)",
-        //vertical
-        // clipPath: "polygon(0% 0%,100% 0%,100% 0%,0% 0%,0% 100%,100% 100%,100% 100%,0% 100%)",
-        webkitMask: "radial-gradient(150vw,#000000 100%,#000000) 0 0",
-        mask: "radial-gradient(150vw,#000000 100%,#000000) 0 0",
+        '--Loadermask': '150vw',
         duration: 1,
         ease: "sine.in",
-        // onComplete: () => {
-          
-        // },
       },
       "+=0.5"
     )
     tl.set(loaderRef.current, {
       display: "none",
-    });
+    },
+    ">");
     tl.set(progressNumberRef.current, {
       display: "none",
     });

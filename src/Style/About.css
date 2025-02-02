@@ -336,6 +336,9 @@
   .abt {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
+  .abt .abtCanvas .sceneInfo h3 {
+    font-size: 1.25rem !important;
+  }
   .abtCanvas .canv .canvIcon span {
     font-weight: bolder;
     font-size: x-large;

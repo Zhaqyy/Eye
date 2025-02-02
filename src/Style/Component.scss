@@ -171,15 +171,28 @@
   background-color: white;
   overflow: hidden;
   z-index: 2;
-  
+  --Loadermask: '0vw';
+
+
   &Wrapper {
     position: relative;
     height: 100%;
     width: 100%;
     position: fixed;
     inset: 0;
+    top: 0;
+    left: 0;
     overflow: hidden;
     display: none;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: 100%;
+            mask-size: 100%;
+            -webkit-mask: radial-gradient(var(--Loadermask), rgba(0, 0, 0, 0) 100%, rgb(0, 0, 0)) 0px 0px;
+                    mask: radial-gradient(var(--Loadermask), rgba(0, 0, 0, 0) 100%, rgb(0, 0, 0)) 0px 0px;
+// -webkit-mask-image: radial-gradient(var(--Loadermask),#000000 100%,#000000) 0 0;
+
+//         mask-image: radial-gradient(var(--Loadermask),#000000 100%,#000000) 0 0;
 
     // horizontal
     // clip-path: polygon(50% 0%,0% 0%,0% 100%,50% 100%,50% 0%,100% 0%,100% 100%,50% 100%);
