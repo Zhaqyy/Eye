@@ -204,6 +204,12 @@
       justify-content: flex-start;
       align-items: center;
       gap: 0.3rem;
+      background-color: var(--accent);
+      width: -webkit-fit-content;
+      width: -moz-fit-content;
+      width: fit-content;
+      border-radius: 0 0 12px 0;
+      padding: 0.5rem;
     }
 
     span {
@@ -226,7 +232,7 @@
         background-color: invert($color: #000000);
         // background-color: invert($color: var(--bg));
         // background-color: invert(var(--bg));
-        border-radius: var(--bRadius);
+        border-radius: 6px;
         z-index: -1;
       }
     }
@@ -376,9 +382,14 @@
 @media (width <= 650px) {
   .abt {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    .abtCanvas .sceneInfo {
-      h3 {
-        font-size: 1.25rem !important;
+    .abtCanvas {
+      .type p {
+        justify-content: center;
+      }
+      .sceneInfo {
+        h3 {
+          font-size: 1.25rem !important;
+        }
       }
     }
   }

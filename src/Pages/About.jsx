@@ -322,8 +322,7 @@ const About = () => {
             Hi there! I'm a creative developer hopelessly addicted to design, animation, and turning everything interactive (show me an
             element, and I'll give you 10 ways to make it irresistible).
             <br />
-            With 3+ years of crafting immersive digital experiences and an unhealthy coding addiction (seriously, send help)—I can’t stop,
-            won’t stop. Whether it's a jaw-dropping website or a button so satisfying you’ll click it twice, I’m your go-to code wizard.
+            With 3+ years of crafting immersive digital experiences and an unhealthy coding addiction (seriously, send help). Whether it's a jaw-dropping website or a button so satisfying you’ll click it twice, I’m your go-to code wizard.
           </p>
         </div>
 
@@ -407,7 +406,7 @@ const scenesData = [
   {
     name: "Nothing",
     description:
-      "Dive into the depths of Nothing. It’s designed to show how basic fluidity and tranquility can transform digital...Naah, Just kidding, I just use this one as control test and got too lazy to remove it.",
+      "Dive into the depths of Nothing. It’s designed to show how tranquility can ...Naah, Just kidding, I just use this one as control test and got too lazy to remove it.",
     component: Pool, // This refers to the <Pool /> component
     type: "Experiences",
     mobile: true, // Visible on mobile

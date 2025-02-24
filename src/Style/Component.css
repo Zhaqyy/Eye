@@ -161,7 +161,6 @@
   --Loadermask: "0vw";
 }
 .loaderWrapper {
-  position: relative;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -178,6 +177,9 @@
   mask: radial-gradient(var(--Loadermask), rgba(0, 0, 0, 0) 100%, rgb(0, 0, 0)) 0px 0px;
   background: var(--accent);
   z-index: 1000;
+}
+.loaderWrapper #mesh {
+  display: none;
 }
 .loaderText {
   height: 100%;
@@ -238,6 +240,9 @@
   display: block;
   width: 30px;
   height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   align-content: center;
   text-align: -webkit-center;
   outline: 1px gray solid;

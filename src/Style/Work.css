@@ -387,6 +387,7 @@
 @media (width <= 600px) {
   .work-wrap {
     touch-action: auto;
+    margin-bottom: 10vh;
   }
   .work-wrap .work {
     flex-wrap: wrap;

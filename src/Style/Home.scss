@@ -106,16 +106,15 @@ h2 {
   font-weight: 600;
 }
 
-#gl{
-height: 100vh;
-touch-action: none;
+#gl {
+  height: 100vh;
+  touch-action: none;
 }
-@supports(height: 100dvh) {
-  #gl{
+@supports (height: 100dvh) {
+  #gl {
     height: 100dvh !important;
-    }
+  }
 }
-
 
 .hero {
   width: 100%;
@@ -185,12 +184,40 @@ touch-action: none;
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-
     }
   }
 
   .titleMobile {
-    display: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+
+    a {
+      text-transform: uppercase;
+      font-size: 1.5rem;
+      pointer-events: all;
+      transition: all 0.5s ease;
+    }
+
+    .titleCtrl {
+      height: 100%;
+      max-height: 40px;
+      aspect-ratio: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.25rem;
+      color: black;
+      border: 1px solid var(--border);
+      border-radius: calc(var(--bRadius) * 4);
+      background-color: white;
+      font-weight: bolder;
+      vertical-align: middle;
+      font-size: x-large;
+      line-height: 1;
+      pointer-events: all;
+    }
   }
 
   .hero-footer {
@@ -224,6 +251,9 @@ touch-action: none;
         border-radius: 0;
         border: 2px solid white;
         background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         text-align: center;
         align-content: center;
         transition: all 0.5s ease, scale 0.25s ease, background 1s cubic-bezier(0, 1, 0, 1);
@@ -298,38 +328,38 @@ touch-action: none;
       }
     }
 
-    .titleMobile {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1.5rem;
+    // .titleMobile {
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
+    //   gap: 1.5rem;
 
-      a {
-        text-transform: uppercase;
-        font-size: 1.5rem;
-        pointer-events: all;
-        transition: all 0.5s ease;
-      }
+    //   a {
+    //     text-transform: uppercase;
+    //     font-size: 1.5rem;
+    //     pointer-events: all;
+    //     transition: all 0.5s ease;
+    //   }
 
-      .titleCtrl{
-        height: 100%;
-        max-height: 40px;
-        aspect-ratio: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1.25rem;
-        color: black;
-        border: 1px solid var(--border);
-        border-radius: calc(var(--bRadius) * 4);
-        background-color: white;
-        font-weight: bolder;
-        vertical-align: middle;
-        font-size: x-large;
-        line-height: 1;
-        pointer-events: all;
-      }
-    }
+    //   .titleCtrl {
+    //     height: 100%;
+    //     max-height: 40px;
+    //     aspect-ratio: 1;
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    //     font-size: 1.25rem;
+    //     color: black;
+    //     border: 1px solid var(--border);
+    //     border-radius: calc(var(--bRadius) * 4);
+    //     background-color: white;
+    //     font-weight: bolder;
+    //     vertical-align: middle;
+    //     font-size: x-large;
+    //     line-height: 1;
+    //     pointer-events: all;
+    //   }
+    // }
 
     .hero-footer {
       .contact {

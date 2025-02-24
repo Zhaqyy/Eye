@@ -41,7 +41,6 @@ const Header = () => {
       // Animate the radial gradient underlay
       gsap.to(".underlay", {
         opacity: 1,
-        scale: 1,
         duration: 0.5,
         ease: "power2.out",
       });
@@ -49,7 +48,6 @@ const Header = () => {
       gsap.to(".menu-item", { opacity: 0, display: "none", duration: 0.35, ease: "power1.out", stagger: 0.1 });
       gsap.to(".underlay", {
         opacity: 0,
-        scale: 0,
         duration: 0.5,
         delay: 0.25,
         ease: "power1.out",

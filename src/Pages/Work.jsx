@@ -40,7 +40,11 @@ const Work = () => {
   };
 
   const resetScrollPosition = () => {
-    window.scrollTo(0, 0); // Scroll back to the top on routing
+    setTimeout(() => {
+
+      window.scroll({ top: -1, left: 0, behavior: "smooth" });
+  
+  }, 10);  // Scroll back to the top on routing
   };
 
   const dragToRouteTransition = useCallback(() => {

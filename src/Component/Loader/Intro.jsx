@@ -10,11 +10,10 @@ const Intro = ({ timeline, onComplete }) => {
   const progressNumberRef = useRef(null);
   const isMobile = useIsMobile(800);
 
-
   useEffect(() => {
     const context = gsap.context(() => {
       if (timeline) {
-        timeline.add(progressAnimation(loaderRef, progressNumberRef, eyeRef, onComplete,isMobile), 0);
+        timeline.add(progressAnimation(loaderRef, progressNumberRef, eyeRef, onComplete, isMobile), 0);
       }
     }, loaderRef);
 
@@ -23,6 +22,16 @@ const Intro = ({ timeline, onComplete }) => {
 
   return (
     <div className={"loaderWrapper"} ref={loaderRef}>
+      
+      {/* <svg id="mesk" version='1.1' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' width='100%' height='100%'>
+        <defs>
+          <clipPath id='cut'>
+            <circle cx='100' cy='100' r='10'/>
+          </clipPath>
+        </defs>
+        <circle id="circle" cx='100' cy='100' r='50' clip-path='url(#cut)'/>
+      </svg> */}
+
       <span className={"loaderProgressNumber"} ref={progressNumberRef}>
         0%
       </span>
@@ -37,7 +46,7 @@ export default Intro;
 
 export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComplete, isMobile) => {
   const tl = gsap.timeline();
- 
+
   gsap.set([progressNumberRef.current, loaderRef.current, eyeRef.current], {
     display: "block",
   });
@@ -84,12 +93,16 @@ export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComple
     {
       // autoAlpha: 1,
       // filter: "blur(0px)",
-      clipPath: isMobile ? 'polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%)' : "polygon(50% 0%,0% 0%,0% 100%,50% 100%,50% 0%,100% 0%,100% 100%,50% 100%)",
+      clipPath: isMobile
+        ? "polygon(0% 0%, 100% 0%, 100% 50%, 0% 50%, 0% 50%, 100% 50%, 100% 100%, 0% 100%)"
+        : "polygon(50% 0%,0% 0%,0% 100%,50% 100%,50% 0%,100% 0%,100% 100%,50% 100%)",
     },
     {
       // autoAlpha: 0,
       // filter: "blur(3px)",
-      clipPath: isMobile ? 'polygon(0% 50%,100% 50%,100% 50%,0% 50%,0% 50%,100% 50%,100% 50%,0% 50%)' : "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%, 50% 0%, 50% 0%, 50% 100%, 50% 100%)",
+      clipPath: isMobile
+        ? "polygon(0% 50%,100% 50%,100% 50%,0% 50%,0% 50%,100% 50%,100% 50%,0% 50%)"
+        : "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%, 50% 0%, 50% 0%, 50% 100%, 50% 100%)",
       duration: 1.5,
       ease: "expo.out",
       onComplete: () => {
@@ -100,33 +113,36 @@ export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComple
     },
     ">"
   )
-    .to("#dot1", { y: "-30%", duration: 1, ease: isMobile?"expo.out":'back.inOut(.95)' }, "<")
-    .to("#dot2", { y: "30%", duration: 1, ease: isMobile?"expo.out":'back.inOut(.95)' }, "<")
+    .to("#dot1", { y: "-30%", duration: 1, ease: isMobile ? "expo.out" : "back.inOut(.95)" }, "<")
+    .to("#dot2", { y: "30%", duration: 1, ease: isMobile ? "expo.out" : "back.inOut(.95)" }, "<")
 
     .call(onComplete, null, "-=0.25")
 
     .fromTo(
       loaderRef.current,
       {
-        '--Loadermask': '0vw',
+        "--Loadermask": "0vw",
       },
       {
-        '--Loadermask': '150vw',
-        duration: 1,
-        ease: "sine.in",
+        "--Loadermask": "150vw",
+        "duration": 1,
+        "ease": "sine.in",
       },
       "+=0.5"
-    )
-    tl.set(loaderRef.current, {
+    );
+  tl.set(
+    loaderRef.current,
+    {
       display: "none",
     },
-    ">");
-    tl.set(progressNumberRef.current, {
-      display: "none",
-    });
-    tl.set(eyeRef.current, {
-      display: "none",
-    });
+    ">"
+  );
+  tl.set(progressNumberRef.current, {
+    display: "none",
+  });
+  tl.set(eyeRef.current, {
+    display: "none",
+  });
 
   return tl;
 };

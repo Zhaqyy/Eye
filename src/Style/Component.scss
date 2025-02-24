@@ -175,7 +175,7 @@
 
 
   &Wrapper {
-    position: relative;
+    // position: relative;
     height: 100%;
     width: 100%;
     position: fixed;
@@ -206,8 +206,10 @@
 
     background: var(--accent);
     z-index: 1000;
+    #mesh{
+      display: none;
+    }
   }
-
   &Text {
     height: 100%;
     width: 100%;
@@ -273,6 +275,9 @@
     display: block;
     width: 30px;
     height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     align-content: center;
     text-align: -webkit-center;
     outline: 1px gray solid;
