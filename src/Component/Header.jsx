@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import "../Style/Component.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSoundEffects } from "./SoundEffects";
 import {
   animateBars,
@@ -26,7 +26,32 @@ const Header = () => {
   const MenuTlRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false); // To track menu open state
   const { updateProximityRate, setInProximity, currentAmbient } = useSoundEffects();
+  const location = useLocation(); // Get the current route location
 
+
+    // Function to close the menu and animate out
+    const closeMenu = () => {
+      setIsOpen(false);
+  
+      // Animate the menu items and underlay out
+      gsap.to(".menu-item", {
+        opacity: 0,
+        display: "none",
+        duration: 0.35,
+        ease: "power1.out",
+        stagger: 0.1,
+      });
+  
+      gsap.to(".underlay", {
+        opacity: 0,
+        scale: 1,
+        duration: 0.5,
+        delay: 0.25,
+        ease: "power1.out",
+      });
+    };
+
+    
   // Toggle menu open state on click
   const toggleMenu = () => {
     setIsOpen(prev => !prev);
@@ -41,17 +66,12 @@ const Header = () => {
       // Animate the radial gradient underlay
       gsap.to(".underlay", {
         opacity: 1,
+        scale: 1,
         duration: 0.5,
         ease: "power2.out",
       });
     } else {
-      gsap.to(".menu-item", { opacity: 0, display: "none", duration: 0.35, ease: "power1.out", stagger: 0.1 });
-      gsap.to(".underlay", {
-        opacity: 0,
-        duration: 0.5,
-        delay: 0.25,
-        ease: "power1.out",
-      });
+      closeMenu(); 
     }
   };
 
@@ -92,15 +112,7 @@ const Header = () => {
 
     const handleOutsideClick = e => {
       if (navRef.current && !navRef.current.contains(e.target)) {
-        setIsOpen(false);
-        gsap.to(".menu-item", { opacity: 0, display: "none", duration: 0.35, ease: "power1.out", stagger: 0.1 });
-        gsap.to(".underlay", {
-          opacity: 0,
-          scale: 0,
-          duration: 0.5,
-          delay: 0.25,
-          ease: "power1.out",
-        });
+        closeMenu();
       }
     };
 
@@ -113,11 +125,12 @@ const Header = () => {
     };
   }, [isOpen, updateProximityRate, currentAmbient]);
 
-  //Menu Hover logic
+  // Menu Hover logic
   if (logoRef.current) {
     MenuTlRef.current = animateBars(logoRef);
   }
 
+  // When header is hovered
   const handleHeaderHover = () => {
     if (!isOpen) {
       MenuTlRef.current.play();
@@ -128,9 +141,49 @@ const Header = () => {
     }
   };
 
+  // revert logo anim when outside is clicked
   const handleHeaderLeave = () => {
-    MenuTlRef.current.reverse();
+    if (MenuTlRef.current) {
+      MenuTlRef.current.reverse();
+    }
   };
+
+  // Debounce function to limit scroll event calls
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => func.apply(this, args), delay);
+    };
+  };
+
+  // Close the menu if the scroll position exceeds the threshold and the menu is open
+  const scrollThreshold = 50;
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+
+      if (scrollY > scrollThreshold && isOpen) {
+        closeMenu(); 
+      }
+    };
+
+    // Debounced scroll handler
+    const debouncedHandleScroll = debounce(handleScroll, 100); // Adjust delay as needed
+
+    // Add scroll event listener
+    window.addEventListener("scroll", debouncedHandleScroll);
+
+    // Cleanup the event listener on unmount
+    return () => {
+      window.removeEventListener("scroll", debouncedHandleScroll);
+    };
+  }, [isOpen, scrollThreshold]); 
+
+  // Close menu when route changes
+  useEffect(() => {
+    closeMenu(); 
+  }, [location]); 
 
   const logoRotations = [
     { animation: animateLogoRot1 }, 

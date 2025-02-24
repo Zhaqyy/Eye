@@ -7,6 +7,7 @@
     "@gsap/react": "^2.1.1",
     "@react-three/drei": "9.96.5",
     "@react-three/fiber": "8.15.15",
+    "bowser": "^2.11.0",
     "gsap": "^3.12.5",
     "howler": "^2.2.4",
     "lamina": "^1.1.23",

@@ -3,6 +3,7 @@ import "../../Style/Component.css";
 import gsap from "gsap";
 import Logo from "../Logo";
 import useIsMobile from "../isMobile";
+import bowser from "bowser";
 
 const Intro = ({ timeline, onComplete }) => {
   const loaderRef = useRef(null);
@@ -10,28 +11,22 @@ const Intro = ({ timeline, onComplete }) => {
   const progressNumberRef = useRef(null);
   const isMobile = useIsMobile(800);
 
+  // Detect Safari/iOS
+  const parser = bowser.getParser(window.navigator.userAgent);
+  const isSafari = parser.getBrowserName() === "Safari" || parser.getOS().name === "iOS";
+
   useEffect(() => {
     const context = gsap.context(() => {
       if (timeline) {
-        timeline.add(progressAnimation(loaderRef, progressNumberRef, eyeRef, onComplete, isMobile), 0);
+        timeline.add(progressAnimation(loaderRef, progressNumberRef, eyeRef, onComplete, isMobile, isSafari), 0);
       }
     }, loaderRef);
 
     return () => context.revert(); // Cleanup on unmount
-  }, [timeline, onComplete]);
+  }, [timeline, onComplete, isMobile, isSafari]);
 
   return (
     <div className={"loaderWrapper"} ref={loaderRef}>
-      
-      {/* <svg id="mesk" version='1.1' xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink' width='100%' height='100%'>
-        <defs>
-          <clipPath id='cut'>
-            <circle cx='100' cy='100' r='10'/>
-          </clipPath>
-        </defs>
-        <circle id="circle" cx='100' cy='100' r='50' clip-path='url(#cut)'/>
-      </svg> */}
-
       <span className={"loaderProgressNumber"} ref={progressNumberRef}>
         0%
       </span>
@@ -44,7 +39,7 @@ const Intro = ({ timeline, onComplete }) => {
 
 export default Intro;
 
-export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComplete, isMobile) => {
+export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComplete, isMobile, isSafari) => {
   const tl = gsap.timeline();
 
   gsap.set([progressNumberRef.current, loaderRef.current, eyeRef.current], {
@@ -116,13 +111,22 @@ export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComple
     .to("#dot1", { y: "-30%", duration: 1, ease: isMobile ? "expo.out" : "back.inOut(.95)" }, "<")
     .to("#dot2", { y: "30%", duration: 1, ease: isMobile ? "expo.out" : "back.inOut(.95)" }, "<")
 
-    .call(onComplete, null, "-=0.25")
+    .call(onComplete, null, "-=0.25");
 
-    .fromTo(
+  // Conditional animation based on browser
+  if (isSafari) {
+    // Fade out animation for Safari
+    tl.fromTo(
       loaderRef.current,
-      {
-        "--Loadermask": "0vw",
-      },
+      { clipPath: "circle(150% at 50% 50%)" },
+      { clipPath: "circle(0% at 50% 50%)", duration: 1, ease: "sine.in" },
+      "+=0.5"
+    );
+  } else {
+    //  mask animation for other browsers
+    tl.fromTo(
+      loaderRef.current,
+      { "--Loadermask": "0vw" },
       {
         "--Loadermask": "150vw",
         "duration": 1,
@@ -130,6 +134,8 @@ export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComple
       },
       "+=0.5"
     );
+  }
+
   tl.set(
     loaderRef.current,
     {

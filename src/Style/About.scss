@@ -216,6 +216,7 @@
       width: -webkit-fit-content;
       width: -moz-fit-content;
       width: fit-content;
+      text-align: center;
       display: block;
       position: relative;
       padding: 0.5rem;
@@ -387,6 +388,8 @@
         justify-content: center;
       }
       .sceneInfo {
+        margin-bottom: 5vh;
+        
         h3 {
           font-size: 1.25rem !important;
         }
@@ -428,6 +431,16 @@
       }
     }
     .abtCanvas .sceneInfo {
+      width: 100%;
+      max-height: unset;
+      flex-direction: column;
+
+      .sceneInfoTitle {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
       h3 {
         font-size: 1.25rem;
       }

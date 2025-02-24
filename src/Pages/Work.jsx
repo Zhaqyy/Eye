@@ -312,6 +312,9 @@ const Work = () => {
                     autoPlay
                     loop
                     muted
+                    controlsList="nodownload"
+                    webkit-playsinline="true"
+                    playsInline
                     preload={preload}
                     poster={poster}
                     ref={el => (imageRefs.current[index] = el)}

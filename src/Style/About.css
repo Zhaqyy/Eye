@@ -201,6 +201,7 @@
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  text-align: center;
   display: block;
   position: relative;
   padding: 0.5rem;
@@ -345,6 +346,9 @@
   .abt .abtCanvas .type p {
     justify-content: center;
   }
+  .abt .abtCanvas .sceneInfo {
+    margin-bottom: 5vh;
+  }
   .abt .abtCanvas .sceneInfo h3 {
     font-size: 1.25rem !important;
   }
@@ -379,6 +383,17 @@
     writing-mode: horizontal-tb;
     width: 100%;
     text-align: center;
+  }
+  .abt .abtCanvas .sceneInfo {
+    width: 100%;
+    max-height: unset;
+    flex-direction: column;
+  }
+  .abt .abtCanvas .sceneInfo .sceneInfoTitle {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem;
+    flex-wrap: wrap;
   }
   .abt .abtCanvas .sceneInfo h3 {
     font-size: 1.25rem;

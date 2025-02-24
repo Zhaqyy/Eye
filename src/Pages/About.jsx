@@ -322,7 +322,7 @@ const About = () => {
             Hi there! I'm a creative developer hopelessly addicted to design, animation, and turning everything interactive (show me an
             element, and I'll give you 10 ways to make it irresistible).
             <br />
-            With 3+ years of crafting immersive digital experiences and an unhealthy coding addiction (seriously, send help). Whether it's a jaw-dropping website or a button so satisfying you’ll click it twice, I’m your go-to code wizard.
+            With 3+ years of crafting immersive digital experiences and an unhealthy coding addiction (seriously, send help), I thrive on bringing ideas to life in ways that captivate and engage.
           </p>
         </div>
 
