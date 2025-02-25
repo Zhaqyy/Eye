@@ -32,7 +32,6 @@ body,
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: default;
   scrollbar-width: none;
 }
 html::-webkit-scrollbar,
@@ -179,6 +178,7 @@ h2 {
   vertical-align: middle;
   font-size: x-large;
   line-height: 1;
+  cursor: pointer;
   pointer-events: all;
 }
 .hero .hero-footer {

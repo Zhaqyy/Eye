@@ -98,7 +98,7 @@ export const progressAnimation = (loaderRef, progressNumberRef, eyeRef, onComple
       clipPath: isMobile
         ? "polygon(0% 50%,100% 50%,100% 50%,0% 50%,0% 50%,100% 50%,100% 50%,0% 50%)"
         : "polygon(50% 0%, 50% 0%, 50% 100%, 50% 100%, 50% 0%, 50% 0%, 50% 100%, 50% 100%)",
-      duration: 1.5,
+      duration: 1,
       ease: "expo.out",
       onComplete: () => {
         gsap.set(progressNumberRef.current, {

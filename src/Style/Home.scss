@@ -56,7 +56,6 @@ body,
   -ms-user-select: none;
   user-select: none;
   // overflow: hidden;
-  cursor: default;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none; /* Safari and Chrome */
@@ -216,6 +215,7 @@ h2 {
       vertical-align: middle;
       font-size: x-large;
       line-height: 1;
+      cursor: pointer;
       pointer-events: all;
     }
   }
