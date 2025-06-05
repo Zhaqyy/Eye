@@ -13,7 +13,7 @@
     "lamina": "^1.1.23",
     "lenis": "^1.1.13",
     "lottie-react": "^2.4.0",
-    "r3f-perf": "^7.2.1",
+    "r3f-perf": "7.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "^6.26.2",
